@@ -1,14 +1,14 @@
 # Claude Code Marketplace
 
-Claude Code plugins marketplace by [@alberduris](https://x.com/alberduris).
+Claude Code Plugins Marketplace by [@alberduris](https://x.com/alberduris).
 
-This is a git repository with a [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) file listing available plugins. Install via `/plugin marketplace add alberduris/claude-code-marketplace`.
+This git repository is a Claude Code Marketplace; in other words, a way to **distribute** a **collection** of Plugins that augment Claude Code's capabilities via **Commands**, **Skills**, **Agents**, or **Hooks**.
 
 ## Quick Understanding
 
 Zero-bullshit definitions without AI slop so we all know what we're talking about.
 
-**Marketplace**: A git repository with a `.claude-plugin/marketplace.json` file listing available plugins.
+**Marketplace**: A git repository with a [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) file listing available Plugins.
 
 **Plugin**: A packaged directory containing one or more of the following, plus [`.claude-plugin/plugin.json`](plugins/second-opinion/.claude-plugin/plugin.json) with metadata (name, version, author):
 - **Skill**: A `SKILL.md` file with instructions Claude reads when contextually relevant. Can include supporting files (scripts, templates). Claude invokes based on description matching user's request.
@@ -20,19 +20,19 @@ Zero-bullshit definitions without AI slop so we all know what we're talking abou
 
 ### Standard Installation
 
-Add the marketplace and install plugins through Claude Code:
+Add the Marketplace and install Plugins through Claude Code:
 
 ```bash
-# Add this marketplace
+# Add this Marketplace
 /plugin marketplace add alberduris/claude-code-marketplace
 
-# Install the second-opinion plugin
+# Install the second-opinion Plugin
 /plugin install second-opinion
 ```
 
 ### One-Command Installation
 
-Use the Claude Plugins CLI to add the marketplace and install plugins in one step:
+Use the Claude Plugins CLI to add the Marketplace and install Plugins in one step:
 
 ```bash
 claude plugins install alberduris/claude-code-marketplace second-opinion
@@ -74,7 +74,7 @@ OPENAI_API_KEY=your-api-key-here
 Optional configuration:
 ```bash
 SECOND_OPINION_MODEL=gpt-5-pro-2025-10-06  # default model
-SECOND_OPINION_TIMEOUT=1800000              # 30min timeout in ms
+SECOND_OPINION_TIMEOUT=1800000             # 30min timeout in ms
 ```
 
 ## License

@@ -1,8 +1,8 @@
 # Claude Code Marketplace
 
-Claude Code plugins marketplace by [@alberduris](https://github.com/alberduris).
+Claude Code plugins marketplace by [@alberduris](https://x.com/alberduris).
 
-This marketplace serves as a repository for plugins that extend Claude Code's capabilities with specialized skills.
+This is a git repository with a [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) file listing available plugins. Install via `/plugin marketplace add alberduris/claude-code-marketplace`.
 
 ## Quick Understanding
 
@@ -10,7 +10,7 @@ Zero-bullshit definitions without AI slop so we all know what we're talking abou
 
 **Marketplace**: A git repository with a `.claude-plugin/marketplace.json` file listing available plugins.
 
-**Plugin**: A packaged directory containing one or more of the following, plus `.claude-plugin/plugin.json` with metadata (name, version, author):
+**Plugin**: A packaged directory containing one or more of the following, plus [`.claude-plugin/plugin.json`](plugins/second-opinion/.claude-plugin/plugin.json) with metadata (name, version, author):
 - **Skill**: A `SKILL.md` file with instructions Claude reads when contextually relevant. Can include supporting files (scripts, templates). Claude invokes based on description matching user's request.
 - **Command**: Custom slash command (e.g., `/commit`) that expands to a prompt when invoked.
 - **Agent**: Isolated autonomous agent launched via Task tool; runs multi-turn conversation with tools (agent ↔ tools), returns final result. ([Learn more](https://alberduris.beehiiv.com/p/claude-code-sub-agents-what-they-are-and-what-they-are-not))
@@ -39,6 +39,8 @@ claude plugins install alberduris/claude-code-marketplace second-opinion
 ```
 
 ## Available Plugins
+
+- [`second-opinion`](#second-opinion-skill---second-opinion) - Consult GPT-5 Pro for alternative perspectives
 
 ### Second Opinion (Skill) - `second-opinion`
 

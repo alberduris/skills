@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "alberduris-marketplace",
+  "version": "1.0.0",
+  "description": "Claude Code plugins marketplace by @alberduris",
+  "owner": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  },
+  "plugins": [
+    {
+      "name": "second-opinion",
+      "description": "Consult GPT-5 Pro for alternative perspectives; supports context injection, web search, and configurable models",
+      "version": "1.0.0",
+      "author": {
+        "name": "alberduris",
+        "email": "alberduris@summiz.ai"
+      },
+      "source": "./plugins/second-opinion",
+      "category": "augmentation"
+    }
+  ]
+}

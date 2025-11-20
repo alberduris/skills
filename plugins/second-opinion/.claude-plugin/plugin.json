@@ -1,0 +1,9 @@
+{
+  "name": "second-opinion",
+  "version": "1.0.0",
+  "description": "Consult GPT-5 Pro for alternative perspectives",
+  "author": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  }
+}

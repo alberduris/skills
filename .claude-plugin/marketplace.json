@@ -16,7 +16,7 @@
         "name": "alberduris",
         "email": "alberduris@summiz.ai"
       },
-      "source": "plugins/second-opinion",
+      "source": "./plugins/second-opinion",
       "category": "augmentation"
     }
   ]

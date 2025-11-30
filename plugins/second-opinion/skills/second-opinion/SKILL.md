@@ -22,6 +22,8 @@ npx tsx <base_directory>/scripts/consult.ts --message "your question" --files pa
 - Default timeout is 30 minutes; match this in your Bash tool timeout parameter (1800000ms)
 - Do NOT run in background—synchronous execution avoids polling overhead
 
+**Note on GPT-5 models**: GPT-5 was released on August 7, 2025. Available variants: `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-5-pro` (thinking model). Default is `gpt-5-pro-2025-10-06`. Override via `SECOND_OPINION_MODEL` env var.
+
 ## Context Responsibility
 
 **Critical**: You must pass ALL relevant context. The peer consultant has no access to this codebase, conversation history, or project context beyond what you provide.

@@ -1,7 +1,7 @@
 # Claude Code Marketplace
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Plugins](https://img.shields.io/badge/plugins-1-blue.svg)](https://github.com/alberduris/claude-code-marketplace)
+[![Plugins](https://img.shields.io/badge/plugins-2-blue.svg)](https://github.com/alberduris/claude-code-marketplace)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-orange.svg)](https://www.claude.com/product/claude-code)
 <img src="assets/claude-icon.png" alt="Claude" height="18" style="margin-left: 6px; vertical-align: middle;">
 
@@ -46,6 +46,7 @@ claude plugins install alberduris/claude-code-marketplace second-opinion
 ## Available Plugins
 
 - [`second-opinion`](#second-opinion-skill---second-opinion) - Consult GPT-5 Pro for alternative perspectives
+- [`langfuse-traces`](#langfuse-traces-skill---langfuse-traces) - Query Langfuse traces for debugging and observability
 
 ### Second Opinion (Skill) - `second-opinion`
 
@@ -80,6 +81,32 @@ Optional configuration:
 ```bash
 SECOND_OPINION_MODEL=gpt-5-pro-2025-10-06  # default model
 SECOND_OPINION_TIMEOUT=1800000             # 30min timeout in ms
+```
+
+### Langfuse Traces (Skill) - `langfuse-traces`
+
+Query Langfuse traces for debugging LLM calls, analyzing token usage, and investigating workflow executions.
+
+| Commands |
+|----------|
+| `traces [limit] [session_id] [name]` - List recent traces |
+| `trace <trace_id>` - Get full trace with observations |
+| `observations [limit] [trace_id]` - List spans/generations |
+| `sessions [limit]` - List sessions |
+| `summary [limit]` - Compact one-line-per-trace view |
+
+| Requirements |
+|--------------|
+| `curl` and `jq` (standard on macOS/Linux) |
+| Langfuse credentials in environment |
+
+#### Configuration
+
+```bash
+# Add to your .env.local
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_BASE_URL=https://cloud.langfuse.com  # optional, default
 ```
 
 ## License

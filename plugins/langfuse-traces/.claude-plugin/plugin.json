@@ -1,0 +1,9 @@
+{
+  "name": "langfuse-traces",
+  "version": "1.0.0",
+  "description": "Query Langfuse traces for debugging and observability",
+  "author": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  }
+}

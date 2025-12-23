@@ -18,6 +18,17 @@
       },
       "source": "./plugins/second-opinion",
       "category": "augmentation"
+    },
+    {
+      "name": "langfuse-traces",
+      "description": "Query Langfuse traces for debugging LLM calls, analyzing token usage, and investigating workflow executions",
+      "version": "1.0.0",
+      "author": {
+        "name": "alberduris",
+        "email": "alberduris@summiz.ai"
+      },
+      "source": "./plugins/langfuse-traces",
+      "category": "observability"
     }
   ]
 }

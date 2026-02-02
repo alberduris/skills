@@ -1,72 +1,10 @@
-# me — Account Profile
+Retrieves the authenticated user's own account data from the X API v2 endpoint GET /2/users/me. Invoke via `<base_directory>/x me [flags]`. Output is JSON to stdout.
 
-Retrieve your X account profile data, metrics, and verification status.
+> [!FLAGS]
+> a) no flags — returns a sensible default set of profile fields (identity, bio, metrics, verification, avatar, dates), outputting ONLY the user object. b) `--fields <comma-separated-list>` — request ONLY the specified fields instead of defaults. c) `--pinned-tweet` — expands the pinned tweet via the API expansions mechanism; output switches to the full response envelope (data + includes) so the expanded tweet is visible. d) `--raw` — outputs the full API response envelope (data, includes, errors) regardless of other flags.
 
-## Usage
+> [!AVAILABLE-FIELDS]
+> The `--fields` flag accepts any combination of: `id`, `name`, `username`, `description`, `created_at`, `location`, `url`, `profile_image_url`, `protected`, `public_metrics`, `verified_type`, `pinned_tweet_id`, `most_recent_tweet_id`, `entities`, `withheld`. The default set (when no `--fields` is given) includes all of the above EXCEPT `most_recent_tweet_id`, `entities`, and `withheld`.
 
-```
-<base_directory>/x me [flags]
-```
-
-## Flags
-
-| Flag | Description |
-|------|-------------|
-| *(none)* | Full profile with sensible defaults |
-| `--fields <list>` | Only specific fields (comma-separated) |
-| `--pinned-tweet` | Include pinned tweet data (expanded) |
-| `--raw` | Full API response envelope (data + includes + errors) |
-
-## Available Fields
-
-`id`, `name`, `username`, `description`, `created_at`, `location`, `url`, `profile_image_url`, `protected`, `public_metrics`, `verified_type`, `pinned_tweet_id`, `most_recent_tweet_id`, `entities`, `withheld`
-
-Default fields: `id`, `name`, `username`, `description`, `created_at`, `location`, `url`, `profile_image_url`, `protected`, `public_metrics`, `verified_type`
-
-## Examples
-
-```bash
-# Full profile (default fields)
-<base_directory>/x me
-
-# Just username and metrics
-<base_directory>/x me --fields username,public_metrics
-
-# Include pinned tweet content
-<base_directory>/x me --pinned-tweet
-
-# Raw API response
-<base_directory>/x me --raw
-```
-
-## Output
-
-JSON to stdout.
-
-**Default** — outputs the user object directly:
-
-```json
-{
-  "id": "160409899...",
-  "name": "Alberto",
-  "username": "alberduris",
-  "description": "...",
-  "public_metrics": {
-    "followers_count": 693,
-    "following_count": 500,
-    "tweet_count": 4584,
-    "listed_count": 12
-  },
-  "verified_type": "blue",
-  ...
-}
-```
-
-**`--pinned-tweet` or `--raw`** — outputs full response including expansions:
-
-```json
-{
-  "data": { ... },
-  "includes": { "tweets": [ ... ] }
-}
-```
+> [!OUTPUT-SHAPE]
+> Default and `--fields` produce the user object directly (flat JSON with the requested fields). When `--pinned-tweet` or `--raw` is used, output wraps into the API envelope with a `data` key containing the user object and an `includes` key containing expanded entities.

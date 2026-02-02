@@ -19,9 +19,7 @@ interface Flags {
 
 function parseFlags(args: string[]): Flags {
   if (args.length === 0 || args[0]?.startsWith("--")) {
-    throw new Error(
-      "At least one post ID is required. Pass comma-separated IDs as the first argument.",
-    );
+    throw new Error("At least one post ID is required as the first argument.");
   }
 
   const flags: Flags = {
@@ -46,21 +44,31 @@ function parseFlags(args: string[]): Flags {
   return flags;
 }
 
-export async function getPosts(
+export async function get(
   client: Client,
   args: string[],
 ): Promise<void> {
   const flags = parseFlags(args);
 
-  const response = await client.posts.getByIds(flags.ids, {
+  const options = {
     tweetFields: flags.tweetFields,
     expansions: DEFAULT_EXPANSIONS,
     userFields: DEFAULT_USER_FIELDS,
-  });
+  };
 
-  if (flags.raw) {
-    console.log(JSON.stringify(response, null, 2));
+  if (flags.ids.length === 1) {
+    const response = await client.posts.getById(flags.ids[0], options);
+    if (flags.raw) {
+      console.log(JSON.stringify(response, null, 2));
+    } else {
+      console.log(JSON.stringify(response.data, null, 2));
+    }
   } else {
-    console.log(JSON.stringify(response.data ?? [], null, 2));
+    const response = await client.posts.getByIds(flags.ids, options);
+    if (flags.raw) {
+      console.log(JSON.stringify(response, null, 2));
+    } else {
+      console.log(JSON.stringify(response.data ?? [], null, 2));
+    }
   }
 }

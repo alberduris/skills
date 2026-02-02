@@ -1,6 +1,6 @@
 import type { Client } from "@xdevplatform/xdk";
 
-export async function deletePost(
+export async function del(
   client: Client,
   args: string[],
 ): Promise<void> {

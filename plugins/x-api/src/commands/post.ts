@@ -40,7 +40,7 @@ function parseFlags(args: string[]): Flags {
   return flags;
 }
 
-export async function createPost(
+export async function post(
   client: Client,
   args: string[],
 ): Promise<void> {

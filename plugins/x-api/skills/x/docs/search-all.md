@@ -1,0 +1,7 @@
+Searches posts from the full archive (back to 2006) matching a query. Maps to GET /2/tweets/search/all. Invoke via `node <base_directory>/x.js search-all "<query>" [flags]`. Output is JSON to stdout.
+
+[!FLAGS] a) no flags — returns up to 10 results with default tweet fields (text, author_id, created_at, conversation_id, public_metrics) and expands author (name, username). b) `--max-results <10-500>` — set number of results per page. c) `--sort <recency|relevancy>` — order results. d) `--start-time <ISO8601>` — oldest timestamp (inclusive). e) `--end-time <ISO8601>` — newest timestamp (exclusive). f) `--since-id <id>` — results newer than this post ID. g) `--until-id <id>` — results older than this post ID. h) `--next-token <token>` — pagination token from a previous response. i) `--fields <comma-list>` — override default tweet fields. j) `--raw` — output the full API response envelope (data, includes, meta, errors).
+
+[!QUERY-SYNTAX] The query uses X search operators. Examples: `from:username`, `has:media`, `-is:retweet`, `#hashtag`, `"exact phrase"`, `lang:en`. Combine with AND (space), OR, NOT (-). Max 4096 chars. Full reference: https://docs.x.com/x-api/posts/search/integrate/build-a-query.
+
+[!OUTPUT-SHAPE] Default produces an array of tweet objects. With `--raw`, wraps into the API envelope with `data` (tweets), `includes` (expanded users), and `meta` (result_count, next_token for pagination).

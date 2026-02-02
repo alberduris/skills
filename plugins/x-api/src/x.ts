@@ -4,11 +4,23 @@ import { fileURLToPath } from "url";
 import { loadConfig } from "./config.js";
 import { createClient } from "./client.js";
 import { me } from "./commands/me.js";
+import { searchRecent } from "./commands/posts/search/search-recent.js";
+import { searchAll } from "./commands/posts/search/search-all.js";
+import { getPost } from "./commands/posts/lookup/get-post.js";
+import { getPosts } from "./commands/posts/lookup/get-posts.js";
+import { createPost } from "./commands/posts/manage/create-post.js";
+import { deletePost } from "./commands/posts/manage/delete-post.js";
 
 type CommandFn = (client: Client, args: string[]) => Promise<void>;
 
 const commands: Record<string, CommandFn> = {
   me,
+  "search-recent": searchRecent,
+  "search-all": searchAll,
+  "get-post": getPost,
+  "get-posts": getPosts,
+  "create-post": createPost,
+  "delete-post": deletePost,
 };
 
 const COMMAND_NAMES = Object.keys(commands).join(", ");

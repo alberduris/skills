@@ -1,4 +1,4 @@
-Retrieves the authenticated user's own account data from the X API v2 endpoint GET /2/users/me. Invoke via `<base_directory>/x me [flags]`. Output is JSON to stdout.
+Retrieves the authenticated user's own account data from the X API v2 endpoint GET /2/users/me. Invoke via `node <base_directory>/x.js me [flags]`. Output is JSON to stdout.
 
 > [!FLAGS]
 > a) no flags — returns a sensible default set of profile fields (identity, bio, metrics, verification, avatar, dates), outputting ONLY the user object. b) `--fields <comma-separated-list>` — request ONLY the specified fields instead of defaults. c) `--pinned-tweet` — expands the pinned tweet via the API expansions mechanism; output switches to the full response envelope (data + includes) so the expanded tweet is visible. d) `--raw` — outputs the full API response envelope (data, includes, errors) regardless of other flags.

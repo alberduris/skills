@@ -14,7 +14,7 @@ const commands: Record<string, CommandFn> = {
 const COMMAND_NAMES = Object.keys(commands).join(", ");
 
 function pluginDir(): string {
-  return resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  return resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 }
 
 async function main(): Promise<void> {

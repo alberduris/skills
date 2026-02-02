@@ -1,6 +1,6 @@
 {
   "name": "x-api",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Interact with X (Twitter) API v2 — post, read timeline, search, and more",
   "author": {
     "name": "alberduris",

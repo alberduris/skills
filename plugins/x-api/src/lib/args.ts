@@ -71,9 +71,12 @@ export function parseArgs<T>(
     if (value === undefined) throw new Error(`${arg} requires a value`);
 
     switch (def.type) {
-      case "number":
-        result[def.key] = Number(value);
+      case "number": {
+        const num = Number(value);
+        if (Number.isNaN(num)) throw new Error(`${arg} requires a numeric value, got "${value}"`);
+        result[def.key] = num;
         break;
+      }
       case "string[]":
         result[def.key] = value.split(",").map((s) => s.trim());
         break;

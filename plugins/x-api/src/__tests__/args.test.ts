@@ -76,6 +76,16 @@ describe("parseArgs", () => {
       );
       assert.equal(result.maxResults, 10);
     });
+
+    it("throws on non-numeric value", () => {
+      assert.throws(
+        () =>
+          parseArgs(["--max-results", "abc"], {
+            flags: { "--max-results": { key: "maxResults", type: "number" } },
+          }),
+        /--max-results requires a numeric value, got "abc"/,
+      );
+    });
   });
 
   describe("string[] flags", () => {

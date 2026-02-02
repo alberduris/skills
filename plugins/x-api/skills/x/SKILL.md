@@ -1,13 +1,13 @@
 ---
 name: x
 description: Interact with X (Twitter) API v2. Post tweets, read timeline, search, manage your account.
-allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(cd *), Bash(ls *)
+allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(ls *)
 ---
 
 X (Twitter) API v2 skill using the authenticated user's own developer credentials (OAuth 1.0a, pay-per-use). All commands go through a single entry point: `<base_directory>/x <command> [flags]`. Each command has its own doc file with the full reference for flags and behavior.
 
 > [!SETUP]
-> Before first use, check whether `dist/cli.js` exists in the plugin directory (`<base_directory>/../..`). If it does NOT exist, run `cd <base_directory>/../.. && npm install && npm run build` to compile the TypeScript source.
+> Before first use, check whether `dist/cli.js` exists in the plugin directory (`<base_directory>/../..`). If it does NOT exist, run `npm install --prefix <base_directory>/../..` and then `npm run build --prefix <base_directory>/../..` to compile the TypeScript source. NEVER cd into the plugin directory; use --prefix to target it without changing your working directory.
 
 > [!COMMANDS]
 > a) `me` — authenticated user's own account data (profile, metrics, verification). Full reference at @docs/me.md.

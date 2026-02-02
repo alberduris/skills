@@ -55,7 +55,7 @@
     {
       "name": "x-api",
       "description": "Interact with X (Twitter) API v2 — post, read timeline, search, and more using your own developer credentials",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "author": {
         "name": "alberduris",
         "email": "alberduris@summiz.ai"

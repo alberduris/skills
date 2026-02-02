@@ -1,6 +1,11 @@
 ---
-name: x
-description: Interact with X (Twitter) API v2. Post, search, engage, moderate — all from your terminal.
+name: x-twitter
+description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 31-command skill for Twitter/X automation.
+license: MIT
+metadata:
+  author: alberduris
+  version: "1.0.0"
+  tags: x, twitter, x-api, twitter-api, social-media, tweets, automation
 allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(ls *)
 ---
 

@@ -3,7 +3,7 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "skills/x/dist",
+    "outDir": "skills/x-twitter/dist",
     "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,

@@ -42,20 +42,28 @@ function parseEnvFile(path: string): Record<string, string> {
 
 function resolveVar(
   key: RequiredVar,
-  envLocal: Record<string, string>,
-  envFile: Record<string, string>,
+  sources: Record<string, string>[],
 ): string | undefined {
-  return envLocal[key] ?? envFile[key] ?? process.env[key];
+  for (const source of sources) {
+    if (source[key]) return source[key];
+  }
+  return process.env[key];
 }
 
-export function loadConfig(baseDir?: string): Config {
-  const dir = baseDir ?? process.cwd();
-  const envLocal = parseEnvFile(resolve(dir, ".env.local"));
-  const envFile = parseEnvFile(resolve(dir, ".env"));
+export function loadConfig(pluginDir: string): Config {
+  const cwd = process.cwd();
+
+  // cwd first (project-level), then plugin dir — matches bash plugin pattern
+  const sources = [
+    parseEnvFile(resolve(cwd, ".env.local")),
+    parseEnvFile(resolve(cwd, ".env")),
+    parseEnvFile(resolve(pluginDir, ".env.local")),
+    parseEnvFile(resolve(pluginDir, ".env")),
+  ];
 
   const missing: RequiredVar[] = [];
   const get = (key: RequiredVar): string => {
-    const value = resolveVar(key, envLocal, envFile);
+    const value = resolveVar(key, sources);
     if (!value) missing.push(key);
     return value ?? "";
   };

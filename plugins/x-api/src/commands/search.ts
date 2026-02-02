@@ -1,10 +1,12 @@
 import type { Client } from "@xdevplatform/xdk";
+import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
 
 interface SearchFlags {
   query: string;
   all: boolean;
   maxResults?: number;
-  sortOrder?: "recency" | "relevancy";
+  sortOrder?: string;
   startTime?: string;
   endTime?: string;
   sinceId?: string;
@@ -14,102 +16,41 @@ interface SearchFlags {
   raw: boolean;
 }
 
-const DEFAULT_TWEET_FIELDS = [
-  "author_id",
-  "created_at",
-  "conversation_id",
-  "public_metrics",
-  "text",
-];
-
-const DEFAULT_EXPANSIONS = ["author_id"];
-const DEFAULT_USER_FIELDS = ["name", "username"];
-
-function parseFlags(args: string[]): SearchFlags {
-  if (args.length === 0 || args[0]?.startsWith("--")) {
-    throw new Error("A search query is required as the first argument.");
-  }
-
-  const flags: SearchFlags = {
-    query: args[0],
-    all: false,
-    tweetFields: DEFAULT_TWEET_FIELDS,
-    raw: false,
-  };
-
-  for (let i = 1; i < args.length; i++) {
-    const arg = args[i];
-    const next = (): string => {
-      const v = args[++i];
-      if (!v) throw new Error(`${arg} requires a value`);
-      return v;
-    };
-
-    switch (arg) {
-      case "--all":
-        flags.all = true;
-        break;
-      case "--max-results":
-        flags.maxResults = Number(next());
-        break;
-      case "--sort":
-        flags.sortOrder = next() as "recency" | "relevancy";
-        break;
-      case "--start-time":
-        flags.startTime = next();
-        break;
-      case "--end-time":
-        flags.endTime = next();
-        break;
-      case "--since-id":
-        flags.sinceId = next();
-        break;
-      case "--until-id":
-        flags.untilId = next();
-        break;
-      case "--next-token":
-        flags.nextToken = next();
-        break;
-      case "--fields":
-        flags.tweetFields = next().split(",").map((f) => f.trim());
-        break;
-      case "--raw":
-        flags.raw = true;
-        break;
-      default:
-        throw new Error(`Unknown flag: ${arg}`);
-    }
-  }
-
-  return flags;
-}
-
 export async function search(
   client: Client,
   args: string[],
-): Promise<void> {
-  const flags = parseFlags(args);
+): Promise<unknown> {
+  const flags = parseArgs<SearchFlags>(args, {
+    positional: { key: "query", label: "A search query" },
+    flags: {
+      ...PAGINATION,
+      ...TEMPORAL,
+      ...RAW,
+      "--all": { key: "all", type: "boolean" },
+      "--sort": { key: "sortOrder", type: "string" },
+      "--since-id": { key: "sinceId", type: "string" },
+      "--until-id": { key: "untilId", type: "string" },
+      "--fields": { key: "tweetFields", type: "string[]" },
+    },
+    defaults: { tweetFields: TWEET_FIELDS },
+  });
 
   const options = {
     tweetFields: flags.tweetFields,
-    expansions: DEFAULT_EXPANSIONS,
-    userFields: DEFAULT_USER_FIELDS,
-    ...(flags.maxResults && { maxResults: flags.maxResults }),
-    ...(flags.sortOrder && { sortOrder: flags.sortOrder }),
-    ...(flags.startTime && { startTime: flags.startTime }),
-    ...(flags.endTime && { endTime: flags.endTime }),
-    ...(flags.sinceId && { sinceId: flags.sinceId }),
-    ...(flags.untilId && { untilId: flags.untilId }),
-    ...(flags.nextToken && { nextToken: flags.nextToken }),
+    expansions: TWEET_EXPANSIONS,
+    userFields: TWEET_USER_FIELDS,
+    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
+    ...(flags.sortOrder !== undefined && { sortOrder: flags.sortOrder }),
+    ...(flags.startTime !== undefined && { startTime: flags.startTime }),
+    ...(flags.endTime !== undefined && { endTime: flags.endTime }),
+    ...(flags.sinceId !== undefined && { sinceId: flags.sinceId }),
+    ...(flags.untilId !== undefined && { untilId: flags.untilId }),
+    ...(flags.nextToken !== undefined && { nextToken: flags.nextToken }),
   };
 
   const response = flags.all
     ? await client.posts.searchAll(flags.query, options)
     : await client.posts.searchRecent(flags.query, options);
 
-  if (flags.raw) {
-    console.log(JSON.stringify(response, null, 2));
-  } else {
-    console.log(JSON.stringify(response.data ?? [], null, 2));
-  }
+  return flags.raw ? response : (response.data ?? []);
 }

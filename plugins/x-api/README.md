@@ -1,51 +1,85 @@
 # X API
 
-Interact with X (Twitter) API v2 directly from Claude Code using your own developer credentials and pay-per-use pricing.
+31-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
 
-## Features
+## Commands
 
-- `me` — Get authenticated user info
+### Core
+| Command | Description |
+|---------|-------------|
+| `me` | Your account data (profile, metrics, verification) |
+| `search` | Search posts by query (recent or full archive) |
+| `get` | Retrieve post(s) by ID |
+| `post` | Create a tweet, reply, or quote tweet |
+| `delete` | Delete a post |
+
+### Engagement
+| Command | Description |
+|---------|-------------|
+| `like` | Like a post |
+| `unlike` | Remove a like |
+| `repost` | Repost (retweet) a post |
+| `unrepost` | Remove a repost |
+
+### Social
+| Command | Description |
+|---------|-------------|
+| `user` | Look up user(s) by username or ID |
+| `follow` | Follow a user |
+| `unfollow` | Unfollow a user |
+| `followers` | List a user's followers |
+| `following` | List accounts a user follows |
+
+### Feed
+| Command | Description |
+|---------|-------------|
+| `timeline` | Your home timeline |
+| `mentions` | Posts that mention you |
+
+### Bookmarks
+| Command | Description |
+|---------|-------------|
+| `bookmark` | Bookmark a post |
+| `unbookmark` | Remove a bookmark |
+| `bookmarks` | List your bookmarks |
+
+### Moderation
+| Command | Description |
+|---------|-------------|
+| `mute` | Mute a user |
+| `unmute` | Unmute a user |
+| `muted` | List muted accounts |
+| `blocked` | List blocked accounts |
+| `hide-reply` | Hide a reply to your post |
+
+### Analytics
+| Command | Description |
+|---------|-------------|
+| `likers` | Users who liked a post |
+| `reposters` | Users who reposted a post |
+| `quotes` | Quote tweets of a post |
+| `count` | Count posts matching a query over time |
+| `reposts-of-me` | Reposts of your posts by others |
+
+### Discovery
+| Command | Description |
+|---------|-------------|
+| `search-users` | Search users by query |
+| `trending` | Trending topics (worldwide or personalized) |
 
 ## Setup
 
-### 1. Create an X Developer App
-
-1. Go to [console.x.com](https://console.x.com) → **Apps** → Create a new App
-2. Under **User authentication settings**, enable **OAuth 1.0a** with **Read and Write** permissions
-3. Go to **Keys and tokens** and generate your credentials
-
-### 2. Configure credentials
-
-Copy the example env file and fill in your credentials:
-
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local`:
+1. Go to [console.x.com](https://console.x.com) > Apps > Create a new App
+2. Enable OAuth 1.0a with **Read and Write** permissions
+3. Go to Keys and tokens, generate all four credentials
+4. Add them to `.env.local` or `.env`:
 
 ```
-X_API_KEY=your-api-key
-X_API_SECRET=your-api-secret
-X_ACCESS_TOKEN=your-access-token
-X_ACCESS_TOKEN_SECRET=your-access-token-secret
+X_API_KEY=your_api_key
+X_API_SECRET=your_api_secret
+X_ACCESS_TOKEN=your_access_token
+X_ACCESS_TOKEN_SECRET=your_access_token_secret
 ```
-
-### 3. Install and build
-
-```bash
-npm install
-npm run build
-```
-
-## Usage
-
-```bash
-# Get your account info
-bash skills/x/scripts/run.sh me
-```
-
-Or via Claude Code: `/x me`
 
 ## Requirements
 

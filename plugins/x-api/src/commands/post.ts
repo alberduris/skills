@@ -1,50 +1,25 @@
 import type { Client } from "@xdevplatform/xdk";
+import { parseArgs } from "../lib/args.js";
 
-interface Flags {
+interface PostFlags {
   text: string;
   replyTo?: string;
   quoteTweetId?: string;
-  replySettings?: "following" | "mentionedUsers" | "subscribers" | "verified";
-}
-
-function parseFlags(args: string[]): Flags {
-  if (args.length === 0 || args[0]?.startsWith("--")) {
-    throw new Error("Post text is required as the first argument.");
-  }
-
-  const flags: Flags = { text: args[0] };
-
-  for (let i = 1; i < args.length; i++) {
-    const arg = args[i];
-    const next = (): string => {
-      const v = args[++i];
-      if (!v) throw new Error(`${arg} requires a value`);
-      return v;
-    };
-
-    switch (arg) {
-      case "--reply-to":
-        flags.replyTo = next();
-        break;
-      case "--quote":
-        flags.quoteTweetId = next();
-        break;
-      case "--reply-settings":
-        flags.replySettings = next() as Flags["replySettings"];
-        break;
-      default:
-        throw new Error(`Unknown flag: ${arg}`);
-    }
-  }
-
-  return flags;
+  replySettings?: string;
 }
 
 export async function post(
   client: Client,
   args: string[],
-): Promise<void> {
-  const flags = parseFlags(args);
+): Promise<unknown> {
+  const flags = parseArgs<PostFlags>(args, {
+    positional: { key: "text", label: "Post text" },
+    flags: {
+      "--reply-to": { key: "replyTo", type: "string" },
+      "--quote": { key: "quoteTweetId", type: "string" },
+      "--reply-settings": { key: "replySettings", type: "string" },
+    },
+  });
 
   const body: Record<string, unknown> = { text: flags.text };
 
@@ -58,6 +33,5 @@ export async function post(
     body.replySettings = flags.replySettings;
   }
 
-  const response = await client.posts.create(body);
-  console.log(JSON.stringify(response, null, 2));
+  return client.posts.create(body);
 }

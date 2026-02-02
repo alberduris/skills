@@ -1,8 +1,26 @@
 import type { Client } from "@xdevplatform/xdk";
+import { parseArgs, PAGINATION, RAW } from "../lib/args.js";
+import { USER_FIELDS } from "../lib/fields.js";
+import { resolveMyId } from "../lib/resolve.js";
 
-// XDK: users.getBlocking(myId, options)
-// Requires resolveMyId()
-export async function blocked(client: Client, args: string[]): Promise<void> {
-  void client, args;
-  throw new Error("Not implemented: blocked");
+export async function blocked(
+  client: Client,
+  args: string[],
+): Promise<unknown> {
+  const flags = parseArgs<{
+    maxResults?: number;
+    nextToken?: string;
+    raw: boolean;
+  }>(args, { flags: { ...PAGINATION, ...RAW } });
+
+  const myId = await resolveMyId(client);
+
+  const options: Record<string, unknown> = {
+    userFields: USER_FIELDS,
+    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
+    ...(flags.nextToken !== undefined && { paginationToken: flags.nextToken }),
+  };
+
+  const response = await client.users.getBlocking(myId, options);
+  return flags.raw ? response : (response.data ?? []);
 }

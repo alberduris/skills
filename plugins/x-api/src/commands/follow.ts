@@ -1,14 +1,26 @@
 import type { Client } from "@xdevplatform/xdk";
+import { parseArgs } from "../lib/args.js";
+import { resolveMyId, resolveUserId } from "../lib/resolve.js";
 
-// XDK: users.followUser(myId, { body: { target_user_id } })
-// Requires resolveMyId() + resolving username → userId
-export async function follow(client: Client, args: string[]): Promise<void> {
-  void client, args;
-  throw new Error("Not implemented: follow");
+export async function follow(client: Client, args: string[]): Promise<unknown> {
+  const { target } = parseArgs<{ target: string }>(args, {
+    positional: { key: "target", label: "A username or user ID" },
+  });
+
+  const myId = await resolveMyId(client);
+  const targetUserId = await resolveUserId(client, target);
+  return client.users.followUser(myId, { body: { targetUserId } });
 }
 
-// XDK: users.unfollowUser(myId, targetUserId)
-export async function unfollow(client: Client, args: string[]): Promise<void> {
-  void client, args;
-  throw new Error("Not implemented: unfollow");
+export async function unfollow(
+  client: Client,
+  args: string[],
+): Promise<unknown> {
+  const { target } = parseArgs<{ target: string }>(args, {
+    positional: { key: "target", label: "A username or user ID" },
+  });
+
+  const myId = await resolveMyId(client);
+  const targetUserId = await resolveUserId(client, target);
+  return client.users.unfollowUser(myId, targetUserId);
 }

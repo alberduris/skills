@@ -1,74 +1,37 @@
 import type { Client } from "@xdevplatform/xdk";
-
-const DEFAULT_TWEET_FIELDS = [
-  "author_id",
-  "created_at",
-  "conversation_id",
-  "public_metrics",
-  "text",
-];
-
-const DEFAULT_EXPANSIONS = ["author_id"];
-const DEFAULT_USER_FIELDS = ["name", "username"];
-
-interface Flags {
-  ids: string[];
-  tweetFields: string[];
-  raw: boolean;
-}
-
-function parseFlags(args: string[]): Flags {
-  if (args.length === 0 || args[0]?.startsWith("--")) {
-    throw new Error("At least one post ID is required as the first argument.");
-  }
-
-  const flags: Flags = {
-    ids: args[0].split(",").map((id) => id.trim()),
-    tweetFields: DEFAULT_TWEET_FIELDS,
-    raw: false,
-  };
-
-  for (let i = 1; i < args.length; i++) {
-    const arg = args[i];
-    if (arg === "--fields") {
-      const value = args[++i];
-      if (!value) throw new Error("--fields requires a comma-separated list");
-      flags.tweetFields = value.split(",").map((f) => f.trim());
-    } else if (arg === "--raw") {
-      flags.raw = true;
-    } else {
-      throw new Error(`Unknown flag: ${arg}`);
-    }
-  }
-
-  return flags;
-}
+import { parseArgs, RAW } from "../lib/args.js";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
 
 export async function get(
   client: Client,
   args: string[],
-): Promise<void> {
-  const flags = parseFlags(args);
+): Promise<unknown> {
+  // The positional arg is comma-separated IDs; we parse it as a string then split
+  const flags = parseArgs<{ idsRaw: string; tweetFields: string[]; raw: boolean }>(
+    args,
+    {
+      positional: { key: "idsRaw", label: "At least one post ID" },
+      flags: {
+        ...RAW,
+        "--fields": { key: "tweetFields", type: "string[]" },
+      },
+      defaults: { tweetFields: TWEET_FIELDS },
+    },
+  );
+
+  const ids = flags.idsRaw.split(",").map((id) => id.trim());
 
   const options = {
     tweetFields: flags.tweetFields,
-    expansions: DEFAULT_EXPANSIONS,
-    userFields: DEFAULT_USER_FIELDS,
+    expansions: TWEET_EXPANSIONS,
+    userFields: TWEET_USER_FIELDS,
   };
 
-  if (flags.ids.length === 1) {
-    const response = await client.posts.getById(flags.ids[0], options);
-    if (flags.raw) {
-      console.log(JSON.stringify(response, null, 2));
-    } else {
-      console.log(JSON.stringify(response.data, null, 2));
-    }
-  } else {
-    const response = await client.posts.getByIds(flags.ids, options);
-    if (flags.raw) {
-      console.log(JSON.stringify(response, null, 2));
-    } else {
-      console.log(JSON.stringify(response.data ?? [], null, 2));
-    }
+  if (ids.length === 1) {
+    const response = await client.posts.getById(ids[0], options);
+    return flags.raw ? response : response.data;
   }
+
+  const response = await client.posts.getByIds(ids, options);
+  return flags.raw ? response : (response.data ?? []);
 }

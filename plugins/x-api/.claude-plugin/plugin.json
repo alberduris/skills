@@ -1,7 +1,7 @@
 {
   "name": "x-api",
-  "version": "0.3.0",
-  "description": "Interact with X (Twitter) API v2 — post, read timeline, search, and more",
+  "version": "0.5.0",
+  "description": "31-command Claude Code skill for X/Twitter — post, search, engage, moderate, all from your terminal",
   "author": {
     "name": "alberduris",
     "email": "alberduris@summiz.ai"

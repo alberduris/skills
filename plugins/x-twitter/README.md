@@ -81,10 +81,21 @@ X_ACCESS_TOKEN=your_access_token
 X_ACCESS_TOKEN_SECRET=your_access_token_secret
 ```
 
+### Optional: Bearer Token (full archive search)
+
+To use `search --all` (full archive back to 2006), you also need an App-Only Bearer Token:
+
+```
+X_API_BEARER_TOKEN=your_bearer_token
+```
+
+Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. When present, the client auto-selects Bearer auth for read endpoints that require it.
+
 ## Requirements
 
 - Node.js 18+
 - X Developer account with OAuth 1.0a credentials
+- (Optional) Bearer Token for full archive search
 
 ## License
 

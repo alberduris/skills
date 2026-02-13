@@ -6,6 +6,7 @@ export interface Config {
   apiSecret: string;
   accessToken: string;
   accessTokenSecret: string;
+  bearerToken?: string;
 }
 
 const REQUIRED_VARS = [
@@ -80,6 +81,12 @@ export function loadConfig(pluginDir: string): Config {
       `Missing required environment variables: ${missing.join(", ")}\n` +
         `Set them in .env.local, .env, or as environment variables.`,
     );
+  }
+
+  // Optional: Bearer Token for App-Only auth (needed for full archive search)
+  const bearerToken = resolveVar("X_API_BEARER_TOKEN" as RequiredVar, sources);
+  if (bearerToken) {
+    config.bearerToken = bearerToken;
   }
 
   return config;

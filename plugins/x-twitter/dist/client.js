@@ -7,5 +7,8 @@ export function createClient(config) {
         accessToken: config.accessToken,
         accessTokenSecret: config.accessTokenSecret,
     });
-    return new Client({ oauth1 });
+    return new Client({
+        oauth1,
+        ...(config.bearerToken && { bearerToken: config.bearerToken }),
+    });
 }

@@ -60,5 +60,10 @@ export function loadConfig(pluginDir) {
         throw new Error(`Missing required environment variables: ${missing.join(", ")}\n` +
             `Set them in .env.local, .env, or as environment variables.`);
     }
+    // Optional: Bearer Token for App-Only auth (needed for full archive search)
+    const bearerToken = resolveVar("X_API_BEARER_TOKEN", sources);
+    if (bearerToken) {
+        config.bearerToken = bearerToken;
+    }
     return config;
 }

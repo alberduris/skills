@@ -3,6 +3,8 @@ export const TWEET_FIELDS = [
   "created_at",
   "conversation_id",
   "public_metrics",
+  "referenced_tweets",
+  "in_reply_to_user_id",
   "text",
 ];
 

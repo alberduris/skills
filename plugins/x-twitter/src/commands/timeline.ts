@@ -7,13 +7,18 @@ export async function timeline(
   client: Client,
   args: string[],
 ): Promise<unknown> {
+  const EXCLUDE: Record<string, import("../lib/args.js").FlagDef> = {
+    "--exclude": { key: "exclude", type: "string[]" },
+  };
+
   const flags = parseArgs<{
     maxResults?: number;
     nextToken?: string;
     startTime?: string;
     endTime?: string;
+    exclude?: string[];
     raw: boolean;
-  }>(args, { flags: { ...PAGINATION, ...TEMPORAL, ...RAW } });
+  }>(args, { flags: { ...PAGINATION, ...TEMPORAL, ...EXCLUDE, ...RAW } });
 
   const myId = await resolveMyId(client);
 
@@ -25,6 +30,7 @@ export async function timeline(
     ...(flags.nextToken !== undefined && { paginationToken: flags.nextToken }),
     ...(flags.startTime !== undefined && { startTime: flags.startTime }),
     ...(flags.endTime !== undefined && { endTime: flags.endTime }),
+    ...(flags.exclude !== undefined && { exclude: flags.exclude }),
   };
 
   const response = await client.users.getTimeline(myId, options);

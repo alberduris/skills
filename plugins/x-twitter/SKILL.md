@@ -4,7 +4,7 @@ description: Interact with X (Twitter) API v2. Post tweets, search, engage, mode
 license: MIT
 metadata:
   author: alberduris
-  version: "1.1.0"
+  version: "1.2.0"
   tags: x, twitter, x-twitter, twitter-api, social-media, tweets, automation
 allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(ls *)
 ---
@@ -36,7 +36,7 @@ m) `followers` — list a user's followers. @docs/followers.md.
 n) `following` — list accounts a user follows. @docs/followers.md.
 
 Feed:
-o) `timeline` — your home timeline (reverse chronological). @docs/timeline.md.
+o) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Note (2026-02-14): the X API returns heavily skewed results — mostly own tweets — and does not faithfully reproduce the "Following" tab on x.com. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
 p) `mentions` — posts that mention you. @docs/mentions.md.
 
 Bookmarks:

@@ -36,6 +36,8 @@
 | `timeline` | Your home timeline |
 | `mentions` | Posts that mention you |
 
+> **Note (2026-02-14):** The `timeline` command returns the reverse chronological timeline, not the algorithmic "For you" feed. Even so, the X API returns heavily skewed results — mostly own tweets — and does not faithfully reproduce the "Following" tab on x.com. Use `--exclude replies,retweets` to filter out own replies and retweets and get a slightly better signal.
+
 ### Bookmarks
 | Command | Description |
 |---------|-------------|

@@ -6,13 +6,17 @@ export async function user(client, args) {
             key: "input",
             label: "A username, user ID, or comma-separated list of IDs",
         },
-        flags: { ...RAW },
+        flags: {
+            ...RAW,
+            "--fields": { key: "fields", type: "string[]" },
+        },
+        defaults: { fields: USER_FIELDS_EXTENDED },
     });
     const input = flags.input.startsWith("@")
         ? flags.input.slice(1)
         : flags.input;
     const options = {
-        userFields: USER_FIELDS_EXTENDED,
+        userFields: flags.fields,
     };
     // Comma-separated → multiple IDs
     if (input.includes(",")) {

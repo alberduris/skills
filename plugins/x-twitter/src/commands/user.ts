@@ -2,13 +2,23 @@ import type { Client } from "@xdevplatform/xdk";
 import { parseArgs, RAW } from "../lib/args.js";
 import { USER_FIELDS_EXTENDED } from "../lib/fields.js";
 
+interface UserFlags {
+  input: string;
+  fields: string[];
+  raw: boolean;
+}
+
 export async function user(client: Client, args: string[]): Promise<unknown> {
-  const flags = parseArgs<{ input: string; raw: boolean }>(args, {
+  const flags = parseArgs<UserFlags>(args, {
     positional: {
       key: "input",
       label: "A username, user ID, or comma-separated list of IDs",
     },
-    flags: { ...RAW },
+    flags: {
+      ...RAW,
+      "--fields": { key: "fields", type: "string[]" },
+    },
+    defaults: { fields: USER_FIELDS_EXTENDED },
   });
 
   const input = flags.input.startsWith("@")
@@ -16,7 +26,7 @@ export async function user(client: Client, args: string[]): Promise<unknown> {
     : flags.input;
 
   const options: Record<string, unknown> = {
-    userFields: USER_FIELDS_EXTENDED,
+    userFields: flags.fields,
   };
 
   // Comma-separated → multiple IDs

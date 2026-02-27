@@ -61,6 +61,22 @@ describe("Pattern E — branching commands", () => {
       const result = await user(client, ["12345", "--raw"]);
       assert.deepEqual(result, fullResp);
     });
+
+    it("--fields overrides default user fields", async () => {
+      const getByUsername = mock.fn(async () => ({
+        data: { id: "1", username: "alice" },
+      }));
+      const client = mockClient({ users: { getByUsername } });
+
+      await user(client, ["alice", "--fields", "id,username,receives_your_dm"]);
+
+      const opts = getByUsername.mock.calls[0].arguments[1];
+      assert.deepEqual(opts.userFields, [
+        "id",
+        "username",
+        "receives_your_dm",
+      ]);
+    });
   });
 
   describe("me", () => {

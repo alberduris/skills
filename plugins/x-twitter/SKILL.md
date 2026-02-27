@@ -4,7 +4,7 @@ description: Interact with X (Twitter) API v2. Post tweets, search, engage, mode
 license: MIT
 metadata:
   author: alberduris
-  version: "1.2.0"
+  version: "1.3.0"
   tags: x, twitter, x-twitter, twitter-api, social-media, tweets, automation
 allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(ls *)
 ---

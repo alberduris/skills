@@ -1,5 +1,7 @@
 Look up one or more users by username or ID. Auto-detects input type: username (string), user ID (all digits), or comma-separated IDs (for batch lookup). Maps to GET /2/users/by/username/:username, GET /2/users/:id, or GET /2/users. Invoke via `node <base_directory>/x.js user <username|id|id1,id2,...> [flags]`. Output is JSON to stdout.
 
-[!FLAGS] a) no flags — returns user profile with default fields (identity, bio, metrics, location, verification, avatar, dates). b) `--raw` — outputs the full API response envelope.
+[!FLAGS] a) no flags — returns user profile with default fields (identity, bio, metrics, location, verification, avatar, dates, DM accessibility, relationship status). b) `--fields <comma-separated-list>` — request ONLY the specified fields instead of defaults. c) `--raw` — outputs the full API response envelope.
+
+[!AVAILABLE-FIELDS] The `--fields` flag accepts any combination of: `id`, `name`, `username`, `description`, `created_at`, `location`, `url`, `profile_image_url`, `protected`, `public_metrics`, `verified_type`, `connection_status`, `receives_your_dm`, `pinned_tweet_id`, `most_recent_tweet_id`, `entities`, `withheld`, `affiliation`, `is_identity_verified`, `subscription_type`. The default set (when no `--fields` is given) includes: `created_at`, `description`, `id`, `name`, `profile_image_url`, `public_metrics`, `username`, `verified_type`, `connection_status`, `location`, `protected`, `receives_your_dm`, `url`.
 
 [!OUTPUT-SHAPE] Single user: produces the user object directly. Multiple IDs: produces an array of user objects. With `--raw`, wraps into the API envelope with `data` and `includes`.

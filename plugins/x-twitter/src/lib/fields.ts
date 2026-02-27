@@ -24,7 +24,9 @@ export const USER_FIELDS = [
 
 export const USER_FIELDS_EXTENDED = [
   ...USER_FIELDS,
+  "connection_status",
   "location",
   "protected",
+  "receives_your_dm",
   "url",
 ];

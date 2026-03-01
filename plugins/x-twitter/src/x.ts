@@ -26,6 +26,8 @@ import { followers, following } from "./commands/followers.js";
 import { likers } from "./commands/likers.js";
 import { reposters } from "./commands/reposters.js";
 import { quotes } from "./commands/quotes.js";
+import { community } from "./commands/community.js";
+import { searchCommunities } from "./commands/search-communities.js";
 
 type CommandFn = (client: Client, args: string[]) => Promise<unknown>;
 
@@ -61,6 +63,8 @@ const commands: Record<string, CommandFn> = {
   likers,
   reposters,
   quotes,
+  community,
+  "search-communities": searchCommunities,
 };
 
 const COMMAND_NAMES = Object.keys(commands).join(", ");

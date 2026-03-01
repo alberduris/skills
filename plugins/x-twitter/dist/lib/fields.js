@@ -27,3 +27,12 @@ export const USER_FIELDS_EXTENDED = [
     "receives_your_dm",
     "url",
 ];
+export const COMMUNITY_FIELDS = [
+    "access",
+    "created_at",
+    "description",
+    "id",
+    "join_policy",
+    "member_count",
+    "name",
+];

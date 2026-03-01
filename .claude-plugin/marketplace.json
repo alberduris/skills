@@ -54,8 +54,8 @@
     },
     {
       "name": "x-twitter",
-      "description": "31-command Claude Code skill for X/Twitter — post, search, engage, moderate, all from your terminal",
-      "version": "1.3.0",
+      "description": "33-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
+      "version": "1.4.0",
       "author": {
         "name": "alberduris",
         "email": "alberduris@summiz.ai"

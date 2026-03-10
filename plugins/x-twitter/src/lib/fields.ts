@@ -40,3 +40,15 @@ export const COMMUNITY_FIELDS = [
   "member_count",
   "name",
 ];
+
+export const NEWS_FIELDS = [
+  "category",
+  "cluster_posts_results",
+  "contexts",
+  "disclaimer",
+  "hook",
+  "keywords",
+  "name",
+  "summary",
+  "updated_at",
+];

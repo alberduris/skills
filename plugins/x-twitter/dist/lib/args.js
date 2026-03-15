@@ -1,5 +1,6 @@
 export const PAGINATION = {
     "--max-results": { key: "maxResults", type: "number" },
+    "--max": { key: "maxResults", type: "number" },
     "--next-token": { key: "nextToken", type: "string" },
 };
 export const TEMPORAL = {
@@ -23,14 +24,26 @@ export function parseArgs(args, schema) {
         Object.assign(result, schema.defaults);
     }
     let startIdx = 0;
-    // Extract positional arg
+    // Extract positional arg (also accept --<key> as named alias)
     if (schema.positional) {
-        const first = args[0];
-        if (!first || first.startsWith("--")) {
-            throw new Error(`${schema.positional.label} is required as the first argument.`);
+        const aliasFlag = `--${schema.positional.key}`;
+        const aliasIdx = args.indexOf(aliasFlag);
+        if (aliasIdx !== -1) {
+            const value = args[aliasIdx + 1];
+            if (value === undefined)
+                throw new Error(`${aliasFlag} requires a value`);
+            result[schema.positional.key] = value;
+            // Remove the alias pair so the flag loop doesn't trip on it
+            args = [...args.slice(0, aliasIdx), ...args.slice(aliasIdx + 2)];
         }
-        result[schema.positional.key] = first;
-        startIdx = 1;
+        else {
+            const first = args[0];
+            if (!first || first.startsWith("--")) {
+                throw new Error(`${schema.positional.label} is required as the first argument.`);
+            }
+            result[schema.positional.key] = first;
+            startIdx = 1;
+        }
     }
     // Parse flags
     for (let i = startIdx; i < args.length; i++) {

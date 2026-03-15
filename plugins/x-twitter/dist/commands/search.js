@@ -15,6 +15,12 @@ export async function search(client, args) {
         },
         defaults: { tweetFields: TWEET_FIELDS },
     });
+    const MIN_RESULTS = 10;
+    let hint;
+    if (flags.maxResults !== undefined && flags.maxResults < MIN_RESULTS) {
+        hint = `Hint: maxResults was raised to ${MIN_RESULTS} (Twitter API minimum). You requested ${flags.maxResults}.`;
+        flags.maxResults = MIN_RESULTS;
+    }
     const options = {
         tweetFields: flags.tweetFields,
         expansions: TWEET_EXPANSIONS,
@@ -30,5 +36,8 @@ export async function search(client, args) {
     const response = flags.all
         ? await client.posts.searchAll(flags.query, options)
         : await client.posts.searchRecent(flags.query, options);
-    return flags.raw ? response : (response.data ?? []);
+    const data = flags.raw ? response : (response.data ?? []);
+    if (hint)
+        return { hint, data };
+    return data;
 }

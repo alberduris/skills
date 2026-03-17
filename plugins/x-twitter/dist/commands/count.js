@@ -1,4 +1,5 @@
 import { parseArgs, TEMPORAL, RAW } from "../lib/args.js";
+import { resolveEnum } from "../lib/enums.js";
 export async function count(client, args) {
     const flags = parseArgs(args, {
         positional: { key: "query", label: "A search query" },
@@ -10,6 +11,9 @@ export async function count(client, args) {
             "--next-token": { key: "nextToken", type: "string" },
         },
     });
+    if (flags.granularity !== undefined) {
+        flags.granularity = resolveEnum("granularity", flags.granularity);
+    }
     const options = {
         ...(flags.startTime !== undefined && { startTime: flags.startTime }),
         ...(flags.endTime !== undefined && { endTime: flags.endTime }),

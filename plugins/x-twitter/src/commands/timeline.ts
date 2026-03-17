@@ -2,6 +2,7 @@ import type { Client } from "@xdevplatform/xdk";
 import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
 import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
 import { resolveMyId } from "../lib/resolve.js";
+import { resolveEnum } from "../lib/enums.js";
 
 export async function timeline(
   client: Client,
@@ -19,6 +20,10 @@ export async function timeline(
     exclude?: string[];
     raw: boolean;
   }>(args, { flags: { ...PAGINATION, ...TEMPORAL, ...EXCLUDE, ...RAW } });
+
+  if (flags.exclude) {
+    flags.exclude = flags.exclude.map((v) => resolveEnum("exclude", v));
+  }
 
   const myId = await resolveMyId(client);
 

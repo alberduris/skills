@@ -95,7 +95,31 @@ async function main(): Promise<void> {
 }
 
 main().catch((error: unknown) => {
-  const message = error instanceof Error ? error.message : String(error);
-  console.error(`Error: ${message}`);
+  if (isApiError(error)) {
+    const { title, detail, errors } = error.data as {
+      title?: string;
+      detail?: string;
+      errors?: { message: string }[];
+    };
+    const headline = [title, detail].filter(Boolean).join(" – ");
+    console.error(`Error: ${headline || error.message}`);
+    if (errors?.length) {
+      for (const e of errors) console.error(`  - ${e.message}`);
+    }
+  } else {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Error: ${message}`);
+  }
   process.exit(1);
 });
+
+function isApiError(
+  err: unknown,
+): err is { status: number; message: string; data: unknown } {
+  return (
+    err instanceof Error &&
+    "status" in err &&
+    "data" in err &&
+    typeof (err as { data: unknown }).data === "object"
+  );
+}

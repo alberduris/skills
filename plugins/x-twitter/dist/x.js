@@ -85,7 +85,24 @@ async function main() {
     process.exit(0);
 }
 main().catch((error) => {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error: ${message}`);
+    if (isApiError(error)) {
+        const { title, detail, errors } = error.data;
+        const headline = [title, detail].filter(Boolean).join(" – ");
+        console.error(`Error: ${headline || error.message}`);
+        if (errors?.length) {
+            for (const e of errors)
+                console.error(`  - ${e.message}`);
+        }
+    }
+    else {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`Error: ${message}`);
+    }
     process.exit(1);
 });
+function isApiError(err) {
+    return (err instanceof Error &&
+        "status" in err &&
+        "data" in err &&
+        typeof err.data === "object");
+}

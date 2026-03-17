@@ -1,5 +1,6 @@
 import type { Client } from "@xdevplatform/xdk";
 import { parseArgs, TEMPORAL, RAW } from "../lib/args.js";
+import { resolveEnum } from "../lib/enums.js";
 
 interface CountFlags {
   query: string;
@@ -22,6 +23,10 @@ export async function count(client: Client, args: string[]): Promise<unknown> {
       "--next-token": { key: "nextToken", type: "string" },
     },
   });
+
+  if (flags.granularity !== undefined) {
+    flags.granularity = resolveEnum("granularity", flags.granularity);
+  }
 
   const options: Record<string, unknown> = {
     ...(flags.startTime !== undefined && { startTime: flags.startTime }),

@@ -1,5 +1,6 @@
 import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
 import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
+import { resolveEnum } from "../lib/enums.js";
 export async function search(client, args) {
     const flags = parseArgs(args, {
         positional: { key: "query", label: "A search query" },
@@ -20,6 +21,9 @@ export async function search(client, args) {
     if (flags.maxResults !== undefined && flags.maxResults < MIN_RESULTS) {
         hint = `Hint: maxResults was raised to ${MIN_RESULTS} (Twitter API minimum). You requested ${flags.maxResults}.`;
         flags.maxResults = MIN_RESULTS;
+    }
+    if (flags.sortOrder !== undefined) {
+        flags.sortOrder = resolveEnum("sortOrder", flags.sortOrder);
     }
     const options = {
         tweetFields: flags.tweetFields,

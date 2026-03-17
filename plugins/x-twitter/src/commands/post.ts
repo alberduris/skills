@@ -1,5 +1,6 @@
 import type { Client } from "@xdevplatform/xdk";
 import { parseArgs } from "../lib/args.js";
+import { resolveEnum } from "../lib/enums.js";
 
 interface PostFlags {
   text: string;
@@ -20,6 +21,10 @@ export async function post(
       "--reply-settings": { key: "replySettings", type: "string" },
     },
   });
+
+  if (flags.replySettings) {
+    flags.replySettings = resolveEnum("replySettings", flags.replySettings);
+  }
 
   const body: Record<string, unknown> = { text: flags.text };
 

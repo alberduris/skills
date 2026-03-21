@@ -73,6 +73,17 @@
       },
       "source": "./plugins/beehiiv",
       "category": "productivity"
+    },
+    {
+      "name": "newspaper-explainer",
+      "description": "Generate self-contained HTML broadsheet newspapers to explain any subject worth reporting",
+      "version": "0.1.0",
+      "author": {
+        "name": "alberduris",
+        "email": "alberduris@summiz.ai"
+      },
+      "source": "./plugins/newspaper-explainer",
+      "category": "visualization"
     }
   ]
 }

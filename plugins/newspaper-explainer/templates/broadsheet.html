@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Engineering Record — Evening Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       THE BROADSHEET — Reference Template
+       Newspaper-style HTML for technical dispatches & project reports.
+       Self-contained, no JS, print-friendly.
+       ================================================================ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* — Palette — */
+    :root {
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
+      --font-sans: -apple-system, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      --paper: #faf8f4;
+      --paper-tinted: #f0ece4;
+      --ink: #1a1715;
+      --ink-mid: #4a4540;
+      --ink-light: #8a8580;
+      --rule: #1a1715;
+      --rule-mid: #9a9590;
+      --rule-light: #d4cfc8;
+
+      --red: #8b1a1a;
+      --green: #2d5f2d;
+      --blue: #1a3a5f;
+      --amber: #8b6914;
+      --red-bg: #f0ddd8;
+      --green-bg: #dce8dc;
+      --blue-bg: #d8e0ea;
+      --amber-bg: #ede4d0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #1a1815;
+        --paper-tinted: #242018;
+        --ink: #e8e4dd;
+        --ink-mid: #a8a49d;
+        --ink-light: #706c65;
+        --rule: #706c65;
+        --rule-mid: #504c45;
+        --rule-light: #3a3630;
+
+        --red: #d4605a;
+        --green: #6aaa6a;
+        --blue: #6a9ad4;
+        --amber: #d4a44a;
+        --red-bg: #3a2220;
+        --green-bg: #203020;
+        --blue-bg: #1a2a3a;
+        --amber-bg: #3a3020;
+      }
+    }
+
+    /* — Base — */
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--paper-tinted);
+      padding: 1px 4px;
+    }
+
+    .broadsheet {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 40px 40px;
+    }
+
+    /* ================================================================
+       MASTHEAD
+       ================================================================ */
+    .masthead {
+      text-align: center;
+      border-top: 3px solid var(--rule);
+      padding-top: 10px;
+    }
+
+    .masthead__meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--ink-mid);
+      padding-bottom: 6px;
+    }
+
+    .masthead__title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -1px;
+      padding: 6px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .masthead__tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ink-mid);
+      padding: 4px 0 10px;
+      border-bottom: 3px solid var(--rule);
+    }
+
+    /* ================================================================
+       TICKER
+       ================================================================ */
+    .ticker {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 7px 0;
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: 20px;
+    }
+
+    .ticker__track {
+      display: inline-flex;
+      align-items: center;
+      animation: ticker-scroll 35s linear infinite;
+    }
+
+    .ticker:hover .ticker__track { animation-play-state: paused; }
+
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker__item { flex-shrink: 0; }
+
+    .ticker__sep {
+      flex-shrink: 0;
+      color: var(--red);
+      margin: 0 16px;
+      font-size: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .ticker {
+        background: var(--paper-tinted);
+        color: var(--ink);
+        border: 1px solid var(--rule-light);
+      }
+      .ticker__sep { color: var(--red); }
+    }
+
+    /* ================================================================
+       SHARED COMPONENTS
+       ================================================================ */
+
+    /* Category label (above headlines) */
+    .category {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--ink-mid);
+      margin-bottom: 6px;
+    }
+
+    /* Status badges */
+    .badge {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 2px 8px;
+      margin-bottom: 10px;
+    }
+
+    .badge--progress { background: var(--red); color: #fff; }
+    .badge--review   { background: var(--blue); color: #fff; }
+    .badge--nominal  { background: var(--green); color: #fff; }
+    .badge--advisory { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber); }
+    .badge--response { background: transparent; color: var(--red); border: 1px solid var(--red); }
+    .badge--queued   { background: var(--ink-mid); color: var(--paper); }
+
+    /* Byline */
+    .byline {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+    }
+
+    /* ================================================================
+       FRONT PAGE GRID (lead + sidebar)
+       ================================================================ */
+    .front-page {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      border-bottom: 1px solid var(--rule-light);
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+
+    /* ================================================================
+       LEAD STORY
+       ================================================================ */
+    .lead {
+      padding-right: 24px;
+      border-right: 1px solid var(--rule-light);
+    }
+
+    .lead__headline {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .lead__deck {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--ink-mid);
+      margin-bottom: 6px;
+    }
+
+    .lead__body { line-height: 1.65; }
+    .lead__body p { margin-bottom: 12px; }
+
+    /* Drop cap */
+    .drop-cap::first-letter {
+      float: left;
+      font-family: var(--font-display);
+      font-size: 4.2em;
+      line-height: 0.82;
+      font-weight: 900;
+      padding-right: 6px;
+      padding-top: 4px;
+    }
+
+    /* Inset box — floats within article text */
+    .inset-box {
+      float: right;
+      width: 210px;
+      margin: 0 0 16px 20px;
+      padding: 14px;
+      border: 1.5px solid var(--rule);
+    }
+
+    .inset-box__title {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .inset-box__detail {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--ink-mid);
+    }
+
+    /* Progress bar — newspaper-style */
+    .progress-bar {
+      margin: 10px 0 6px;
+      height: 10px;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+    }
+
+    .progress-bar__fill {
+      height: 100%;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--ink) 0px, var(--ink) 3px,
+        transparent 3px, transparent 6px
+      );
+    }
+
+    .progress-bar__label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-sans);
+      font-size: 8.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-mid);
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.45;
+      border-top: 2px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 14px 0;
+      margin: 20px 0;
+      clear: right;
+    }
+
+    /* Two-column continuation */
+    .column-text {
+      column-count: 2;
+      column-gap: 24px;
+      column-rule: 1px solid var(--rule-light);
+    }
+
+    .column-text p { margin-bottom: 12px; }
+
+    /* ================================================================
+       SIDEBAR
+       ================================================================ */
+    .sidebar { padding-left: 24px; }
+
+    .sidebar__widget {
+      border: 1px solid var(--rule-light);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .widget__label {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--ink-mid);
+      margin-bottom: 10px;
+    }
+
+    .widget__body {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Agents / services table */
+    .agents-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+    .agents-table td { padding: 3px 0; vertical-align: top; }
+    .agents-table td:first-child { white-space: nowrap; padding-right: 8px; }
+    .agents-table td:last-child {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-light);
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .dot--active { background: var(--green); }
+    .dot--busy   { background: var(--amber); }
+    .dot--idle   { background: var(--ink-light); }
+
+    /* Sidebar articles */
+    .sidebar__article {
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 1px solid var(--rule-light);
+    }
+
+    .sidebar__article .category { margin-bottom: 4px; }
+
+    .sidebar__headline {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .sidebar__body {
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* ================================================================
+       SECONDARY STORIES (3-column row)
+       ================================================================ */
+    .stories-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--rule-light);
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+
+    .story { padding: 0 20px; border-left: 1px solid var(--rule-light); }
+    .story:first-child { padding-left: 0; border-left: none; }
+    .story:last-child { padding-right: 0; }
+
+    .story__headline {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .story__body {
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+
+    /* ================================================================
+       LOWER FOLD (letters + dispatch board)
+       ================================================================ */
+    .lower-fold {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      border-top: 3px solid var(--rule);
+      padding-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* ================================================================
+       LETTERS & CORRESPONDENCE
+       ================================================================ */
+    .letters {
+      padding-right: 24px;
+      border-right: 1px solid var(--rule-light);
+    }
+
+    .letters__super {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--ink-mid);
+      margin-bottom: 4px;
+    }
+
+    .letters__title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 20px;
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--rule);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .letter { margin-bottom: 18px; }
+
+    .letter__from {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-mid);
+      margin-bottom: 4px;
+    }
+
+    .letter__body {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .letter--question .letter__body { font-style: italic; }
+
+    /* ================================================================
+       DISPATCH BOARD
+       ================================================================ */
+    .dispatch-board { padding-left: 24px; }
+
+    .dispatch-board__title {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .dispatch-card {
+      border: 1px solid var(--rule-light);
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .dispatch-card__label {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .dispatch-card__label--wanted   { color: var(--red); }
+    .dispatch-card__label--notice   { color: var(--blue); }
+    .dispatch-card__label--review   { color: var(--amber); }
+    .dispatch-card__label--recovery { color: var(--green); }
+    .dispatch-card__label--merge    { color: var(--red); }
+
+    .dispatch-card__body {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* ================================================================
+       COLOPHON (footer)
+       ================================================================ */
+    .colophon {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-sans);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-light);
+      border-top: 3px solid var(--rule);
+      padding-top: 10px;
+    }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 800px) {
+      .broadsheet { padding: 16px 20px 32px; }
+      .masthead__meta { font-size: 8px; letter-spacing: 1px; }
+
+      .front-page { grid-template-columns: 1fr; }
+      .lead {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--rule-light);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .sidebar { padding-left: 0; }
+
+      .stories-row { grid-template-columns: 1fr; gap: 20px; }
+      .story {
+        padding: 0;
+        border-left: none;
+        border-bottom: 1px solid var(--rule-light);
+        padding-bottom: 20px;
+      }
+      .story:last-child { border-bottom: none; padding-bottom: 0; }
+
+      .lower-fold { grid-template-columns: 1fr; }
+      .letters {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--rule-light);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .dispatch-board { padding-left: 0; }
+
+      .column-text { column-count: 1; }
+      .inset-box { float: none; width: 100%; margin: 0 0 16px 0; }
+
+      .colophon { flex-direction: column; gap: 4px; text-align: center; }
+    }
+
+    /* ================================================================
+       PRINT
+       ================================================================ */
+    @media print {
+      body { background: #fff; color: #000; }
+      .broadsheet { max-width: 100%; padding: 0; }
+      .ticker { background: #eee; color: #333; border: 1px solid #ccc; }
+      .submit-section { display: none; }
+      .badge { border: 1px solid #999; background: #eee; color: #333; }
+    }
+  </style>
+</head>
+<body>
+  <div class="broadsheet">
+
+    <!-- ===== MASTHEAD ===== -->
+    <header class="masthead">
+      <div class="masthead__meta">
+        <span>VOL. XLII &middot; NO. 118</span>
+        <span>FRIDAY, MARCH 21, 2026</span>
+        <span>EVENING EDITION &middot; 4 SERVICES ACTIVE</span>
+      </div>
+      <h1 class="masthead__title">The Engineering Record</h1>
+      <p class="masthead__tagline">"All the deployments fit to ship" &mdash; Est. 2024 &mdash; Acme Platform</p>
+    </header>
+
+    <!-- ===== TICKER ===== -->
+    <div class="ticker">
+      <div class="ticker__track">
+        <span class="ticker__item">API GATEWAY MIGRATION: FINAL PHASE UNDERWAY, 47 ROUTES CONSOLIDATED</span>
+        <span class="ticker__sep">&#9670;</span>
+        <span class="ticker__item">STAGING ENVIRONMENT HEALTH CHECK PASSED, ALL 12 ENDPOINTS RESPONDING</span>
+        <span class="ticker__sep">&#9670;</span>
+        <span class="ticker__item">2 PENDING CODE REVIEWS ON AUTH-SERVICE REQUIRE ATTENTION BEFORE MONDAY</span>
+        <span class="ticker__sep">&#9670;</span>
+        <!-- duplicate for seamless loop -->
+        <span class="ticker__item">API GATEWAY MIGRATION: FINAL PHASE UNDERWAY, 47 ROUTES CONSOLIDATED</span>
+        <span class="ticker__sep">&#9670;</span>
+        <span class="ticker__item">STAGING ENVIRONMENT HEALTH CHECK PASSED, ALL 12 ENDPOINTS RESPONDING</span>
+        <span class="ticker__sep">&#9670;</span>
+        <span class="ticker__item">2 PENDING CODE REVIEWS ON AUTH-SERVICE REQUIRE ATTENTION BEFORE MONDAY</span>
+        <span class="ticker__sep">&#9670;</span>
+      </div>
+    </div>
+
+    <!-- ===== FRONT PAGE ===== -->
+    <main class="front-page">
+
+      <!-- LEAD STORY -->
+      <article class="lead">
+        <div class="category">ACTIVE DEPLOYMENT</div>
+        <span class="badge badge--progress">IN PROGRESS</span>
+        <h2 class="lead__headline">API GATEWAY MIGRATION ENTERS FINAL PHASE</h2>
+        <p class="lead__deck">Engineering Team Dispatched to Complete Route Consolidation; Legacy Proxy Retirement Confirmed at 78% Completion</p>
+        <p class="byline">BY PLATFORM ENGINEERING &ensp;|&ensp; 16:42 UTC &ensp;|&ensp; DEPLOY #D-7829</p>
+
+        <div class="lead__body">
+          <div class="inset-box">
+            <div class="inset-box__title">MIGRATION PROGRESS</div>
+            <div class="progress-bar">
+              <div class="progress-bar__fill" style="width: 78%"></div>
+            </div>
+            <div class="progress-bar__label">
+              <span>0%</span>
+              <span>78% COMPLETE</span>
+              <span>100%</span>
+            </div>
+            <div class="inset-box__detail">
+              The agent completed its initial structural pass at 14:05,
+              confirming that the <code>@acme/gateway</code> package's
+              <code>RouteTable</code> type had been extended with the requisite
+              path-prefix field. No type errors were reported
+              following <code>tsc</code> verification.
+            </div>
+          </div>
+
+          <p class="drop-cap">The platform engineering team formally dispatched an executor agent at 13:06 UTC Friday to the <em>feat/api-gateway-v2</em> branch, tasked with completing the final phase of the API gateway migration. The assignment, originating from a plan authored during Wednesday's architecture review session, calls for consolidation of forty-seven legacy proxy routes into the new unified gateway across three service packages.</p>
+
+          <blockquote class="pull-quote">"The route consolidation strategy aligns with our zero-downtime deployment model. Canary rollout on unit death is straightforward; the edge case is connection draining."</blockquote>
+
+          <div class="column-text">
+            <p>Remaining work centers on the read-through logic in <code>ProxyRouter.ts</code> and integration tests. The executor has flagged a potential ambiguity in the route matching schema when multiple services share a path prefix destination within the same gateway tier. An architect consultation has been requested but has not yet produced a directive.</p>
+            <p>Platform observers expect the migration to conclude before 17:00 UTC, pending resolution of the path-prefix collision question. A subsequent canary deployment pass is scheduled immediately upon completion.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+
+        <div class="sidebar__widget">
+          <div class="widget__label">SYSTEM STATUS</div>
+          <div class="widget__body">
+            &#9728; Clear. All services nominal. Gateway responding in &lt;35 ms. Database healthy. No stale connections detected.
+          </div>
+        </div>
+
+        <div class="sidebar__widget">
+          <div class="widget__label">ACTIVE SERVICES</div>
+          <table class="agents-table">
+            <tr>
+              <td><span class="dot dot--active"></span>Gateway</td>
+              <td>feat/api-v2 &middot; 78%</td>
+            </tr>
+            <tr>
+              <td><span class="dot dot--busy"></span>Auth</td>
+              <td>review &middot; hr 2</td>
+            </tr>
+            <tr>
+              <td><span class="dot dot--active"></span>Cache</td>
+              <td>stable &middot; v2.4.1</td>
+            </tr>
+            <tr>
+              <td><span class="dot dot--idle"></span>Search</td>
+              <td>awaiting deploy</td>
+            </tr>
+          </table>
+        </div>
+
+        <article class="sidebar__article">
+          <div class="category">CODE REVIEW</div>
+          <span class="badge badge--review">IN REVIEW</span>
+          <h3 class="sidebar__headline">Auth Middleware Review Enters Second Hour</h3>
+          <p class="byline">BY REVIEWER AGENT &ensp;|&ensp; 13:02 UTC</p>
+          <p class="sidebar__body">A reviewer agent assigned to the <em>feat/auth-middleware</em> branch has now spent over two hours examining fourteen files modified during Tuesday's sprint. Fourteen annotations have been committed to the plan record; three remain open and require author response before the reviewer can issue a final clearance recommendation.</p>
+        </article>
+
+        <article class="sidebar__article">
+          <div class="category">STAGING QUEUE</div>
+          <span class="badge badge--queued">QUEUED</span>
+          <h3 class="sidebar__headline">Cache Layer Deployment Awaits Staging Slot</h3>
+          <p class="byline">BY DEPLOY GATE &ensp;|&ensp; 11:47 UTC</p>
+          <p class="sidebar__body">The <em>feat/cache-layer</em> branch has been in the staging queue since 11:47 UTC. All three CI checks are passing. The branch is awaiting a human approval signal before the deploy gate proceeds with the canary rollout.</p>
+        </article>
+
+      </aside>
+    </main>
+
+    <!-- ===== SECONDARY STORIES ===== -->
+    <section class="stories-row">
+
+      <article class="story">
+        <div class="category">SECURITY</div>
+        <span class="badge badge--response">NEEDS RESPONSE</span>
+        <h3 class="story__headline">Token Rotation Policy Updated; Three Concerns Remain Unresolved</h3>
+        <p class="byline">BY SECURITY TEAM &ensp;|&ensp; 12:33 UTC</p>
+        <p class="story__body">The revised token rotation policy carries three unresolved reviewer annotations as of midday Friday. The remarks concern token expiry strategy, middleware ordering relative to CORS, and a missing test case for refresh token revocation. The original author has not yet responded to any of the three threads.</p>
+      </article>
+
+      <article class="story">
+        <div class="category">INFRASTRUCTURE</div>
+        <span class="badge badge--nominal">NOMINAL</span>
+        <h3 class="story__headline">Container Registry Migration Completed; Four Dormant Images Archived</h3>
+        <p class="byline">BY INFRA MONITOR &ensp;|&ensp; 09:15 UTC</p>
+        <p class="story__body">Friday morning's registry migration confirmed four of five container images successfully transferred. The fifth, <code>search-indexer-v2</code>, has seen no pull activity since 23:44 Wednesday. Its associated service is suspended but recoverable. Infra has logged an archival advisory and will surface a recovery prompt if needed.</p>
+      </article>
+
+      <article class="story">
+        <div class="category">DOCUMENTATION</div>
+        <span class="badge badge--advisory">ADVISORY</span>
+        <h3 class="story__headline">API Reference Pages Flagged for Refresh Before Next Release</h3>
+        <p class="byline">BY DOCS MONITOR &ensp;|&ensp; 08:50 UTC</p>
+        <p class="story__body">Automated staleness detection has flagged three API reference pages &mdash; <code>/endpoints/gateway</code>, <code>/schemas/auth-token</code>, and <code>/guides/rate-limiting</code> &mdash; as potentially out of date following recent merges. A documentation refresh run is recommended before the v3.9 release tag is cut tomorrow.</p>
+      </article>
+
+    </section>
+
+    <!-- ===== LOWER FOLD ===== -->
+    <section class="lower-fold">
+
+      <!-- LETTERS & CORRESPONDENCE -->
+      <div class="letters">
+        <div class="letters__super">LETTERS &amp; CORRESPONDENCE</div>
+        <h3 class="letters__title">EDITOR'S DESK &mdash; DEPLOYMENT LOG</h3>
+
+        <div class="letter letter--question">
+          <div class="letter__from">TO THE EDITOR &mdash; 13:01 UTC:</div>
+          <p class="letter__body">"The gateway migration plan was drafted three days ago. Is the executor making reasonable progress, or should I be concerned about the timeline?"</p>
+        </div>
+
+        <div class="letter">
+          <div class="letter__from">FROM THE DESK OF ENGINEERING &mdash; 13:02 UTC:</div>
+          <p class="letter__body">The migration is proceeding within expected bounds. The executor completed its structural pass on schedule and has not raised any blockers. The one open question &mdash; path-prefix collisions when multiple services share a gateway tier &mdash; is an edge case that won't affect the happy path. I'd suggest waiting until 17:00 UTC before intervening. If you'd prefer an earlier checkpoint, I can instruct the executor to surface an interim summary at 15:30.</p>
+        </div>
+
+        <div class="letter letter--question">
+          <div class="letter__from">TO THE EDITOR &mdash; 13:05 UTC:</div>
+          <p class="letter__body">"Yes, please arrange the 15:30 checkpoint. Also &mdash; the auth reviewer has been at it two hours. Is that normal?"</p>
+        </div>
+
+        <div class="letter">
+          <div class="letter__from">FROM THE DESK OF ENGINEERING &mdash; 13:06 UTC:</div>
+          <p class="letter__body">Checkpoint scheduled for 15:30 UTC. Confirmed. Regarding the auth review: two hours is on the longer end but not unusual for a fourteen-file change touching security-critical middleware. The reviewer has been thorough &mdash; fourteen annotations is a high-signal pass, not a stalled one. The three unresolved threads are the author's responsibility now. I'd recommend nudging the original author to respond before end of day.</p>
+        </div>
+
+        <div class="letter letter--question">
+          <div class="letter__from">TO THE EDITOR &mdash; 14:10 UTC:</div>
+          <p class="letter__body">"Understood. Can you summarize what's in the staging queue right now?"</p>
+        </div>
+
+        <div class="letter">
+          <div class="letter__from">FROM THE DESK OF ENGINEERING &mdash; 14:11 UTC:</div>
+          <p class="letter__body">One branch in queue: <em>feat/cache-layer</em>. It has been waiting since 11:47 UTC. All CI checks are green. The deploy is gated on your explicit approval &mdash; the system will not proceed automatically on this one given it touches the caching subsystem. A single approval signal is all that's needed. Shall I proceed, or would you like to review the diff summary first?</p>
+        </div>
+      </div>
+
+      <!-- DISPATCH BOARD -->
+      <aside class="dispatch-board">
+        <h3 class="dispatch-board__title">&#9670; DISPATCH BOARD &#9670;</h3>
+
+        <div class="dispatch-card">
+          <div class="dispatch-card__label dispatch-card__label--wanted">WANTED &mdash; ENGINEER</div>
+          <p class="dispatch-card__body"><strong>SEEKING</strong> experienced backend engineer for gateway-v2 canary deployment. Structural pass complete; route consolidation and integration tests remain. Priority: <strong>HIGH</strong>. Reward: merged branch. Apply within &mdash; architect consult in progress.</p>
+        </div>
+
+        <div class="dispatch-card">
+          <div class="dispatch-card__label dispatch-card__label--notice">NOTICE &mdash; DOCUMENTATION</div>
+          <p class="dispatch-card__body"><strong>ADVISORY:</strong> Three API reference pages flagged stale following recent merges. Refresh recommended before sprint release. Run <code>docs:refresh --scope=gateway</code> to remediate. Severity: <strong>LOW</strong>.</p>
+        </div>
+
+        <div class="dispatch-card">
+          <div class="dispatch-card__label dispatch-card__label--review">FOR REVIEW &mdash; ANNOTATIONS</div>
+          <p class="dispatch-card__body"><strong>3 OPEN ANNOTATIONS</strong> on <em>auth-middleware</em> plan await author response. Subjects: token expiry, middleware ordering, missing test case. Review window closes end-of-day. Respond or risk blocking the merge.</p>
+        </div>
+
+        <div class="dispatch-card">
+          <div class="dispatch-card__label dispatch-card__label--recovery">RECOVERY &mdash; DORMANT SERVICE</div>
+          <p class="dispatch-card__body"><strong>DORMANT:</strong> <code>search-indexer-v2</code> container suspended since Wednesday 23:44. Last known state recoverable. Context preserved. Issue recovery command to resume.</p>
+        </div>
+
+        <div class="dispatch-card">
+          <div class="dispatch-card__label dispatch-card__label--merge">STAGING QUEUE &mdash; APPROVAL NEEDED</div>
+          <p class="dispatch-card__body"><strong>AWAITING HUMAN SIGNAL:</strong> <em>feat/cache-layer</em> ready to deploy. All checks passing. Caching subsystem change. Requires explicit approval. Reply "APPROVE DEPLOY" to proceed.</p>
+        </div>
+      </aside>
+
+    </section>
+
+    <!-- ===== COLOPHON ===== -->
+    <footer class="colophon">
+      <span>THE ENGINEERING RECORD &middot; Friday, March 21, 2026</span>
+      <span>Gateway&middot;G1 &ensp;|&ensp; Auth&middot;A2 &ensp;|&ensp; Cache&middot;C3 &ensp;|&ensp; Search&middot;S4 &middot; 4 Sessions Active</span>
+      <span>Platform v3.8 &middot; Acme Corp</span>
+    </footer>
+
+  </div>
+</body>
+</html>

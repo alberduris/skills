@@ -1,0 +1,9 @@
+{
+  "name": "x-twitter",
+  "version": "1.7.0",
+  "description": "33-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
+  "author": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  }
+}

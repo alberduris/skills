@@ -4,7 +4,7 @@ description: Generate self-contained HTML broadsheet newspapers to explain any s
 license: MIT
 metadata:
   author: alberduris
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 This skill generates single-file HTML pages that present any subject worth explaining as broadsheet newspaper editions. Every page follows ONE fixed aesthetic — the broadsheet — so variation comes from CONTENT (what is being reported, which sections are relevant, what the edition covers), not from visual style or chromatic direction. Read ./templates/broadsheet.html before generating any page; it is the canonical reference for structure, CSS class vocabulary, typographic stack, and palette.

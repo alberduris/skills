@@ -1,0 +1,9 @@
+{
+  "name": "beehiiv",
+  "version": "0.1.0",
+  "description": "Manage your Beehiiv newsletter — list and read posts, create drafts from Markdown/HTML files",
+  "author": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  }
+}

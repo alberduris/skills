@@ -19,22 +19,28 @@ Do NOT release from memory. Create tasks for each step and mark them complete as
 
 ---
 
-[!VERSION-FILES]: Two version files are guaranteed across all skills. Additional version files may exist depending on the skill's internal structure (e.g. package.json, Cargo.toml, setup.py). All that exist MUST match.
+[!SKILL-STRUCTURE]: For `npx skills add` discovery, every skill MUST have this directory layout: a) `plugins/<skill>/.claude-plugin/plugin.json` (name, version, description, author), b) `plugins/<skill>/skills/<skill>/SKILL.md` (frontmatter + directives). Commands, templates, scripts, and references live under `plugins/<skill>/skills/<skill>/`. Without both plugin.json and the nested `skills/<skill>/` path, the installer will NOT find the skill.
+
+[!VERSION-FILES]: Three version files are guaranteed across all skills. Additional version files may exist depending on the skill's internal structure (e.g. package.json, Cargo.toml, setup.py). All that exist MUST match.
 
 ```yaml
 version_files:
   # Always present:
   - file: SKILL.md
-    path: plugins/<skill>/SKILL.md
+    path: plugins/<skill>/skills/<skill>/SKILL.md
     field: frontmatter → version
     read_by: Agent (skill loader)
+  - file: plugin.json
+    path: plugins/<skill>/.claude-plugin/plugin.json
+    field: version
+    read_by: Skill installer (npx skills add)
   - file: marketplace.json
     path: .claude-plugin/marketplace.json
     field: plugins[name=<skill>].version
     read_by: Marketplace registry
   # Skill-specific (check if they exist):
   # Any file that declares a version (package.json, Cargo.toml, pyproject.toml, etc.)
-  # must be kept in sync with the above two.
+  # must be kept in sync with the above.
 ```
 
 [!VERSION-SYNC-RULE]: **If any version files diverge, align them all before releasing.**

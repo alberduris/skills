@@ -29,6 +29,7 @@ import { community } from "./commands/community.js";
 import { searchCommunities } from "./commands/search-communities.js";
 import { searchNews } from "./commands/search-news.js";
 import { news } from "./commands/news.js";
+import { thread } from "./commands/thread.js";
 const commands = {
     me,
     search,
@@ -65,6 +66,7 @@ const commands = {
     "search-communities": searchCommunities,
     "search-news": searchNews,
     news,
+    thread,
 };
 const COMMAND_NAMES = Object.keys(commands).join(", ");
 function pluginDir() {

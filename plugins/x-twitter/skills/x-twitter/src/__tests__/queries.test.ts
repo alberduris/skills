@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { mockClient } from "./helpers/mock-client.js";
 import { _resetMyIdCache } from "../lib/resolve.js";
 import { search } from "../commands/search.js";
+import { thread } from "../commands/thread.js";
 import { count } from "../commands/count.js";
 import { timeline } from "../commands/timeline.js";
 import { mentions } from "../commands/mentions.js";
@@ -94,6 +95,108 @@ describe("Pattern D — query commands", () => {
       const opts = searchRecent.mock.calls[0].arguments[1];
       assert.equal(opts.startTime, "2024-01-01");
       assert.equal(opts.endTime, "2024-12-31");
+    });
+
+    it("hints when recent search returns empty results", async () => {
+      const searchRecent = mock.fn(async () => ({ data: [] }));
+      const client = mockClient({ posts: { searchRecent } });
+
+      const result = (await search(client, ["old stuff"])) as {
+        hint: string;
+        data: unknown[];
+      };
+      assert.ok(result.hint);
+      assert.match(result.hint, /last 7 days/);
+      assert.deepEqual(result.data, []);
+    });
+
+    it("nudges thread command when query contains conversation_id:", async () => {
+      const searchRecent = mock.fn(async () => ({
+        data: [{ text: "reply" }],
+      }));
+      const client = mockClient({ posts: { searchRecent } });
+
+      const result = (await search(client, [
+        "conversation_id:123456 from:user",
+      ])) as { hint: string; data: unknown[] };
+      assert.ok(result.hint);
+      assert.match(result.hint, /thread/);
+      assert.match(result.hint, /123456/);
+    });
+  });
+
+  describe("thread", () => {
+    it("fetches seed tweet, searches conversation, sorts chronologically", async () => {
+      const getById = mock.fn(async () => ({
+        data: { id: "200", text: "seed", conversation_id: "100", created_at: "2024-06-02T00:00:00Z" },
+      }));
+      const searchRecent = mock.fn(async () => ({
+        data: [
+          { id: "300", text: "reply", conversation_id: "100", created_at: "2024-06-03T00:00:00Z" },
+          { id: "100", text: "root", conversation_id: "100", created_at: "2024-06-01T00:00:00Z" },
+          { id: "200", text: "seed", conversation_id: "100", created_at: "2024-06-02T00:00:00Z" },
+        ],
+        meta: {},
+      }));
+      const client = mockClient({ posts: { getById, searchRecent } });
+
+      const result = (await thread(client, ["200"])) as { id: string }[];
+      assert.equal(result.length, 3);
+      assert.equal(result[0].id, "100"); // root first
+      assert.equal(result[1].id, "200"); // seed second
+      assert.equal(result[2].id, "300"); // reply last
+    });
+
+    it("includes root tweet even if not in search results", async () => {
+      const getById = mock.fn(async (id: string) => ({
+        data: id === "200"
+          ? { id: "200", text: "seed", conversation_id: "100", created_at: "2024-06-02T00:00:00Z" }
+          : { id: "100", text: "root", conversation_id: "100", created_at: "2024-06-01T00:00:00Z" },
+      }));
+      const searchRecent = mock.fn(async () => ({
+        data: [
+          { id: "200", text: "seed", conversation_id: "100", created_at: "2024-06-02T00:00:00Z" },
+        ],
+        meta: {},
+      }));
+      const client = mockClient({ posts: { getById, searchRecent } });
+
+      const result = (await thread(client, ["200"])) as { id: string }[];
+      assert.equal(result.length, 2);
+      assert.equal(result[0].id, "100"); // root fetched separately
+      assert.equal(result[1].id, "200");
+    });
+
+    it("uses searchAll with --all", async () => {
+      const getById = mock.fn(async () => ({
+        data: { id: "100", text: "root", conversation_id: "100", created_at: "2024-01-01T00:00:00Z" },
+      }));
+      const searchRecent = mock.fn();
+      const searchAll = mock.fn(async () => ({
+        data: [{ id: "100", text: "root", conversation_id: "100", created_at: "2024-01-01T00:00:00Z" }],
+        meta: {},
+      }));
+      const client = mockClient({ posts: { getById, searchRecent, searchAll } });
+
+      await thread(client, ["100", "--all"]);
+      assert.equal(searchAll.mock.callCount(), 1);
+      assert.equal(searchRecent.mock.callCount(), 0);
+    });
+
+    it("hints when recent search returns only root tweet", async () => {
+      const getById = mock.fn(async () => ({
+        data: { id: "100", text: "root", conversation_id: "100", created_at: "2024-01-01T00:00:00Z" },
+      }));
+      const searchRecent = mock.fn(async () => ({
+        data: [],
+        meta: {},
+      }));
+      const client = mockClient({ posts: { getById, searchRecent } });
+
+      const result = (await thread(client, ["100"])) as { hint: string; data: unknown[] };
+      assert.ok(result.hint);
+      assert.match(result.hint, /7 days/);
+      assert.match(result.hint, /--all/);
     });
   });
 

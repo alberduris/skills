@@ -1,6 +1,6 @@
 # X API
 
-31-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
+36-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
 
 ## Commands
 
@@ -10,6 +10,7 @@
 | `me` | Your account data (profile, metrics, verification) |
 | `search` | Search posts by query (recent or full archive) |
 | `get` | Retrieve post(s) by ID |
+| `thread` | Retrieve a full thread/conversation by any tweet ID |
 | `post` | Create a tweet, reply, or quote tweet |
 | `delete` | Delete a post |
 

@@ -37,10 +37,16 @@ export async function search(
   });
 
   const MIN_RESULTS = 10;
-  let hint: string | undefined;
+  const hints: string[] = [];
   if (flags.maxResults !== undefined && flags.maxResults < MIN_RESULTS) {
-    hint = `Hint: maxResults was raised to ${MIN_RESULTS} (Twitter API minimum). You requested ${flags.maxResults}.`;
+    hints.push(`Hint: maxResults was raised to ${MIN_RESULTS} (Twitter API minimum). You requested ${flags.maxResults}.`);
     flags.maxResults = MIN_RESULTS;
+  }
+
+  // Nudge: conversation_id: in search query → suggest thread command
+  if (/conversation_id:\d+/.test(flags.query)) {
+    const match = flags.query.match(/conversation_id:(\d+)/);
+    hints.push(`Hint: to read a full thread, use the \`thread\` command instead: \`thread ${match?.[1] ?? "<tweet_id>"}\`. It auto-resolves the conversation, paginates, and sorts chronologically.`);
   }
 
   if (flags.sortOrder !== undefined) {
@@ -65,6 +71,12 @@ export async function search(
     : await client.posts.searchRecent(flags.query, options);
 
   const data = flags.raw ? response : (response.data ?? []);
-  if (hint) return { hint, data };
+
+  // Nudge: empty results on recent search → 7-day limitation
+  if (!flags.all && Array.isArray(data) && data.length === 0) {
+    hints.push("Hint: recent search only covers the last 7 days. Use --all (requires X_API_BEARER_TOKEN) to search the full archive.");
+  }
+
+  if (hints.length) return { hint: hints.join(" "), data };
   return data;
 }

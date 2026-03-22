@@ -30,6 +30,7 @@ import { community } from "./commands/community.js";
 import { searchCommunities } from "./commands/search-communities.js";
 import { searchNews } from "./commands/search-news.js";
 import { news } from "./commands/news.js";
+import { thread } from "./commands/thread.js";
 
 type CommandFn = (client: Client, args: string[]) => Promise<unknown>;
 
@@ -69,6 +70,7 @@ const commands: Record<string, CommandFn> = {
   "search-communities": searchCommunities,
   "search-news": searchNews,
   news,
+  thread,
 };
 
 const COMMAND_NAMES = Object.keys(commands).join(", ");

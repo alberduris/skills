@@ -2,6 +2,13 @@ import type { Client } from "@xdevplatform/xdk";
 import { parseArgs, RAW } from "../lib/args.js";
 import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
 
+function articleHint(tweet: Record<string, unknown>): string | undefined {
+  const article = tweet.article as Record<string, unknown> | undefined;
+  if (!article) return undefined;
+  if (article.plainText) return undefined;
+  return "Hint: this tweet is an article (long-form post). The full content is in `article.plainText` but it was not returned because `article` is missing from --fields. Re-fetch with default fields or add `article` to --fields.";
+}
+
 export async function get(
   client: Client,
   args: string[],
@@ -29,9 +36,13 @@ export async function get(
 
   if (ids.length === 1) {
     const response = await client.posts.getById(ids[0], options);
-    return flags.raw ? response : response.data;
+    const data = flags.raw ? response : response.data;
+    const hint = !flags.raw && data ? articleHint(data as Record<string, unknown>) : undefined;
+    if (hint) return { hint, data };
+    return data;
   }
 
   const response = await client.posts.getByIds(ids, options);
-  return flags.raw ? response : (response.data ?? []);
+  const data = flags.raw ? response : (response.data ?? []);
+  return data;
 }

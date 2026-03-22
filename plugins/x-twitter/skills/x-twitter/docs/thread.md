@@ -4,6 +4,6 @@ Retrieves a full thread (conversation) given any tweet ID from within it. Automa
 
 [!FLAGS] a) no flags — returns the full thread using recent search (last 7 days). b) `--all` — use full archive search instead of recent (requires `X_API_BEARER_TOKEN`). Use this for threads older than 7 days. c) `--raw` — output wraps into `{ data: [...] }` envelope.
 
-[!OUTPUT-SHAPE] Default produces an array of tweet objects sorted oldest-first. Each tweet includes default fields (text, author_id, created_at, conversation_id, public_metrics, referenced_tweets, in_reply_to_user_id) with expanded author (name, username). If recent search returned very few results, a `hint` field is included suggesting `--all`.
+[!OUTPUT-SHAPE] Default produces an array of tweet objects sorted oldest-first. Each tweet includes default fields (text, author_id, created_at, conversation_id, public_metrics, article, referenced_tweets, in_reply_to_user_id) with expanded author (name, username). Article tweets (long-form posts) will include `article.plainText` with the full content. If recent search returned very few results, a `hint` field is included suggesting `--all`.
 
 [!IMPORTANT] This is the correct way to read a thread. Do NOT use `search "conversation_id:..."` manually — the `thread` command handles everything automatically (resolution, pagination, root tweet inclusion, chronological sorting).

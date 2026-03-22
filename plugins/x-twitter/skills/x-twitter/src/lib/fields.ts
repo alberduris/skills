@@ -1,4 +1,5 @@
 export const TWEET_FIELDS = [
+  "article",
   "author_id",
   "created_at",
   "conversation_id",

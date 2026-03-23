@@ -1,0 +1,9 @@
+{
+  "name": "self-message",
+  "version": "1.0.0",
+  "description": "Give Claude Code agents the ability to send themselves continuation messages mid-session — metacognition, not repetition",
+  "author": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  }
+}

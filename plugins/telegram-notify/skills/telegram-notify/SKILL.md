@@ -1,16 +1,16 @@
 ---
 name: telegram-notify
 description: Send notifications via Telegram. Use when the user asks to notify, alert, message, or ping — or when a long-running task completes and the user previously asked to be notified.
-version: "0.1.1"
+version: "0.1.2"
 allowed-tools: Bash(bash *)
 ---
 
-Telegram Bot API skill. All commands go through `bash <base_directory>/bin/telegram <command>`.
+Telegram Bot API skill. All commands go through `bash <base_directory>/telegram.sh <command>`.
 
 [!COMMANDS]
 
-a) `bash <base_directory>/bin/telegram send <text>` — send a message to the configured chat.
-b) `bash <base_directory>/bin/telegram me` — get bot info; useful for debugging credential issues.
+a) `bash <base_directory>/telegram.sh send <text>` — send a message to the configured chat.
+b) `bash <base_directory>/telegram.sh me` — get bot info; useful for debugging credential issues.
 
 [!CREDENTIALS] Requires `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as environment variables (or in `.env` / `.env.local`). If missing, tell the user to check the README for setup instructions.
 

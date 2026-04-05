@@ -1,6 +1,6 @@
 {
   "name": "telegram-notify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Send Telegram messages from Claude Code via a Bot API — zero dependencies, just curl",
   "author": {
     "name": "alberduris",

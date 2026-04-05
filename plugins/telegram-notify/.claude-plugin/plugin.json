@@ -1,0 +1,9 @@
+{
+  "name": "telegram-notify",
+  "version": "0.1.0",
+  "description": "Send Telegram messages from Claude Code via a Bot API — zero dependencies, just curl",
+  "author": {
+    "name": "alberduris",
+    "email": "alberduris@summiz.ai"
+  }
+}

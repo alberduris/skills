@@ -99,7 +99,7 @@
     {
       "name": "telegram-notify",
       "description": "Send Telegram notifications from Claude Code via Bot API — zero dependencies, just curl",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "alberduris",
         "email": "alberduris@summiz.ai"

@@ -1,7 +1,7 @@
 ---
 name: telegram-notify
 description: Send notifications via Telegram. Use when the user asks to notify, alert, message, or ping — or when a long-running task completes and the user previously asked to be notified.
-version: "0.1.0"
+version: "0.1.1"
 allowed-tools: Bash(bash *)
 ---
 

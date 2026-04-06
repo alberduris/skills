@@ -98,8 +98,8 @@
     },
     {
       "name": "telegram-notify",
-      "description": "Send Telegram notifications from Claude Code via Bot API — zero dependencies, just curl",
-      "version": "0.1.2",
+      "description": "Send and schedule Telegram messages from Claude Code via Bot API — instant or delayed delivery via Cloudflare Worker",
+      "version": "0.2.0",
       "author": {
         "name": "alberduris",
         "email": "alberduris@summiz.ai"

@@ -1,0 +1,13 @@
+name = "telegram-scheduler"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# If you have multiple Cloudflare accounts, uncomment and set your account ID:
+# account_id = "your-account-id"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[[kv_namespaces]]
+binding = "QUEUE"
+id = "your-kv-namespace-id"  # Run: wrangler kv namespace create "telegram-scheduler-queue"

@@ -1,3 +1,9 @@
+---
+name: slack-reminders
+description: Schedule Slack reminders. Use when the user asks to schedule, remind, or send a Slack message at a specific time.
+allowed-tools: Bash(bash *)
+---
+
 [!EXECUTE]: Run the script with MESSAGE and DATETIME. The script lives at `scripts/schedule-reminder.sh` relative to this skill's directory.
 
 ```bash

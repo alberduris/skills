@@ -1,7 +1,7 @@
 # Claude Code Marketplace
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Plugins](https://img.shields.io/badge/plugins-3-blue.svg)](https://github.com/alberduris/claude-code-marketplace)
+[![Plugins](https://img.shields.io/badge/plugins-8-blue.svg)](https://github.com/alberduris/claude-code-marketplace)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-orange.svg)](https://www.claude.com/product/claude-code)
 <img src="assets/claude-icon.png" alt="Claude" height="18" style="margin-left: 6px; vertical-align: middle;">
 
@@ -49,9 +49,14 @@ claude plugins install alberduris/claude-code-marketplace second-opinion
 
 | Plugin | Description |
 |--------|-------------|
-| [second-opinion](plugins/second-opinion/) | Consult GPT-5 Pro for alternative perspectives on technical decisions |
-| [langfuse-traces](plugins/langfuse-traces/) | Query Langfuse traces for debugging and observability |
-| [slack-reminders](plugins/slack-reminders/) | Schedule future reminders via Slack notifications |
+| [second-opinion](plugins/second-opinion/) | Consult GPT-5 Pro for alternative perspectives; supports context injection, web search, and configurable models |
+| [langfuse-traces](plugins/langfuse-traces/) | Query Langfuse traces for debugging LLM calls, analyzing token usage, and investigating workflow executions |
+| [slack-reminders](plugins/slack-reminders/) | Schedule future reminders via Slack notifications at a specific date/time |
+| [x-twitter](plugins/x-twitter/) | 36-command skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal |
+| [beehiiv](plugins/beehiiv/) | Manage your Beehiiv newsletter — list and read posts, create drafts from Markdown/HTML files |
+| [newspaper-explainer](plugins/newspaper-explainer/) | Generate self-contained HTML broadsheet newspapers to explain any subject worth reporting |
+| [self-message](plugins/self-message/) | Give Claude Code agents the ability to send themselves continuation messages mid-session — metacognition, not repetition |
+| [telegram-notify](plugins/telegram-notify/) | Send and schedule Telegram messages from Claude Code via Bot API — instant or delayed delivery via Cloudflare Worker |
 
 See each plugin's README for setup and usage instructions.
 

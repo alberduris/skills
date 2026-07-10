@@ -54,7 +54,7 @@
     },
     {
       "name": "x-twitter",
-      "description": "36-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
+      "description": "36-command Claude Code skill for X/Twitter - post, search, engage, moderate, discover communities, all from your terminal",
       "version": "1.8.0",
       "author": {
         "name": "alberduris",
@@ -65,7 +65,7 @@
     },
     {
       "name": "beehiiv",
-      "description": "Manage your Beehiiv newsletter — list and read posts, create drafts from Markdown/HTML files",
+      "description": "Manage your Beehiiv newsletter - list and read posts, create drafts from Markdown/HTML files",
       "version": "0.1.0",
       "author": {
         "name": "alberduris",
@@ -87,7 +87,7 @@
     },
     {
       "name": "self-message",
-      "description": "Give Claude Code agents the ability to send themselves continuation messages mid-session — metacognition, not repetition",
+      "description": "Give Claude Code agents the ability to send themselves continuation messages mid-session - metacognition, not repetition",
       "version": "1.0.0",
       "author": {
         "name": "alberduris",
@@ -98,13 +98,24 @@
     },
     {
       "name": "telegram-notify",
-      "description": "Send and schedule Telegram messages from Claude Code via Bot API — instant or delayed delivery via Cloudflare Worker",
+      "description": "Send and schedule Telegram messages from Claude Code via Bot API - instant or delayed delivery via Cloudflare Worker",
       "version": "0.2.0",
       "author": {
         "name": "alberduris",
         "email": "alberduris@summiz.ai"
       },
       "source": "./plugins/telegram-notify",
+      "category": "productivity"
+    },
+    {
+      "name": "xquik-social-research",
+      "description": "Research bounded public X data through documented Xquik REST or MCP routes",
+      "version": "1.0.0",
+      "author": {
+        "name": "Xquik",
+        "url": "https://docs.xquik.com"
+      },
+      "source": "./plugins/xquik-social-research",
       "category": "productivity"
     }
   ]

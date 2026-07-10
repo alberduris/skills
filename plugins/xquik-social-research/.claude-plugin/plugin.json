@@ -1,0 +1,9 @@
+{
+  "name": "xquik-social-research",
+  "version": "1.0.0",
+  "description": "Research bounded public X data through documented Xquik REST or MCP routes",
+  "author": {
+    "name": "Xquik",
+    "url": "https://docs.xquik.com"
+  }
+}

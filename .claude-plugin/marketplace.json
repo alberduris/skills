@@ -42,20 +42,9 @@
       "category": "productivity"
     },
     {
-      "name": "taxonomy-filesystem",
-      "description": "Local-first, agent-first Taxonomy-as-filesystem for documentation. One-time setup skill that scaffolds docs/ ontology with .purpose files.",
-      "version": "1.0.0",
-      "author": {
-        "name": "alberduris",
-        "email": "alberduris@gmail.com"
-      },
-      "source": "./plugins/taxonomy-filesystem",
-      "category": "documentation"
-    },
-    {
       "name": "x-twitter",
-      "description": "36-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
-      "version": "1.8.0",
+      "description": "37-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
+      "version": "1.9.0",
       "author": {
         "name": "alberduris",
         "email": "alberduris@summiz.ai"

@@ -1,6 +1,6 @@
 # X API
 
-36-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
+37-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
 
 ## Commands
 
@@ -69,6 +69,7 @@
 |---------|-------------|
 | `search-users` | Search users by query |
 | `trending` | Trending topics (worldwide or personalized) |
+| `xquik-search` | Read-only public post search through Xquik |
 
 ## Setup
 
@@ -93,6 +94,19 @@ X_API_BEARER_TOKEN=your_bearer_token
 ```
 
 Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. When present, the client auto-selects Bearer auth for read endpoints that require it.
+
+### Optional: Xquik Search
+
+The read-only `xquik-search` command uses an Xquik API key instead of account
+credentials:
+
+```
+XQUIK_API_KEY=your-api-key
+```
+
+`XQUIK_BASE_URL` is optional and defaults to `https://xquik.com`. See
+[`docs/xquik-search.md`](skills/x-twitter/docs/xquik-search.md) for flags and
+examples.
 
 ## Requirements
 

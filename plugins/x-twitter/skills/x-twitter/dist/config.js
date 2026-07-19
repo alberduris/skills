@@ -34,15 +34,18 @@ function resolveVar(key, sources) {
     }
     return process.env[key];
 }
-export function loadConfig(pluginDir) {
+function loadSources(pluginDir) {
     const cwd = process.cwd();
-    // cwd first (project-level), then plugin dir — matches bash plugin pattern
-    const sources = [
+    return [
         parseEnvFile(resolve(cwd, ".env.local")),
         parseEnvFile(resolve(cwd, ".env")),
         parseEnvFile(resolve(pluginDir, ".env.local")),
         parseEnvFile(resolve(pluginDir, ".env")),
     ];
+}
+export function loadConfig(pluginDir) {
+    // cwd first (project-level), then plugin dir — matches bash plugin pattern
+    const sources = loadSources(pluginDir);
     const missing = [];
     const get = (key) => {
         const value = resolveVar(key, sources);
@@ -66,4 +69,14 @@ export function loadConfig(pluginDir) {
         config.bearerToken = bearerToken;
     }
     return config;
+}
+export function loadXquikConfig(pluginDir) {
+    const sources = loadSources(pluginDir);
+    const apiKey = resolveVar("XQUIK_API_KEY", sources);
+    if (!apiKey) {
+        throw new Error("Missing required environment variable: XQUIK_API_KEY\n" +
+            "Set it in .env.local, .env, or as an environment variable.");
+    }
+    const baseUrl = resolveVar("XQUIK_BASE_URL", sources) ?? "https://xquik.com";
+    return { apiKey, baseUrl: baseUrl.replace(/\/+$/, "") };
 }

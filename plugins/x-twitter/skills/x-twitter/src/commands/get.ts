@@ -26,7 +26,13 @@ export async function get(
     },
   );
 
-  const ids = flags.idsRaw.split(",").map((id) => id.trim());
+  const ids = flags.idsRaw
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+  if (ids.length === 0) {
+    throw new Error("At least one non-empty post ID is required.");
+  }
 
   const options = {
     tweetFields: flags.tweetFields,

@@ -1,10 +1,10 @@
 ---
 name: x-twitter
-description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 36-command skill for Twitter/X automation.
+description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 37-command skill for Twitter/X automation.
 license: MIT
 metadata:
   author: alberduris
-  version: "1.8.0"
+  version: "1.9.0"
   tags: x, twitter, x-twitter, twitter-api, social-media, tweets, automation
 allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(ls *)
 ---
@@ -71,4 +71,7 @@ News:
 ai) `search-news` — search trending news stories by query. Returns headlines, summaries, categories, keywords, and related posts. @docs/search-news.md.
 aj) `news` — look up a news story by ID. @docs/news.md.
 
-[!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the plugin directory, d) `.env` in the plugin directory, e) environment variables. Obtain them from the X Developer Console (Apps > Keys and tokens). One OPTIONAL variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token). When set, the client auto-selects Bearer auth for read endpoints that require it (e.g. full archive search with `--all`). Generate it from the X Developer Console (Apps > Keys and tokens > Bearer Token).
+Alternate read provider:
+ak) `xquik-search` — search public posts through Xquik without account credentials. @docs/xquik-search.md.
+
+[!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED for the standard commands: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the plugin directory, d) `.env` in the plugin directory, e) environment variables. Obtain them from the X Developer Console (Apps > Keys and tokens). One OPTIONAL variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token). When set, the client auto-selects Bearer auth for read endpoints that require it (e.g. full archive search with `--all`). Generate it from the X Developer Console (Apps > Keys and tokens > Bearer Token). The read-only `xquik-search` command instead requires only `XQUIK_API_KEY`; `XQUIK_BASE_URL` is optional.

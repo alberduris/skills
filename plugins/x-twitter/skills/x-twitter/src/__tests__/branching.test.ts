@@ -8,7 +8,7 @@ import { get } from "../commands/get.js";
 import { trending } from "../commands/trending.js";
 import { post } from "../commands/post.js";
 
-describe("Pattern E — branching commands", () => {
+describe("Pattern E - branching commands", () => {
   beforeEach(() => {
     _resetMyIdCache();
   });
@@ -140,6 +140,17 @@ describe("Pattern E — branching commands", () => {
       const result = await get(client, ["t1,t2"]);
       assert.deepEqual(result, data);
       assert.deepEqual(getByIds.mock.calls[0].arguments[0], ["t1", "t2"]);
+    });
+
+    it("rejects comma-only IDs before calling the API", async () => {
+      const getByIds = mock.fn();
+      const client = mockClient({ posts: { getByIds } });
+
+      await assert.rejects(
+        get(client, [", ,"]),
+        /At least one non-empty post ID is required/,
+      );
+      assert.equal(getByIds.mock.callCount(), 0);
     });
 
     it("--raw returns full response for single", async () => {

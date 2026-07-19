@@ -1,5 +1,13 @@
 import { parseArgs, RAW } from "../lib/args.js";
 import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
+function articleHint(tweet) {
+    const article = tweet.article;
+    if (!article)
+        return undefined;
+    if (article.plainText)
+        return undefined;
+    return "Hint: this tweet is an article (long-form post). The full content is in `article.plainText` but it was not returned because `article` is missing from --fields. Re-fetch with default fields or add `article` to --fields.";
+}
 export async function get(client, args) {
     // The positional arg is comma-separated IDs; we parse it as a string then split
     const flags = parseArgs(args, {
@@ -10,7 +18,13 @@ export async function get(client, args) {
         },
         defaults: { tweetFields: TWEET_FIELDS },
     });
-    const ids = flags.idsRaw.split(",").map((id) => id.trim());
+    const ids = flags.idsRaw
+        .split(",")
+        .map((id) => id.trim())
+        .filter(Boolean);
+    if (ids.length === 0) {
+        throw new Error("At least one non-empty post ID is required.");
+    }
     const options = {
         tweetFields: flags.tweetFields,
         expansions: TWEET_EXPANSIONS,
@@ -18,8 +32,13 @@ export async function get(client, args) {
     };
     if (ids.length === 1) {
         const response = await client.posts.getById(ids[0], options);
-        return flags.raw ? response : response.data;
+        const data = flags.raw ? response : response.data;
+        const hint = !flags.raw && data ? articleHint(data) : undefined;
+        if (hint)
+            return { hint, data };
+        return data;
     }
     const response = await client.posts.getByIds(ids, options);
-    return flags.raw ? response : (response.data ?? []);
+    const data = flags.raw ? response : (response.data ?? []);
+    return data;
 }

@@ -1,7 +1,7 @@
 import type { Client } from "@xdevplatform/xdk";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-import { loadConfig } from "./config.js";
+import { loadConfig, loadXquikConfig } from "./config.js";
 import { createClient } from "./client.js";
 import { me } from "./commands/me.js";
 import { search } from "./commands/search.js";
@@ -31,8 +31,10 @@ import { searchCommunities } from "./commands/search-communities.js";
 import { searchNews } from "./commands/search-news.js";
 import { news } from "./commands/news.js";
 import { thread } from "./commands/thread.js";
+import { xquikSearch } from "./commands/xquik-search.js";
 
 type CommandFn = (client: Client, args: string[]) => Promise<unknown>;
+type StandaloneCommandFn = (args: string[]) => Promise<unknown>;
 
 const commands: Record<string, CommandFn> = {
   me,
@@ -73,7 +75,14 @@ const commands: Record<string, CommandFn> = {
   thread,
 };
 
-const COMMAND_NAMES = Object.keys(commands).join(", ");
+const standaloneCommands: Record<string, StandaloneCommandFn> = {
+  "xquik-search": async (args) =>
+    xquikSearch(loadXquikConfig(pluginDir()), args),
+};
+
+const COMMAND_NAMES = [...Object.keys(commands), ...Object.keys(standaloneCommands)].join(
+  ", ",
+);
 
 function pluginDir(): string {
   return resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -82,14 +91,15 @@ function pluginDir(): string {
 async function main(): Promise<void> {
   const [command, ...args] = process.argv.slice(2);
 
-  if (!command || !commands[command]) {
+  if (!command || (!commands[command] && !standaloneCommands[command])) {
     console.error(`Usage: x <command> [args]\nCommands: ${COMMAND_NAMES}`);
     process.exit(1);
   }
 
-  const config = loadConfig(pluginDir());
-  const client = createClient(config);
-  const result = await commands[command](client, args);
+  const standaloneCommand = standaloneCommands[command];
+  const result = standaloneCommand
+    ? await standaloneCommand(args)
+    : await commands[command](createClient(loadConfig(pluginDir())), args);
   if (result !== undefined) {
     console.log(JSON.stringify(result, null, 2));
   }

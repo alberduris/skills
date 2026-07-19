@@ -1,7 +1,7 @@
 # Claude Code Marketplace
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Plugins](https://img.shields.io/badge/plugins-3-blue.svg)](https://github.com/alberduris/claude-code-marketplace)
+[![Plugins](https://img.shields.io/badge/plugins-8-blue.svg)](https://github.com/alberduris/claude-code-marketplace)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-orange.svg)](https://www.claude.com/product/claude-code)
 <img src="assets/claude-icon.png" alt="Claude" height="18" style="margin-left: 6px; vertical-align: middle;">
 
@@ -52,6 +52,11 @@ claude plugins install alberduris/claude-code-marketplace second-opinion
 | [second-opinion](plugins/second-opinion/) | Consult GPT-5 Pro for alternative perspectives on technical decisions |
 | [langfuse-traces](plugins/langfuse-traces/) | Query Langfuse traces for debugging and observability |
 | [slack-reminders](plugins/slack-reminders/) | Schedule future reminders via Slack notifications |
+| [x-twitter](plugins/x-twitter/) | Search, post, and manage X/Twitter from the terminal |
+| [beehiiv](plugins/beehiiv/) | Manage Beehiiv posts, publications, templates, and drafts |
+| [newspaper-explainer](plugins/newspaper-explainer/) | Generate self-contained HTML broadsheet explainers |
+| [self-message](plugins/self-message/) | Send continuation messages within an agent session |
+| [telegram-notify](plugins/telegram-notify/) | Send and schedule Telegram notifications |
 
 See each plugin's README for setup and usage instructions.
 

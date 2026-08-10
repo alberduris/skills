@@ -37,7 +37,7 @@ n) `followers` — list a user's followers. @docs/followers.md.
 o) `following` — list accounts a user follows. @docs/followers.md.
 
 Feed:
-p) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Note (2026-02-14): the X API returns heavily skewed results — mostly own tweets — and does not faithfully reproduce the "Following" tab on x.com. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
+p) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Results skew heavily toward the authenticated account's own posts and do not reproduce the "Following" tab of the web client. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
 q) `mentions` — posts that mention you. @docs/mentions.md.
 
 Bookmarks (reads work, WRITES DO NOT — `bookmark`/`unbookmark` require OAuth 2.0 user-context, which no supported credential provides; see @docs/bookmark.md before attempting):

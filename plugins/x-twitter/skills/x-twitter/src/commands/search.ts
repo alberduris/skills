@@ -1,19 +1,24 @@
-import type { Client } from "@xdevplatform/xdk";
+import type { Client, PostsClient } from "@xdevplatform/xdk";
 import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
+import type { TweetField } from "../lib/fields.js";
 import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
 import { resolveEnum } from "../lib/enums.js";
+
+type SortOrder = NonNullable<
+  NonNullable<Parameters<PostsClient["searchRecent"]>[1]>["sortOrder"]
+>;
 
 interface SearchFlags {
   query: string;
   all: boolean;
   maxResults?: number;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
   startTime?: string;
   endTime?: string;
   sinceId?: string;
   untilId?: string;
   nextToken?: string;
-  tweetFields: string[];
+  tweetFields: TweetField[];
   raw: boolean;
 }
 
@@ -50,7 +55,7 @@ export async function search(
   }
 
   if (flags.sortOrder !== undefined) {
-    flags.sortOrder = resolveEnum("sortOrder", flags.sortOrder);
+    flags.sortOrder = resolveEnum<SortOrder>("sortOrder", flags.sortOrder);
   }
 
   const options = {

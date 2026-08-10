@@ -9,5 +9,5 @@ export async function hideReply(
     positional: { key: "tweetId", label: "A tweet ID" },
   });
 
-  return client.posts.hideReply(tweetId, { body: { hidden: true } });
+  return client.posts.hideReply(tweetId, { hidden: true });
 }

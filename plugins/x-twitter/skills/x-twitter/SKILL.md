@@ -1,6 +1,6 @@
 ---
 name: x-twitter
-description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 36-command skill for Twitter/X automation.
+description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 37-command skill for Twitter/X automation.
 license: MIT
 metadata:
   author: alberduris
@@ -40,7 +40,7 @@ Feed:
 p) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Note (2026-02-14): the X API returns heavily skewed results — mostly own tweets — and does not faithfully reproduce the "Following" tab on x.com. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
 q) `mentions` — posts that mention you. @docs/mentions.md.
 
-Bookmarks:
+Bookmarks (ALL THREE NON-FUNCTIONAL — they require OAuth 2.0 user-context, which no supported credential provides; see @docs/bookmark.md before attempting):
 r) `bookmark` — bookmark a post. @docs/bookmark.md.
 s) `unbookmark` — remove a bookmark. @docs/bookmark.md.
 t) `bookmarks` — list your bookmarks. @docs/bookmark.md.
@@ -71,4 +71,7 @@ News:
 ai) `search-news` — search trending news stories by query. Returns headlines, summaries, categories, keywords, and related posts. @docs/search-news.md.
 aj) `news` — look up a news story by ID. @docs/news.md.
 
-[!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the plugin directory, d) `.env` in the plugin directory, e) environment variables. Obtain them from the X Developer Console (Apps > Keys and tokens). One OPTIONAL variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token). When set, the client auto-selects Bearer auth for read endpoints that require it (e.g. full archive search with `--all`). Generate it from the X Developer Console (Apps > Keys and tokens > Bearer Token).
+Account:
+ak) `usage` — posts read this cycle against the project cap. This is a READ QUOTA, not a credit balance: it cannot tell you whether you have money left, and it keeps working normally when credits are depleted. @docs/usage.md.
+
+[!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the plugin directory, d) `.env` in the plugin directory, e) environment variables. Obtain them from the X Developer Console (Apps > Keys and tokens). One CONDITIONALLY REQUIRED variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token), generated from the X Developer Console (Apps > Keys and tokens > Bearer Token). Six commands accept no other auth scheme and fail without it: `count` (ALWAYS, not only with `--all`), `trending` (default worldwide branch; `--personalized` does not need it), `search --all`, `thread --all`, `search-news`, and `usage`. Everything else runs under user-context auth and the Bearer is deliberately NOT attached, because the SDK prefers Bearer on any GET that accepts both schemes, which silently strips user-context fields such as `connection_status` and `receives_your_dm` — no error, no warning, just missing data.

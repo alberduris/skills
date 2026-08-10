@@ -7,6 +7,7 @@ interface PostFlags {
   replyTo?: string;
   quoteTweetId?: string;
   replySettings?: string;
+  paidPartnership: boolean;
 }
 
 export async function post(
@@ -19,6 +20,7 @@ export async function post(
       "--reply-to": { key: "replyTo", type: "string" },
       "--quote": { key: "quoteTweetId", type: "string" },
       "--reply-settings": { key: "replySettings", type: "string" },
+      "--paid-partnership": { key: "paidPartnership", type: "boolean" },
     },
   });
 
@@ -36,6 +38,9 @@ export async function post(
   }
   if (flags.replySettings) {
     body.replySettings = flags.replySettings;
+  }
+  if (flags.paidPartnership) {
+    body.paidPartnership = true;
   }
 
   return client.posts.create(body);

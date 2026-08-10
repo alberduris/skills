@@ -8,7 +8,7 @@ export async function repost(client: Client, args: string[]): Promise<unknown> {
   });
 
   const myId = await resolveMyId(client);
-  return client.users.repostPost(myId, { body: { tweetId } });
+  return client.users.repostPost(myId, { tweetId });
 }
 
 export async function unrepost(client: Client, args: string[]): Promise<unknown> {

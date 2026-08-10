@@ -6,7 +6,7 @@ export async function follow(client, args) {
     });
     const myId = await resolveMyId(client);
     const targetUserId = await resolveUserId(client, target);
-    return client.users.followUser(myId, { body: { targetUserId } });
+    return client.users.followUser(myId, { targetUserId });
 }
 export async function unfollow(client, args) {
     const { target } = parseArgs(args, {

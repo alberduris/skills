@@ -9,7 +9,7 @@ export async function follow(client: Client, args: string[]): Promise<unknown> {
 
   const myId = await resolveMyId(client);
   const targetUserId = await resolveUserId(client, target);
-  return client.users.followUser(myId, { body: { targetUserId } });
+  return client.users.followUser(myId, { targetUserId });
 }
 
 export async function unfollow(

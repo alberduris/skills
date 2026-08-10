@@ -1,7 +1,7 @@
 {
   "name": "x-twitter-skill",
-  "version": "1.8.0",
-  "description": "36-command Claude Code skill for X/Twitter",
+  "version": "1.9.0",
+  "description": "37-command Claude Code skill for X/Twitter",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "test": "node --import tsx --test 'src/__tests__/**/*.test.ts'"
   },
   "dependencies": {
-    "@xdevplatform/xdk": "^0.4.0"
+    "@xdevplatform/xdk": "^0.6.6"
   },
   "devDependencies": {
     "@types/node": "^25.2.0",

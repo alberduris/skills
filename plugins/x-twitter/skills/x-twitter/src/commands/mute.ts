@@ -10,7 +10,7 @@ export async function mute(client: Client, args: string[]): Promise<unknown> {
 
   const myId = await resolveMyId(client);
   const targetUserId = await resolveUserId(client, target);
-  return client.users.muteUser(myId, { body: { targetUserId } });
+  return client.users.muteUser(myId, { targetUserId });
 }
 
 export async function unmute(client: Client, args: string[]): Promise<unknown> {

@@ -5,7 +5,7 @@ export async function repost(client, args) {
         positional: { key: "tweetId", label: "A tweet ID" },
     });
     const myId = await resolveMyId(client);
-    return client.users.repostPost(myId, { body: { tweetId } });
+    return client.users.repostPost(myId, { tweetId });
 }
 export async function unrepost(client, args) {
     const { tweetId } = parseArgs(args, {

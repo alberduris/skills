@@ -25,9 +25,7 @@ describe("Pattern A — simple actions", () => {
       assert.deepEqual(result, { data: { liked: true } });
       assert.equal(likePost.mock.callCount(), 1);
       assert.equal(likePost.mock.calls[0].arguments[0], "me1");
-      assert.deepEqual(likePost.mock.calls[0].arguments[1], {
-        body: { tweetId: "tweet1" },
-      });
+      assert.deepEqual(likePost.mock.calls[0].arguments[1], { tweetId: "tweet1" });
     });
 
     it("throws when tweet ID is missing", async () => {
@@ -70,9 +68,7 @@ describe("Pattern A — simple actions", () => {
       const result = await hideReply(client, ["tweet3"]);
       assert.deepEqual(result, { data: { hidden: true } });
       assert.equal(hideReplyFn.mock.calls[0].arguments[0], "tweet3");
-      assert.deepEqual(hideReplyFn.mock.calls[0].arguments[1], {
-        body: { hidden: true },
-      });
+      assert.deepEqual(hideReplyFn.mock.calls[0].arguments[1], { hidden: true });
     });
   });
 
@@ -85,9 +81,7 @@ describe("Pattern A — simple actions", () => {
       const result = await repost(client, ["tweet1"]);
       assert.deepEqual(result, { data: { retweeted: true } });
       assert.equal(repostPost.mock.calls[0].arguments[0], "me1");
-      assert.deepEqual(repostPost.mock.calls[0].arguments[1], {
-        body: { tweetId: "tweet1" },
-      });
+      assert.deepEqual(repostPost.mock.calls[0].arguments[1], { tweetId: "tweet1" });
     });
   });
 
@@ -160,9 +154,7 @@ describe("Pattern B — action with user resolution", () => {
       const result = await follow(client, ["@someuser"]);
       assert.deepEqual(result, { data: { following: true } });
       assert.equal(followUser.mock.calls[0].arguments[0], "me1");
-      assert.deepEqual(followUser.mock.calls[0].arguments[1], {
-        body: { targetUserId: "target1" },
-      });
+      assert.deepEqual(followUser.mock.calls[0].arguments[1], { targetUserId: "target1" });
     });
 
     it("throws when target is missing", async () => {
@@ -203,9 +195,7 @@ describe("Pattern B — action with user resolution", () => {
       const result = await mute(client, ["@annoying"]);
       assert.deepEqual(result, { data: { muting: true } });
       assert.equal(muteUser.mock.calls[0].arguments[0], "me1");
-      assert.deepEqual(muteUser.mock.calls[0].arguments[1], {
-        body: { targetUserId: "target1" },
-      });
+      assert.deepEqual(muteUser.mock.calls[0].arguments[1], { targetUserId: "target1" });
     });
   });
 

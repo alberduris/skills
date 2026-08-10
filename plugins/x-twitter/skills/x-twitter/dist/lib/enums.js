@@ -16,6 +16,12 @@ const ENUMS = {
         aliases: { rts: "retweets" },
     },
 };
+/**
+ * Narrows a command-line string to the enum a caller expects. The SDK types
+ * several of these parameters as literal unions, so callers pass the union as
+ * `T`; the cast is safe because every path below either matches `valid`, maps
+ * through `aliases` onto a valid value, or throws.
+ */
 export function resolveEnum(param, value) {
     const def = ENUMS[param];
     if (!def)

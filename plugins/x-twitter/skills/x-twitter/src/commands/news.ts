@@ -1,10 +1,11 @@
 import type { Client } from "@xdevplatform/xdk";
 import { parseArgs, RAW } from "../lib/args.js";
+import type { NewsField } from "../lib/fields.js";
 import { NEWS_FIELDS } from "../lib/fields.js";
 
 interface NewsFlags {
   id: string;
-  fields?: string[];
+  fields?: NewsField[];
   raw: boolean;
 }
 

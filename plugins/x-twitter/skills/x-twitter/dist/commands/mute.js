@@ -7,7 +7,7 @@ export async function mute(client, args) {
     });
     const myId = await resolveMyId(client);
     const targetUserId = await resolveUserId(client, target);
-    return client.users.muteUser(myId, { body: { targetUserId } });
+    return client.users.muteUser(myId, { targetUserId });
 }
 export async function unmute(client, args) {
     const { target } = parseArgs(args, {

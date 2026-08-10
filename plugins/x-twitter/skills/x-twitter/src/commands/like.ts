@@ -8,7 +8,7 @@ export async function like(client: Client, args: string[]): Promise<unknown> {
   });
 
   const myId = await resolveMyId(client);
-  return client.users.likePost(myId, { body: { tweetId } });
+  return client.users.likePost(myId, { tweetId });
 }
 
 export async function unlike(client: Client, args: string[]): Promise<unknown> {

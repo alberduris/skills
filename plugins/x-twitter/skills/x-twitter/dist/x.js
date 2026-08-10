@@ -30,6 +30,9 @@ import { searchCommunities } from "./commands/search-communities.js";
 import { searchNews } from "./commands/search-news.js";
 import { news } from "./commands/news.js";
 import { thread } from "./commands/thread.js";
+import { usage } from "./commands/usage.js";
+import { authModeFor, assertCredentials } from "./lib/auth.js";
+import { formatError } from "./lib/errors.js";
 const commands = {
     me,
     search,
@@ -67,6 +70,7 @@ const commands = {
     "search-news": searchNews,
     news,
     thread,
+    usage,
 };
 const COMMAND_NAMES = Object.keys(commands).join(", ");
 function pluginDir() {
@@ -79,7 +83,9 @@ async function main() {
         process.exit(1);
     }
     const config = loadConfig(pluginDir());
-    const client = createClient(config);
+    const mode = authModeFor(command, args);
+    assertCredentials(command, mode, config);
+    const client = createClient(config, mode);
     const result = await commands[command](client, args);
     if (result !== undefined) {
         console.log(JSON.stringify(result, null, 2));
@@ -87,24 +93,7 @@ async function main() {
     process.exit(0);
 }
 main().catch((error) => {
-    if (isApiError(error)) {
-        const { title, detail, errors } = error.data;
-        const headline = [title, detail].filter(Boolean).join(" – ");
-        console.error(`Error: ${headline || error.message}`);
-        if (errors?.length) {
-            for (const e of errors)
-                console.error(`  - ${e.message}`);
-        }
-    }
-    else {
-        const message = error instanceof Error ? error.message : String(error);
-        console.error(`Error: ${message}`);
-    }
+    for (const line of formatError(error))
+        console.error(line);
     process.exit(1);
 });
-function isApiError(err) {
-    return (err instanceof Error &&
-        "status" in err &&
-        "data" in err &&
-        typeof err.data === "object");
-}

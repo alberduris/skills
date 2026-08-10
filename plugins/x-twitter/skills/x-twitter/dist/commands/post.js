@@ -7,6 +7,7 @@ export async function post(client, args) {
             "--reply-to": { key: "replyTo", type: "string" },
             "--quote": { key: "quoteTweetId", type: "string" },
             "--reply-settings": { key: "replySettings", type: "string" },
+            "--paid-partnership": { key: "paidPartnership", type: "boolean" },
         },
     });
     if (flags.replySettings) {
@@ -21,6 +22,9 @@ export async function post(client, args) {
     }
     if (flags.replySettings) {
         body.replySettings = flags.replySettings;
+    }
+    if (flags.paidPartnership) {
+        body.paidPartnership = true;
     }
     return client.posts.create(body);
 }

@@ -31,6 +31,9 @@ import { searchCommunities } from "./commands/search-communities.js";
 import { searchNews } from "./commands/search-news.js";
 import { news } from "./commands/news.js";
 import { thread } from "./commands/thread.js";
+import { usage } from "./commands/usage.js";
+import { authModeFor, assertCredentials } from "./lib/auth.js";
+import { formatError } from "./lib/errors.js";
 
 type CommandFn = (client: Client, args: string[]) => Promise<unknown>;
 
@@ -71,6 +74,7 @@ const commands: Record<string, CommandFn> = {
   "search-news": searchNews,
   news,
   thread,
+  usage,
 };
 
 const COMMAND_NAMES = Object.keys(commands).join(", ");
@@ -88,7 +92,10 @@ async function main(): Promise<void> {
   }
 
   const config = loadConfig(pluginDir());
-  const client = createClient(config);
+  const mode = authModeFor(command, args);
+  assertCredentials(command, mode, config);
+
+  const client = createClient(config, mode);
   const result = await commands[command](client, args);
   if (result !== undefined) {
     console.log(JSON.stringify(result, null, 2));
@@ -97,31 +104,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error: unknown) => {
-  if (isApiError(error)) {
-    const { title, detail, errors } = error.data as {
-      title?: string;
-      detail?: string;
-      errors?: { message: string }[];
-    };
-    const headline = [title, detail].filter(Boolean).join(" – ");
-    console.error(`Error: ${headline || error.message}`);
-    if (errors?.length) {
-      for (const e of errors) console.error(`  - ${e.message}`);
-    }
-  } else {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error: ${message}`);
-  }
+  for (const line of formatError(error)) console.error(line);
   process.exit(1);
 });
-
-function isApiError(
-  err: unknown,
-): err is { status: number; message: string; data: unknown } {
-  return (
-    err instanceof Error &&
-    "status" in err &&
-    "data" in err &&
-    typeof (err as { data: unknown }).data === "object"
-  );
-}

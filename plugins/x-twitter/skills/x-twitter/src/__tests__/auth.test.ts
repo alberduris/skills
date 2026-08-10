@@ -40,14 +40,18 @@ describe("authModeFor", () => {
 });
 
 describe("assertCredentials", () => {
-  it("rejects the bookmarks family, which needs OAuth 2.0 user context", () => {
-    for (const command of ["bookmark", "unbookmark", "bookmarks"]) {
+  it("rejects bookmark writes, which need OAuth 2.0 user context", () => {
+    for (const command of ["bookmark", "unbookmark"]) {
       assert.throws(
         () => assertCredentials(command, "user", CONFIG),
         /OAuth 2\.0 user context/,
         command,
       );
     }
+  });
+
+  it("lets bookmark reads through: the API accepts OAuth 1.0a for them", () => {
+    assert.doesNotThrow(() => assertCredentials("bookmarks", "user", CONFIG));
   });
 
   it("names the missing bearer instead of failing inside the SDK", () => {

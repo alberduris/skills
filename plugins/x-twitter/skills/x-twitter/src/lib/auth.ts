@@ -17,11 +17,16 @@ const APP_ONLY = new Set(["count", "trending", "usage"]);
 const APP_ONLY_WITH_ALL = new Set(["search", "thread"]);
 
 /**
- * Bookmarks are the one family the X API restricts to OAuth 2.0 user context.
- * OAuth 1.0a and App-Only are both rejected, so no combination of the current
- * credentials can reach them.
+ * Bookmark writes are the one family the X API restricts to OAuth 2.0 user
+ * context; OAuth 1.0a and App-Only are both rejected, so no combination of the
+ * current credentials can reach them.
+ *
+ * Reading is not in this set: as of xdk 0.6.6 `GET /2/users/{id}/bookmarks`
+ * also accepts OAuth 1.0a, verified live — it returns 402 (authenticated, out
+ * of credits) rather than an auth error. It works only because `authModeFor`
+ * keeps the bearer off user-context commands.
  */
-const NEEDS_OAUTH2_USER = new Set(["bookmark", "unbookmark", "bookmarks"]);
+const NEEDS_OAUTH2_USER = new Set(["bookmark", "unbookmark"]);
 
 export function authModeFor(command: string, args: string[]): AuthMode {
   const needsBearer =

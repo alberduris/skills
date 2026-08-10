@@ -40,10 +40,10 @@ Feed:
 p) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Note (2026-02-14): the X API returns heavily skewed results — mostly own tweets — and does not faithfully reproduce the "Following" tab on x.com. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
 q) `mentions` — posts that mention you. @docs/mentions.md.
 
-Bookmarks (ALL THREE NON-FUNCTIONAL — they require OAuth 2.0 user-context, which no supported credential provides; see @docs/bookmark.md before attempting):
-r) `bookmark` — bookmark a post. @docs/bookmark.md.
-s) `unbookmark` — remove a bookmark. @docs/bookmark.md.
-t) `bookmarks` — list your bookmarks. @docs/bookmark.md.
+Bookmarks (reads work, WRITES DO NOT — `bookmark`/`unbookmark` require OAuth 2.0 user-context, which no supported credential provides; see @docs/bookmark.md before attempting):
+r) `bookmark` — NON-FUNCTIONAL. Fails with an auth error naming OAuth2UserToken. @docs/bookmark.md.
+s) `unbookmark` — NON-FUNCTIONAL, same reason. @docs/bookmark.md.
+t) `bookmarks` — list your bookmarks. Works. @docs/bookmark.md.
 
 Moderation:
 u) `mute` — mute a user. @docs/mute.md.

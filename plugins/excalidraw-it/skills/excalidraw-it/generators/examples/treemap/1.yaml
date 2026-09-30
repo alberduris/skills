@@ -1,0 +1,48 @@
+title: De qué está hecha la skill
+note: 141,3 KB en 30 ficheros, sin node_modules; cada área, el tamaño en bytes
+unit: bytes
+items:
+  SKILL.md:
+    size: 4706
+    color: violet
+  ledger:
+    color: yellow
+    items:
+      pieces.yaml: 1206
+      types.yaml: 27436
+      sins.yaml: 3560
+  checks:
+    color: red
+    items:
+      label_hides_arrow.py: 3205
+      floating_arrow_end.py: 4228
+      fallback_glyph.py: 1776
+      clipped_text_end.py: 1018
+      broken_word.py: 1659
+      scattered_dashes.py: 1176
+      title_on_rounded_border.py: 1304
+  pieces:
+    color: teal
+    items:
+      box_with_title.py: 2583
+      lane_with_header.py: 3329
+      card.py: 4758
+  scripts:
+    color: blue
+    items:
+      fetch.py: 1322
+      write.py: 1502
+      mermaid.py: 6041
+      key.py: 272
+      palette.py: 1117
+      pieces.py: 981
+      mcp.py: 1525
+      modules.py: 612
+      fonts.json: 51468
+      fonts.py: 2761
+      draw.py: 3180
+      canvas.py: 2877
+      schema.py: 2541
+      lint.py: 1769
+      convert.mjs: 1236
+      package.json: 134

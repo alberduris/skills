@@ -1,0 +1,27 @@
+title: Requisitos del candado de una bici compartida
+note: lo que pide el desbloqueo por QR y cómo se comprueba cada parte
+nodes:
+  manual: {kind: element, name: Manual de usuario, at: [0, 0], fields: {tipo: documento, doc: docs/manual.pdf}}
+  r1: {kind: requirement, name: Desbloqueo rápido, at: [1, 0], columns: 2,
+       fields: {id: 1, texto: la bici se desbloquea en menos de cinco segundos desde que el usuario escanea su código QR,
+                riesgo: alto, verificación: test}}
+  r3: {kind: designConstraint, name: Batería de un año, at: [3, 0],
+       fields: {id: 3, texto: el candado funciona un año sin recarga, riesgo: medio, verificación: análisis}}
+  r2: {kind: physicalRequirement, name: Candado estanco, at: [0, 1],
+       fields: {id: 2, texto: IP67, riesgo: bajo, verificación: test}}
+  r11: {kind: interfaceRequirement, name: Apertura por BLE, at: [1, 1],
+        fields: {id: 1.1, texto: el candado acepta un comando firmado, riesgo: medio, verificación: inspección}}
+  r12: {kind: performanceRequirement, name: Latencia del servidor, at: [2, 1],
+        fields: {id: 1.2, texto: responde en menos de 800 ms, riesgo: medio, verificación: test}}
+  camara: {kind: element, name: Cámara de niebla, at: [0, 2], fields: {tipo: ensayo, doc: lab/ip67.md}}
+  firmware: {kind: element, name: lock.c, at: [1, 2], fields: {tipo: firmware, doc: fw/lock.c}}
+  carga: {kind: element, name: unlock.js, at: [2, 2], fields: {tipo: test de carga, doc: k6/unlock.js}}
+edges:
+  - [r1, r11, contains]
+  - [r1, r12, contains]
+  - [r1, r3, contains]
+  - [manual, r1, traces]
+  - [r2, r11, derives]
+  - [firmware, r11, satisfies]
+  - [carga, r12, verifies]
+  - [camara, r2, verifies]

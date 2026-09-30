@@ -1,0 +1,17 @@
+title: La tanda 1 de generadores
+note: cuatro columnas, una vacía; tarjetas sin ticket y personas sin color asignado
+tags: {bloqueado: red}
+columns:
+  Por hacer:
+    - {title: "Sankey con\nflujos cruzados", tag: bloqueado, person: Fork A}
+    - Venn de tres conjuntos
+  En curso:
+    limit: 4
+    cards:
+      - {ticket: B-1, title: Quadrant, person: Fork B}
+      - {ticket: B-2, title: Packet, tag: alta, person: Fork B}
+      - {ticket: C-1, title: Mindmap, tag: media, person: Fork C}
+      - {ticket: D-1, title: Railroad, tag: baja, person: Fork D}
+  En revisión: []
+  Hecho:
+    - {ticket: P-1, title: Pilotos, person: Claude}

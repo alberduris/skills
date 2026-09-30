@@ -1,0 +1,10 @@
+title: Una fundación de software libre
+note: dos órganos de apoyo a los lados del tronco; Legal aún no tiene equipos
+root: Junta directiva
+staff: [Secretaría, Comité de ética]
+departments:
+  Ingeniería: {head: Dirección técnica, teams: [Núcleo, Plugins, Documentación, "Infraestructura\ny CI", Seguridad]}
+  Comunidad: [Eventos, Mentoría]
+  Legal:
+  Finanzas: {head: Tesorería, color: green, teams: [Donaciones]}
+  Marketing: [Web, Redes sociales, Diseño gráfico y marca]

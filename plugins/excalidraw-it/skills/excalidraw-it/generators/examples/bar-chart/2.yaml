@@ -1,0 +1,14 @@
+title: Líneas por script de la skill
+note: scripts/*.py antes de la fase 3; mermaid.py es el único generador que ya existía
+bars:
+  mermaid.py: {value: 127, color: grape}
+  fonts.py: 71
+  lint.py: 48
+  fetch.py: 44
+  write.py: 42
+  mcp.py: 39
+  pieces.py: 30
+  palette.py: 20
+  modules.py: 18
+  key.py: 10
+reference: {label: media, value: mean}

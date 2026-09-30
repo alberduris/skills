@@ -1,0 +1,27 @@
+title: Cómo dibuja un generador
+note: la fase 3 de excalidraw-it, de los datos en YAML a la escena
+zones:
+  skill: {title: Skill excalidraw-it, color: blue}
+  plus: {title: Excalidraw+, color: violet}
+nodes:
+  claude: {label: Claude Code, at: [1, 0]}
+  lint: {label: lint.py, at: [0, 2], zone: skill}
+  draw: {label: draw.py, at: [1, 1], zone: skill}
+  generators: {label: generators/, at: [2, 1], zone: skill}
+  write: {label: write.py, at: [1, 2], zone: skill}
+  pieces: {label: pieces/, at: [2, 2], zone: skill}
+  api: {label: API REST, at: [0, 3], zone: plus}
+  mcp: {label: Servidor MCP, at: [1, 3], zone: plus}
+  escenas: {label: Escenas, at: [1, 4], zone: plus}
+  navegador: {label: "Navegador\ndel operador", at: [2, 3], rows: 2, external: true}
+edges:
+  - [claude, draw, datos en YAML]
+  - [claude, lint, tras cada escritura]
+  - [draw, generators, build(data)]
+  - [generators, pieces, piece()]
+  - [draw, write, payload add]
+  - [write, mcp, edit_scene_content]
+  - [lint, api, descarga la escena]
+  - [mcp, escenas, escribe]
+  - [api, escenas, lee]
+  - [escenas, navegador, sync en vivo]

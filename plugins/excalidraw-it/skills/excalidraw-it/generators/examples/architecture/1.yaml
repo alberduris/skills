@@ -1,0 +1,28 @@
+title: Cómo llega la skill a la escena
+note: la arquitectura de la receta, redibujada por el generador
+zones:
+  navegador: {title: Navegador, color: green}
+  maquina: {title: Tu máquina, color: blue}
+  excalidraw: {title: Excalidraw+, color: violet}
+nodes:
+  operador: {label: Operador, at: [0, 0], rows: 2}
+  editor: {label: Editor Excalidraw, at: [3, 0], zone: navegador}
+  claude: {label: Claude Code, at: [1, 1], zone: maquina}
+  scripts: {label: Scripts de la skill, at: [1, 2], zone: maquina}
+  chrome: {label: Chrome headless, at: [1, 3], zone: maquina}
+  esm: {label: esm.sh, at: [1, 4], external: true}
+  mcp: {label: Servidor MCP, at: [2, 1], rows: 2, zone: excalidraw}
+  api: {label: API REST, at: [2, 3], zone: excalidraw}
+  escenas: {label: Escenas, at: [3, 2], rows: 2, zone: excalidraw}
+edges:
+  - [operador, claude, pide el diagrama]
+  - [operador, editor, mira y corrige]
+  - [claude, scripts, ejecuta]
+  - [claude, mcp, tools MCP]
+  - [scripts, mcp, edit_scene_content]
+  - [scripts, api, descarga la escena]
+  - [scripts, chrome, convierte Mermaid]
+  - [chrome, esm, importa el conversor]
+  - [mcp, escenas, escribe]
+  - [api, escenas, lee]
+  - [escenas, editor, sync en vivo]

@@ -1,0 +1,16 @@
+title: Contenedores de la reserva de citas
+note: "nivel 2 del modelo C4: dos personas llegan en diagonal a la frontera"
+boundary: Citas  [sistema de software]
+nodes:
+  paciente: {name: Paciente, kind: Persona, text: reserva y cambia citas, at: [0, 0], role: person}
+  recepcion: {name: Recepción, kind: Persona, text: "confirma las citas\ndel día", at: [3, 0], role: person}
+  web: {name: Web de citas, kind: "Contenedor: React", text: agenda y avisos, at: [1, 1]}
+  api: {name: API de citas, kind: "Contenedor: Go", text: reglas de la agenda, at: [2, 1]}
+  db: {name: Base de datos, kind: "Contenedor: PostgreSQL", text: citas y huecos libres, at: [2, 2]}
+  sms: {name: Pasarela SMS, kind: Sistema externo, text: envía recordatorios, at: [3, 2], role: external}
+edges:
+  - [paciente, web, reserva una cita, HTTPS]
+  - [recepcion, api, confirma las citas, HTTPS]
+  - [web, api, pide huecos, JSON/HTTPS]
+  - [api, db, lee y escribe, SQL]
+  - [api, sms, manda recordatorios, HTTPS]

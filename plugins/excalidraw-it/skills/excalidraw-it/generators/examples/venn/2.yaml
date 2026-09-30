@@ -1,0 +1,10 @@
+title: Perros y gatos
+note: dos conjuntos; varios elementos por región, uno con un nombre largo
+sets: {perros: orange, gatos: violet}
+items:
+  - [[perros], ladran]
+  - [[perros], "salen a pasear\ntres veces al día"]
+  - [[gatos], ronronean]
+  - [[gatos], usan arenero]
+  - [[perros, gatos], mascotas]
+  - [[perros, gatos], cuatro patas]

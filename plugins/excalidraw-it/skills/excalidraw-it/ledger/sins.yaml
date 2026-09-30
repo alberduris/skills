@@ -1,0 +1,25 @@
+title-on-rounded-border:
+  what: "the first letters of a container title overlap the rounded corner. A title bound as a top-aligned label sits 5 px from the border, and Excalidraw resets it to 5 px each time the container moves; create_diagram draws every group title this way"
+  rule: "write the title as standalone text 20 px from the left edge and 14 px from the top, in the same groupIds as the container (piece box-with-title)"
+clipped-text-end:
+  what: "the last characters of a standalone Cascadia text (fontFamily 3) are cut off in the browser. The server stores its width 15-20% narrower than it renders, the browser cuts the text at that width, and take_screenshot draws it whole"
+  rule: "after adding Cascadia text, set its width in a second call with update, to 0.586 × fontSize × the characters of its longest line: the server recomputes the width of every text in add and keeps the one in update"
+floating-arrow-end:
+  what: "an arrow end stops short of the shape it is bound to. Moving a shape through update leaves its bound arrows as they were, rewriting startBinding or endBinding does not route them again, and create_diagram binds ellipses at points off the curve"
+  rule: "to move a shape, delete its bound arrows and add them again in the same call, with only their two ends as points: the server routes an elbow arrow from them. Bind ellipses and diamonds only at [0.5,0], [1,0.5], [0.5,1] or [0,0.5]"
+fallback-glyph:
+  what: "a character the font lacks is drawn in a fallback font and clashes with the rest of the text: → in Excalifont comes out as a heavy geometric arrow. Excalifont, Virgil, Nunito and Lilita One have none of → ← ↔ ⇒ ✓ ✗"
+  rule: "write arrows in text as ASCII: -> <- <-> =>. Reword any other character the font lacks"
+label-hides-arrow:
+  what: "an arrow disappears under its own label. Excalidraw centres a bound label on the arrow, over a background that hides the line, so a segment shorter than the label shows only two stubs: a short labelled arrow between rows and a self-loop both vanish this way"
+  rule: "leave the segment under a label longer than the label plus 40 px; for a self-loop, draw its points yourself with a middle segment that long"
+broken-word:
+  what: "the server wraps a label bound to a shape by its own measure of the text, which differs from the real font by -11% to +19%, so a shape sized to the real width of its label comes back with a word split across two lines: wardl over ey"
+  rule: "size a shape for its label at 1.2 times the width scripts/fonts.py measures, plus its padding"
+text-anchor:
+  what: "add reads the x of a standalone text with textAlign center as its centre, and with right as its right edge, whatever width you give, so a text placed by its left edge comes back shifted left by half its width, or all of it: an initial off the centre of its avatar, a name beside its stick figure instead of under it"
+  rule: "in add, give a centred text the x of its centre and a right-aligned text the x of its right edge; update reads x as the left edge"
+  lint: none
+scattered-dashes:
+  what: "a small dashed element reads as loose strokes, not as one outline: a dashed square of 16 px comes out as four corner brackets, a small dashed circle as \"( )\". Excalidraw draws dashes of 8 px with gaps of 8 px plus the stroke width, so a side under 32 px holds one or two dashes"
+  rule: "give a dashed shape at least 32 px along its longest side, and a dashed line or arrow at least 32 px of length; below that, draw it solid and tell it apart by color or fill"

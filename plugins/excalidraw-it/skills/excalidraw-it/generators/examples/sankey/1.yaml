@@ -1,0 +1,27 @@
+title: Adónde fueron los 33 tipos
+note: de lo que hace mermaid-to-excalidraw con cada tipo, a la ruta que elegimos y a cómo queda
+stages:
+  - name: mermaid-to-excalidraw
+    nodes: {native: da elementos, none: no está en Mermaid, image: da una imagen}
+  - name: ruta
+    nodes:
+      mermaid: {label: Mermaid, color: teal}
+      hand: {label: a mano, color: orange}
+      variant: {label: variante, color: violet}
+      later: por mirar
+  - name: resultado
+    nodes:
+      ledger: {label: en el ledger, color: blue}
+      refers: {label: remite a otro tipo, color: violet}
+      pending: pendiente
+flows:
+  - [native, mermaid, 1]
+  - [native, hand, 4]
+  - [none, hand, 1]
+  - [image, hand, 13]
+  - [image, variant, 3]
+  - [image, later, 11]
+  - [mermaid, ledger, 1]
+  - [hand, ledger, 18]
+  - [variant, refers, 3]
+  - [later, pending, 11]

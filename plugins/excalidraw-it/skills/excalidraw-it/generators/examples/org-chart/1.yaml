@@ -1,0 +1,9 @@
+title: Organigrama de ejemplo
+note: los departamentos bajo un bus común; los equipos, bajo su departamento
+root: Dirección general
+staff: [Asesoría jurídica]
+departments:
+  Tecnología: {head: CTO, color: blue, teams: [Plataforma, Datos, Seguridad, Soporte interno]}
+  Producto: {head: CPO, color: violet, teams: [Diseño, Investigación, Contenido]}
+  Operaciones: {head: COO, color: teal, teams: [Ventas, Atención al cliente, Logística]}
+  Finanzas: {head: CFO, color: orange, teams: [Contabilidad, Control de gestión]}

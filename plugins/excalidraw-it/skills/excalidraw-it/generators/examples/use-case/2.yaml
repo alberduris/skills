@@ -1,0 +1,24 @@
+title: Citas de una clínica
+note: La recepción y el médico comparten la agenda; la aseguradora solo autoriza tratamientos
+system: Web de citas
+actors:
+  Paciente: {uses: [book, cancel, history]}
+  Recepción: {uses: [agenda]}
+  Médico: {uses: [notes, prescribe, agenda], side: right}
+  Aseguradora: {uses: [authorize], side: right}
+cases:
+  book: Pedir cita
+  cancel: Cancelar una cita
+  history: Ver su historial
+  agenda: Consultar la agenda del día
+  notes: Escribir el informe
+  prescribe: Recetar
+  authorize: Autorizar el tratamiento
+  login: Identificarse
+  pay: Pagar la franquicia
+  sign: Firmar con certificado
+include:
+  - [book, login]
+  - [notes, sign]
+extend:
+  - [pay, book]

@@ -1,0 +1,10 @@
+title: Diagramas como código y pizarras
+note: de Graphviz a mermaid-to-excalidraw
+periods:
+  "1991": {Graphviz: "grafos desde texto,\ncon el lenguaje dot"}
+  "2009": {PlantUML: UML desde texto}
+  "2014": {Mermaid: "diagramas dentro\nde Markdown"}
+  "2020": {Excalidraw: "pizarra con trazo\na mano alzada"}
+  "2021": {Excalidraw+: "Excalidraw en equipo,\nde pago", tldraw: "otra pizarra\nen el navegador"}
+  "2022": {GitHub: "dibuja los bloques\nMermaid de Markdown", D2: "diagramas como código,\nde Terrastruct"}
+  "2023": {mermaid-to-excalidraw: "Mermaid a elementos\nde Excalidraw"}

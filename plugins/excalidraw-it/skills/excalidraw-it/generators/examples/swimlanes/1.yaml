@@ -1,0 +1,30 @@
+title: Cómo se asienta un tipo de diagrama
+note: el bucle entre el operador y Claude, lane a lane
+lanes:
+  Operador: orange
+  Claude: violet
+  Scripts: blue
+  Excalidraw+: teal
+steps:
+  pide: {label: Pide un tipo, lane: Operador, row: 0, kind: terminal}
+  lee: {label: Lee el ledger, lane: Claude, row: 0}
+  genera: {label: "Escribe el\ngenerador", lane: Claude, row: 1}
+  write: {label: "write.py\nenvía el add", lane: Scripts, row: 1}
+  guarda: {label: "Guarda\nla escena", lane: Excalidraw+, row: 1}
+  lint: {label: "lint.py revisa\nla escena", lane: Scripts, row: 2}
+  findings: {label: '¿Findings?', lane: Scripts, row: 3, kind: decision}
+  mira: {label: Mira la escena, lane: Operador, row: 4}
+  gusta: {label: '¿Le gusta?', lane: Operador, row: 5, kind: decision}
+  ledger: {label: "Actualiza\nel ledger", lane: Claude, row: 5, kind: terminal}
+edges:
+  - [pide, lee]
+  - [lee, genera]
+  - [genera, write]
+  - [write, guarda]
+  - [guarda, lint]
+  - [lint, findings]
+  - [findings, genera, sí]
+  - [findings, mira, 'no']
+  - [mira, gusta]
+  - [gusta, ledger, sí]
+  - [gusta, genera, 'no']

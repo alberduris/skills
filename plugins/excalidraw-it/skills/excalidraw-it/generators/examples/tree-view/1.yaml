@@ -1,0 +1,42 @@
+title: La skill excalidraw-it, fichero a fichero
+note: en amarillo, lo que ha nacido o crecido en esta ronda
+tree:
+  excalidraw-it/:
+    ledger/:
+      note: lo que la skill sabe
+      children:
+        pieces.yaml: 3 piezas prefabricadas
+        sins.yaml: {note: "7 errores, cada uno con su regla", highlight: true}
+        types.yaml: {note: "22 tipos, con su ruta y su receta", highlight: true}
+    checks/:
+      note: un check de lint por sin
+      children:
+        broken_word.py:
+        clipped_text_end.py:
+        fallback_glyph.py:
+        floating_arrow_end.py:
+        label_hides_arrow.py:
+        title_on_rounded_border.py:
+    pieces/:
+      note: cada una, un comando de pieces.py
+      children:
+        box_with_title.py:
+        card.py: {note: la tarjeta del kanban, highlight: true}
+        lane_with_header.py:
+    scripts/:
+      note: lo que se ejecuta
+      children:
+        mermaid/:
+          convert.mjs: mermaid-to-excalidraw en Chrome headless
+        fetch.py: la escena a un fichero local
+        fonts.json:
+        fonts.py: el ancho de un texto en cada fuente
+        key.py: la API key del entorno
+        lint.py: todos los checks, y --fix
+        mcp.py: una tool del MCP por HTTP
+        mermaid.py: Mermaid a elementos editables
+        modules.py: carga checks y pieces
+        palette.py: {note: los tonos de Open Color, highlight: true}
+        pieces.py: una pieza como payload add
+        write.py: edit_scene_content por HTTP
+    SKILL.md: "el bucle: setup, tipos, cada escritura"

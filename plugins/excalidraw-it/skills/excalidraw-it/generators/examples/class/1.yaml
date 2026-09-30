@@ -1,0 +1,17 @@
+title: Arquitectura de plugins de excalidraw-it
+note: cada check y cada pieza es un plugin que la skill carga de su carpeta
+classes:
+  Plugin: {at: [1, 0], columns: 2, stereotype: abstract, attributes: [+id], methods: [+load(path)]}
+  Linter: {at: [0, 1], attributes: [+checks], methods: [+run_checks(sceneId), +fix(findings)]}
+  Check: {at: [1, 1], methods: ["+run(elements) Finding[]"]}
+  Piece: {at: [2, 1], attributes: [+variants], methods: ["+payload(args) Element[]"]}
+  Writer: {at: [0, 2], methods: ["+edit(sceneId, change)"]}
+  Finding: {at: [1, 2], attributes: [+id, +problem, +fix]}
+  McpClient: {at: [0, 3], attributes: [+url], methods: ["+call(tool, arguments)"]}
+relations:
+  - [Check, Plugin, inherits]
+  - [Piece, Plugin, inherits]
+  - [Linter, Check, aggregates, 1..*]
+  - [Check, Finding, depends, crea]
+  - [Linter, Writer, associates, usa]
+  - [Writer, McpClient, associates, usa]

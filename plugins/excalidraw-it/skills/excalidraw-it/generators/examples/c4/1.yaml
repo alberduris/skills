@@ -1,0 +1,18 @@
+title: Contenedores de la skill excalidraw-it
+note: "nivel 2 del modelo C4: qué piezas tiene la skill y con quién habla cada una"
+boundary: excalidraw-it  [sistema de software]
+nodes:
+  operador: {name: Operador, kind: Persona, text: "pide diagramas y\ncorrige a mano", at: [1, 0], role: person}
+  ledger: {name: Ledger, kind: "Contenedor: YAML", text: "sins, pieces y types", at: [0, 1]}
+  claude: {name: Claude Code, kind: "Contenedor: agente CLI", text: "planifica el diagrama\ny escribe el JSON", at: [1, 1]}
+  scripts: {name: Scripts, kind: "Contenedor: Python", text: "write, lint, fetch\ny pieces", at: [2, 1]}
+  esm: {name: esm.sh, kind: Sistema externo, text: "sirve el conversor\nde Mermaid", at: [3, 1], role: external}
+  excalidraw: {name: Excalidraw+, kind: Sistema externo, text: "guarda las escenas y sirve\nel MCP y la API REST", at: [1, 2], columns: 2, role: external}
+edges:
+  - [operador, claude, pide el diagrama, chat]
+  - [claude, ledger, lee sins y recetas, ficheros]
+  - [claude, scripts, ejecuta, bash]
+  - [scripts, esm, importa el conversor, HTTPS]
+  - [claude, excalidraw, hace capturas, MCP]
+  - [scripts, excalidraw, escribe y lee escenas, HTTPS]
+  - [operador, excalidraw, mira y corrige, navegador]

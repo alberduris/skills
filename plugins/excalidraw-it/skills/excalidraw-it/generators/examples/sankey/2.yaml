@@ -1,0 +1,31 @@
+title: De dónde viene y adónde va un sueldo
+note: un mes, en euros; los gastos toman el color de su partida
+color_stage: 2
+stages:
+  - name: ingresos
+    nodes: {nomina: Nómina, freelance: Proyectos sueltos}
+  - name: cuenta
+    nodes: {cuenta: Cuenta corriente}
+  - name: partidas
+    nodes:
+      casa: {label: Casa, color: blue}
+      vida: {label: Día a día, color: orange}
+      ahorro: {label: Ahorro e inversión, color: teal}
+  - name: detalle
+    nodes:
+      alquiler: {label: Alquiler, color: blue}
+      suministros: {label: "Luz, agua e internet", color: blue}
+      super: {label: Supermercado, color: orange}
+      ocio: {label: Ocio, color: orange}
+      fondo: {label: Fondo indexado, color: teal}
+flows:
+  - [nomina, cuenta, 2400]
+  - [freelance, cuenta, 650]
+  - [cuenta, casa, 1150]
+  - [cuenta, vida, 900]
+  - [cuenta, ahorro, 1000]
+  - [casa, alquiler, 980]
+  - [casa, suministros, 170]
+  - [vida, super, 520]
+  - [vida, ocio, 380]
+  - [ahorro, fondo, 1000]

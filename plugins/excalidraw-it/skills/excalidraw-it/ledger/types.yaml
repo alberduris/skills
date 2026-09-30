@@ -1,0 +1,198 @@
+flowchart:
+  route: generator
+  how: "the happy path straight down one column, side branches in a column to its right, loops back up its left side, or its right when two on the left would cross and the right is clear, and skips down its right; each diamond twice as wide as its label; elbow arrows with only their two bound ends, so the server routes them, except those along a side, which turn at corners of their own clear of the widest shape they pass (the server turns only 42 px past the ends), with their label beside where they leave"
+  vetoed:
+    create_diagram: "with 3 or more loops ELK loses the reading order: the start lands mid-diagram and loops cross the nodes"
+    mermaid: "mermaid-to-excalidraw draws diamonds too narrow, so their labels wrap, and runs loops across node labels"
+sequence:
+  route: generator
+  how: "one column per participant with a dashed lifeline; each message a horizontal arrow between lifelines, with its label as standalone text centred above it; replies dashed; a loop as a dashed rectangle around its messages, with its condition at the top left on a white patch over the lines; an activation a white bar 12 px wide on its lifeline, one inside it 6 px to the right, with arrows meeting its side; a note a yellow box beside a lifeline or over several"
+  vetoed:
+    create_diagram: "it has no lifelines: participants become nodes and messages numbered edges, so the order is hard to follow and a loop cannot be drawn"
+    mermaid: "slightly worse than by hand, and the converter falls back to an image of the whole diagram, without warning, for a participant with id write"
+state:
+  route: mermaid
+  how: "stateDiagram-v2 through scripts/mermaid.py (mermaid-to-excalidraw with mermaid@11.12.1 pinned); it lays the states out in 2D with curved arrows"
+  vetoed:
+    create_diagram: "the operator ranked it below Mermaid"
+    hand: "one column of elbow arrows reads worse than Mermaid's 2D layout with curves"
+er:
+  route: generator
+  how: "one table per entity: a header band with its name, the attributes below with PK and FK right-aligned, all in one group; relations as straight arrows with cardinality_* heads on both ends, joined at the headers' height so they run level; a self-relation as a U under the table, long enough for its label"
+  vetoed:
+    create_diagram: "it writes the attributes into the node label, with no table structure"
+    mermaid: "a close second: it draws every attribute as a separate element, 98 elements against 42 by hand"
+class:
+  route: generator
+  how: "one box per class in three compartments: a header band with the name, with its «stereotype» above it when it has one, then the attributes, a line, and the methods, all in one group; inheritance as elbow arrows up to the parent's foot, spread along it, with triangle_outline heads, and realization the same dashed; aggregation with a diamond_outline at the whole, and composition with a solid diamond; dependencies dashed; arrows between classes on one row joined at the headers' height"
+  vetoed:
+    create_diagram: "it writes the members into the node label, with no compartments"
+    mermaid: "a close second to hand"
+architecture:
+  route: generator
+  how: "each zone a box-with-title around its nodes, 40 px from them; nodes on a grid of columns and rows, and a node with arrows to two rows spans both, so its arrows run level; straight arrows bound to fixed points, level between side-by-side nodes, vertical between stacked ones, and straight across otherwise, from a quarter of each side so it clears the level ones; the gap between two zones wide enough for the arrow labels to sit between the zone borders; external systems dashed, with no fill"
+  vetoed:
+    create_diagram: "the operator found it far worse than by hand: it binds the zone titles onto their rounded borders, a label hides its arrow, and the layout comes out twice as wide"
+    mermaid: "architecture-beta converts to an image; a flowchart with subgraphs is the flowchart route, already vetoed"
+mindmap:
+  route: generator
+  how: "the root an ellipse in the centre; the branches filled rounded boxes, stacked, split between the two sides in order where their heights come out closest; the leaves in a column further out, each one a standalone text aligned towards its connector, grouped with a transparent box the connector binds to (the add ignores textAlign in a label); connectors curved arrows with no heads, strokeWidth 2 and roughness 0, bound at both ends, leaving level and bending halfway into the row of their end"
+  vetoed:
+    create_diagram: "not tried: it lost in all six types tried before it"
+    mermaid: "mermaid-to-excalidraw converts a mindmap to an image"
+org-chart:
+  route: generator
+  how: "the head on top, up to two staff roles hanging on dashed lines, one on each side of the trunk; the departments side by side under a common bus, each in its own color, with its head on a second line; the teams of each department stacked under it, indented, reached by a spine down its left side; connectors headless arrows with square corners through points you give, which the server keeps when the arrow is not elbowed, strokeWidth 2 and roughness 0, bound at both ends; boxes 1.2 times as wide as their label"
+  vetoed:
+    create_diagram: "not tried: it lost in all six types tried before it"
+    mermaid: "Mermaid has no org chart type"
+swimlanes:
+  route: generator
+  how: "the flowchart recipe, with each step in the lane-with-header lane of its owner; a handoff to the lane beside it on the same row runs level; a loop back up runs in a corridor between a lane border and the steps, the one clear of steps, labels and other arrows; a handoff between rows may cross the gap between them, each arrow on a track of its own there, so each lane is at least 80 px wider than its widest step or diamond"
+  vetoed:
+    create_diagram: "not tried: it lost in all six types tried before it"
+    mermaid: "only Mermaid 12 has swimlanes, and mermaid-to-excalidraw converts only flowchart, sequence, class, ER and state to elements"
+gantt:
+  route: generator
+  how: "task names in a column on the left, never inside the bars; a time axis on top with a label and a light gray grid line per week; one bar per task from its first to its last day, at a fixed width per day, filled with the color of its section when done and with a light tint of it when pending; section titles in Lilita One in their section color; each milestone a small filled diamond on its day, with the date beside it; today a red dashed line, labelled with the word for today"
+  vetoed:
+    create_diagram: "a gantt has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a gantt to an image"
+timeline:
+  route: generator
+  how: "a horizontal arrow as the axis, with the periods at equal steps whatever the time between them; each period a filled dot on the axis, its name above in Lilita One in the period color, and a short stem down to a column of event cards; each card a white rounded box with the event name in Lilita One and a line or two of description in a smaller Excalifont, broken into lines at most 200 px wide, as standalone texts grouped with the box, because a label takes one font size"
+  vetoed:
+    create_diagram: "a timeline has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a timeline to an image"
+git:
+  route: generator
+  how: "one row per branch, top to bottom in order of creation, with its name in Lilita One in its color on the left and a light gray dashed guide line across; one column per commit in the order of the history, whatever the time between them, all as wide as the messages and tags beside them need; each commit a filled dot in its branch color with its message below in a smaller gray Excalifont, centred unless a line crosses it, then ending or starting at the dot, and broken into balanced lines when long; each merge a hollow dot with a thicker border; a branch a straight headless line from its first dot to its last; a new branch drops right after the commit it starts from and runs along its own row to its first commit, and a merge runs along its own row and rises just before the merge commit, so no line runs over the row of another branch; the S between two rows takes the whole step when the two commits are adjacent and half a step otherwise; each line a curved headless arrow through points sampled at even steps along a smoothstep, because a curve through a corner overshoots it and a curve through uneven steps loops; a tag a small rounded pale yellow pill above its commit; lines strokeWidth 3 and roughness 0, bound to the centre of both dots"
+  vetoed:
+    create_diagram: "not tried: it lost in all six types tried before it"
+    mermaid: "mermaid-to-excalidraw converts a gitGraph to an image"
+use-case:
+  route: generator
+  how: "the system a box-with-title; each use case an ellipse inside it, sized so its label fits in width / 2 * sqrt(2) - 10, filled with a tint of the color of its first actor; the cases an actor uses in the column facing it; the cases no actor uses in gray, in an inner column on the side of the case that includes them or that they extend, stacked around its row; a case used from both sides in the left column, its row kept clear, and the right actor's other cases around that row so its line runs level; a diagonal include or extend leaves each ellipse at 45°, clear of the level ones; each actor a stick figure outside the box, in its color, with its name below in Lilita One, over a transparent box that its lines bind to, 12 px past the tips of its arms, so no line looks like part of the arm; an actor with a single line half a row lower, so the line does not run level into its arms; associations straight headless lines, strokeWidth 2 and roughness 0, to the side of each case; «include» and «extend» dashed gray arrows with the stereotype as their label, pointing at the case included or extended"
+  vetoed:
+    create_diagram: "not tried: it lost in all six types tried before it"
+    mermaid: "only Mermaid 12 has use case diagrams, and mermaid-to-excalidraw converts only flowchart, sequence, class, ER and state to elements"
+user-journey:
+  route: generator
+  how: "a title in Lilita One on top; each stage a lane-with-header lane as wide as its tasks, side by side; each task a white rounded card in the color of its stage, all in one row and as wide as the widest, its name broken into balanced lines when long, with a small filled dot per actor under it and a legend of the actors at the foot; below the cards a band of five dashed light gray guide lines, numbered 1 to 5 on the left, and a curved line through the tasks at the height of their score, with a dot on each task from red at 1 to green at 5"
+  vetoed:
+    create_diagram: "a user journey has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a user journey to an image"
+kanban:
+  route: generator
+  how: "one lane-with-header lane per column, its header with the column name and its count of cards, and its limit of cards in progress where it has one (En curso  2/2); each card the piece card, all at one width, stacked in its column"
+  vetoed:
+    create_diagram: "a kanban board has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a kanban board to an image"
+bar-chart:
+  route: generator
+  how: "a title in Lilita One and a gray note under it; a value axis with a dashed light gray grid line and a right-aligned gray label per tick, and a dark baseline; one bar per category, sorted from the largest, a filled rectangle in shade 6 with a shade 7 border, its value in white inside its top, or above a bar too short to hold it, and its category centred under the baseline; a bar that stands for something else in another color; a reference such as the mean a red dashed line drawn under the bars, labelled at its right end"
+  vetoed:
+    create_diagram: "a bar chart has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts an xychart to an image"
+pie:
+  route: generator
+  how: "a title in Lilita One and a gray note with the total; each slice, in the next color of a fixed cycle unless it has its own, a closed line from the centre along its arc, sampled every 3 degrees, since Excalidraw has no arc; slices clockwise from 12 o'clock, sorted from the largest, filled in shade 6 with a white border of 2 and roughness 0; its percentage in white inside it at two thirds of the radius, when it is 4 % or more; a legend on the right with a rounded swatch, the name, and the count right-aligned in gray"
+  vetoed:
+    create_diagram: "a pie chart has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a pie chart to an image"
+quadrant:
+  route: generator
+  how: "a title in Lilita One and a gray note that says where the positions come from; a square cut into four sharp rectangles with a white border, each filled with shade 1 of its color and named in Lilita One in shade 7 at its top left corner, inside a gray frame; each point a filled dot in shade 7 of its quadrant, its name right of it, or else left, above or below, sliding sideways to stay inside the chart, the first spot clear of the other names, dots and quadrant names, or else the one that hits the fewest; the x axis named under the chart and the y axis left of it, as a text turned a quarter to the left (angle 3*pi/2), each with -> for its direction"
+  vetoed:
+    create_diagram: "a quadrant chart has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a quadrant chart to an image"
+radar:
+  route: generator
+  how: "a title in Lilita One and a gray note with the scale; one axis per measure from the centre, clockwise from 12 o'clock, and one light gray ring per level, all closed lines; each axis named outside its end, left-aligned on the right, right-aligned on the left and centred at the top and bottom; each series a see-through fill (a closed line in shade 6, no stroke, opacity 18) under its own outline in shade 7, with a dot on each score, since opacity applies to the whole element; every other outline dashed, so where two series run together the one below shows through; no numbers on the rings, which the series cover; a legend on the right"
+  vetoed:
+    create_diagram: "a radar chart has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a radar chart to an image"
+sankey:
+  route: generator
+  how: "a title in Lilita One and a gray note; the nodes of each stage a column of narrow filled bars in shade 7, each as tall as its total, the tallest column 430 px, with a gap between them, under a column header in gray Lilita One; each flow a closed line with no stroke, filled in shade 6 at opacity 35, since Excalidraw has no band: an S along a smoothstep on top, sampled in 24 steps, and the same S back underneath, as thick as its value; flows stacked on each bar in the order of the bars they come from or go to, so none cross, and colored by the stage that carries the meaning, or by the end nearer to it; each bar named with its total, right of it, or left of it in the first column, with the chart shifted right by those labels"
+  vetoed:
+    create_diagram: "it draws every edge as an elbow arrow of one width, and a flow needs its value as its width"
+    mermaid: "mermaid-to-excalidraw converts a sankey to an image"
+treemap:
+  route: generator
+  how: "a title in Lilita One and a gray note with the total and what the area measures; the top level laid out with the squarified algorithm (largest first, rows along the shorter side of what is left, each row grown while its worst aspect ratio does not get worse); each folder a sharp white rectangle with a border in shade 7, its name and total in Lilita One in a header strip, and its files squarified again under the header; each file a sharp tile filled with shade 1 and a shade 6 border, with its name, broken after _ - / or a space, and its size in shade 9 at its top left when they fit, its name alone when only that fits, and nothing when not even that does; a file at the top level a tile with no header"
+  vetoed:
+    create_diagram: "a treemap has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a treemap to an image"
+venn:
+  route: generator
+  how: "a title in Lilita One and a gray note; two or three circles of one size around a middle, each a see-through fill (an ellipse in shade 6, no stroke, opacity 22) under its own outline in shade 7, since opacity applies to the whole element; each set named in Lilita One in its color just outside its circle, on the line from the middle, pushed out by its own size; the items of one region stacked in one block, centred at the spot of its region where the corners of its box keep the most room from every circle, found by a grid search, with the circles as large as the widest item needs"
+  vetoed:
+    create_diagram: "a venn diagram has no nodes and edges"
+    mermaid: "only Mermaid 12 has venn diagrams, and mermaid-to-excalidraw converts only flowchart, sequence, class, ER and state to elements"
+tree-view:
+  route: generator
+  how: "a title in Lilita One and a gray note; one row per file or folder at a fixed height, indented one step per level; each name in Cascadia, since Excalidraw has no bold: a folder in shade 7 of blue ending with /, after a small filled rounded rectangle in shade 6, and a file in dark ink after a small gray outlined rectangle; each parent a thin gray line from under its icon down to its last child, with a tick to each child that stops short of its icon; the descriptions in gray Excalifont in one column right of the longest name; a highlighted row a rounded yellow strip in shade 1 behind its name and its description"
+  vetoed:
+    create_diagram: "it lays a tree out as boxes and elbow arrows across the page, not as a listing with one row per entry"
+    mermaid: "only Mermaid 12 has tree views, and mermaid-to-excalidraw converts only flowchart, sequence, class, ER and state to elements"
+ishikawa:
+  route: generator
+  how: "a title in Lilita One and a gray note; the effect on the right in a rounded box, red shade 1 with a shade 7 border, and the spine a thick dark arrow into it; the categories in pairs, one bone above the spine and one below, meeting it at one point; each bone a straight gray line slanted 62 degrees back from the spine to its category, a rounded box in shade 1 of its own color with a shade 7 border; every bone as tall as the longest list of causes needs, so the categories line up in one row above and one below; each cause a thin gray line from the bone to the left, as long as its text, with the text on it; each pair of bones set left of the pair nearer the head by the widest cause of that nearer pair, so no cause runs into the next bone"
+  vetoed:
+    create_diagram: "a fishbone hangs its causes off slanted bones, and create_diagram draws only boxes joined by elbow arrows"
+    mermaid: "mermaid-to-excalidraw runs Mermaid 11.12.1, which cannot parse an ishikawa diagram (it came in 11.12.3), and it converts only flowchart, sequence, class, ER and state to elements anyway"
+packet:
+  route: generator
+  how: "a title in Lilita One and a gray note that says how many bits a row holds and what the numbers on the left are; a ruler over the first row, one small gray number centred on each bit, with bit at its left; each field a sharp rectangle at a fixed width per bit, split into one rectangle per row it crosses, filled with shade 1 of its group, all with one dark gray border so neighbours share a line; its name the label of the rectangle in shade 9, or, when it does not fit across, a standalone text turned a quarter to the left (angle 3*pi/2) centred on it, the rows tall enough for the longest one; a field of variable length dashed; the byte where each row starts in gray, right-aligned left of it; a legend under the rows, with swatches as wide as two bits so a dashed one reads as dashed"
+  vetoed:
+    create_diagram: "a packet diagram has no nodes and edges"
+    mermaid: "mermaid-to-excalidraw converts a packet diagram to an image"
+railroad:
+  route: generator
+  how: "a title in Lilita One and a gray note that tells a terminal from a rule; one track per rule under its name in Lilita One, from a small filled dot to another; a terminal a rounded box in teal shade 1 with a shade 7 border and its text in Cascadia, a rule a sharp white box with a dark border; laid out by measuring each node (its width, and how far it reaches above and below its track) before drawing it: a sequence joined by short lines; a choice with its first branch on the track and the others below, each reached and left through two quarter circles; an optional part a choice between a straight skip and the part; a repetition a loop under the part back to its start, with an arrowhead halfway along it; every track a sharp gray line of width 2, with each quarter circle sampled at 8 points, since a curved line overshoots its corners"
+  vetoed:
+    create_diagram: "a railroad needs branches that split from and merge into one track, and loops that run back, and create_diagram draws only elbow arrows between boxes"
+    mermaid: "the Mermaid that mermaid-to-excalidraw runs cannot parse a railroad diagram (it came with Mermaid 12), and it converts only flowchart, sequence, class, ER and state to elements anyway"
+wardley:
+  route: generator
+  how: "a title in Lilita One and a gray note that says the positions are estimates; two dark arrows for axes, evolution along the bottom and the value chain up the left, with a dashed light gray divider at each quarter, the four stages named in gray under the axis, visible and invisible at the top and bottom of the left axis, and the value chain named beside it, turned a quarter to the left; each component a small white circle with a dark border at its [visibility, evolution], each anchor its name alone in Lilita One; each link a thin gray line from the edge of one dot to the edge of the other, or from under the anchor's name; an evolution a red dashed arrow to a red circle at the evolution it moves to, with its new name in red; inertia a thick dark bar right of the dot; each name beside its dot, highest first, at the first spot right, left, above or below that stays clear of the lines, the dots and the names placed before it; a legend for the arrow and the bar, when the map uses them; positions chosen so no two links run close together, since a web of near-parallel lines cannot be traced"
+  vetoed:
+    create_diagram: "it places the nodes itself, and a wardley map places each component where it means something: how visible and how evolved it is"
+    mermaid: "the Mermaid that mermaid-to-excalidraw runs cannot parse a wardley map (it came with Mermaid 12), and it converts only flowchart, sequence, class, ER and state to elements anyway"
+cynefin:
+  route: generator
+  how: "a title in Lilita One and a gray note; the four domains in their fixed corners (complex top left, complicated top right, chaotic bottom left, clear bottom right), each a closed line filled with shade 1 of its color and no stroke, sharing their boundaries: a gray wavy line across the middle and another down the top half, sampled every 8 px along a sine, and between clear and chaotic the cliff, a straight thick dark line; each domain named in Lilita One in shade 7 at its outer corner, left-aligned on the left and right-aligned on the right, with how to act under it in shade 9, and its items as white rounded badges with a shade 6 border, stacked from the name towards the middle and kept in their order; confusion a white ellipse with a gray border over the crossing, its name and items centred inside; each transition a curved arrow across the boundary between its two domains, bulging away from confusion, a second one across the same boundary further out, with its words in a white badge on its apex that hides the line and the boundary under it, red when it falls from clear into chaos"
+  vetoed:
+    create_diagram: "cynefin has five fixed domains with wavy boundaries, and create_diagram draws only boxes it places itself"
+    mermaid: "the Mermaid that mermaid-to-excalidraw runs cannot parse a cynefin diagram (it came with Mermaid 12), and it converts only flowchart, sequence, class, ER and state to elements anyway"
+event-modeling:
+  route: generator
+  how: "a title in Lilita One and a gray note; the lanes of lane-with-header with --across, one under the other: UI and automation, commands and read models, then one lane of events per stream, named by the part of an event before its dot, each lane only when a frame uses it; one column per time frame, numbered in small gray text over the lanes, with tiempo -> left of the numbers; each frame a box centred in its lane and column: a screen a sharp white box, an automation a rounded white box with a dashed border, a command blue, a read model green and an event orange, each in shade 1 with a shade 7 border and a shade 9 label; each frame bound to the next by a straight arrow from the edge that faces the next frame's lane, and level along one lane; a legend of the kinds it uses under the lanes"
+  vetoed:
+    create_diagram: "it places the boxes itself, and an event model needs each one in the lane of its kind and the column of its moment"
+    mermaid: "the Mermaid that mermaid-to-excalidraw runs cannot parse an event model (it came with Mermaid 12), and it converts only flowchart, sequence, class, ER and state to elements anyway"
+agentflow:
+  route: generator
+  how: "the flowchart recipe with the agentflow vocabulary: the happy path down one column, the failure and fix branches in a column on its left, and the tools and documents a step consults in a column on its right, level with it and outside the flows; a task a rounded box in blue, a tool a sharp box in grape with a bar inside each end, a decision a diamond in yellow, an action a hexagon in orange, an input a parallelogram in teal and a document a white box with a wavy foot and a bar inside its left edge, each in shade 1 with a shade 7 border; a shape Excalidraw has no element for is a closed line under a see-through box of the same bounds, which holds the label and the arrow ends; each flow a dashed box-with-title named flow and its name, 40 px around its steps; a step an elbow arrow with only its two bound ends, but one back up the main column runs along its left at corners of its own, as in flowchart, a failure the same in red with its words on it, and a reference a dashed gray line with no head, bound level between the two; a legend of only the kinds it uses in the free corner at the bottom left"
+  vetoed:
+    create_diagram: "it is the flowchart route, already vetoed (with loops ELK loses the reading order), and it has no subroutine, hexagon, parallelogram or document"
+    mermaid: "the Mermaid that mermaid-to-excalidraw runs cannot parse an agentflow (it came with Mermaid 12), and written as a flowchart it is the flowchart route, already vetoed"
+c4:
+  route: generator
+  how: "the architecture recipe with the C4 notation: each system, container or component a box with its name in Lilita One, its [kind: technology] under it in gray and its description, each line centred; a person the same box in indigo with a circle head sunk 10 px into its top edge, where an arrow from above ends; external systems as in architecture; the system boundary a dashed box-with-title named after the system and [software system]; each relationship a dashed gray arrow with its verb and, on a second line, [its protocol]; an arrow that crosses the boundary keeps its label outside it, so a box outside sits further from it; an arrow between two boxes outside runs around the boundary, never through it; one level of zoom per diagram: context, containers or components"
+  vetoed:
+    create_diagram: "it is the architecture route, already vetoed"
+    mermaid: "mermaid-to-excalidraw converts C4 to one image"
+block:
+  route: generator
+  how: "the architecture recipe on the grid the source declares: every block one height, one column wide or, when it spans n, as wide as the n columns and the gaps between them; a space in the source an empty cell; a nested block a solid box-with-title in the color of its blocks, drawn around their cells, so they stay on the grid and its title band and sides fall in the gaps; each gap as wide as the title bands and arrow labels in it; straight vertical arrows down the middle of the narrower end; external blocks as in architecture"
+  vetoed:
+    create_diagram: "it places the boxes itself, and a block diagram fixes each one to its column and span"
+    mermaid: "mermaid-to-excalidraw converts block-beta to one image"
+requirement:
+  route: generator
+  how: "the class recipe with the requirement vocabulary: each requirement a white box in two compartments, a violet header band with «its kind», as Mermaid names it, above its name, then its id, text, risk and verification as key: value lines, a wrapped value indented; each element the same in teal with its type and doc ref, under or beside what it satisfies or verifies; each relationship a dashed arrow labelled «its verb» from the element to the requirement, level at the headers' height between boxes on one row; contains an elbow arrow from the child up to the parent's foot with a circle_outline head there, or a straight one from a child beside it, since Excalidraw has no circle with a cross"
+  vetoed:
+    create_diagram: "as for class, it writes the fields into the node label, with no compartments"
+    mermaid: "mermaid-to-excalidraw converts requirementDiagram to one image"

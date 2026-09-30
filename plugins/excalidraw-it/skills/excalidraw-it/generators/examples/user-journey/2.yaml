@@ -1,0 +1,14 @@
+title: Comprar un billete de tren
+note: tres actores, una etapa de una sola tarea y un nombre largo que parte en tres líneas
+actors: {Viajero: blue, Web: grape, Revisor: green}
+stages:
+  Buscar:
+    tasks:
+      Buscar el trayecto: [4, Viajero, Web]
+      Comparar horarios y precios de todas las operadoras: [2, Viajero]
+      Elegir asiento: [3, Viajero, Web]
+  Pagar:
+    tasks: {Pagar: [1, Viajero, Web]}
+  Viajar:
+    color: teal
+    tasks: {Enseñar el QR: [4, Viajero, Revisor], Llegar: [5, Viajero]}

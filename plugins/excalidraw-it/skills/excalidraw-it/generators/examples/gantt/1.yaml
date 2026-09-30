@@ -1,0 +1,25 @@
+title: Lo que queda de excalidraw-it
+note: semana a semana; una tarea en color lleno ya está hecha
+today: 2026-09-29
+sections:
+  Tipos:
+    color: violet
+    tasks:
+      Flowchart a organigrama: [2026-09-21, 2026-09-29]
+      Gantt, timeline, git, use case: [2026-09-30, 2026-10-09]
+      Gráficas: [2026-10-12, 2026-10-16]
+  Generadores:
+    color: blue
+    tasks:
+      Flowchart: [2026-10-12, 2026-10-23]
+      ER y class: [2026-10-19, 2026-10-30]
+      Mindmap y organigrama: [2026-10-26, 2026-11-06]
+  Checks:
+    color: teal
+    tasks:
+      Sins y checks base: [2026-09-14, 2026-09-25]
+      broken-word con arreglo: [2026-10-05, 2026-10-09]
+      Cruces de flechas: [2026-11-02, 2026-11-13]
+milestones:
+  Ledger de tipos completo: 2026-10-16
+  Skill 1.0: 2026-11-20

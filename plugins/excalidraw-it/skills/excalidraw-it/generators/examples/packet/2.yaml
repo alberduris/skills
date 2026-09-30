@@ -1,0 +1,27 @@
+title: La cabecera IPv4 en filas de 16 bits
+note: "RFC 791: 16 bits por fila, con el byte en que empieza a la izquierda; las direcciones ocupan dos filas"
+bits: 16
+fields:
+  - [4, Versión, forma]
+  - [4, IHL, forma]
+  - [6, DSCP, servicio]
+  - [2, ECN, servicio]
+  - [16, Longitud total, forma]
+  - [16, Identificación, fragmentos]
+  - [1, Reservado, fragmentos]
+  - [1, DF, fragmentos]
+  - [1, MF, fragmentos]
+  - [13, Desplazamiento del fragmento, fragmentos]
+  - [8, TTL]
+  - [8, Protocolo]
+  - [16, Suma de verificación, integridad]
+  - [32, Dirección de origen, direcciones]
+  - [32, Dirección de destino, direcciones]
+  - [48, "Opciones, si las hay", opcional]
+groups:
+  forma: blue
+  servicio: cyan
+  fragmentos: orange
+  integridad: grape
+  direcciones: teal
+  opcional: {color: gray, dashed: true}

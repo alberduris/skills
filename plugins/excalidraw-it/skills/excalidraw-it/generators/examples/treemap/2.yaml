@@ -1,0 +1,11 @@
+title: Dónde se va el espacio del portátil
+note: 251 GB ocupados de 512; cada área, lo que ocupa
+unit: GB
+items:
+  Fotos: {items: {2019: 12.4, 2020: 18.1, 2021: 22.7, 2022: 30.2, 2023: 41.9, 2024: 36.5}}
+  Aplicaciones: {items: {Xcode: 14.2, Docker Desktop: 9.8, Microsoft Word: 2.3, Chrome: 1.1, Figma: 0.6, Slack: 0.4}}
+  node_modules: 27.5
+  Sistema: {size: 18, color: gray}
+  Música: {items: {Lossless_flac_24bit: 8.2, podcasts: 1.3}}
+  Descargas: 6.4
+  Documentos: {items: {facturas: 0.3, tesis-final-final-v3.pdf: 0.02}}

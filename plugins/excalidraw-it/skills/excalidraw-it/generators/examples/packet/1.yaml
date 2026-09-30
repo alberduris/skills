@@ -1,0 +1,27 @@
+title: La cabecera TCP
+note: "RFC 9293: 32 bits por fila, con el byte en que empieza a la izquierda; cada flag, un bit"
+fields:
+  - [16, Puerto de origen, extremos]
+  - [16, Puerto de destino, extremos]
+  - [32, Número de secuencia, orden]
+  - [32, Número de acuse, orden]
+  - [4, Offset, control]
+  - [4, Reservado, control]
+  - [1, CWR, control]
+  - [1, ECE, control]
+  - [1, URG, control]
+  - [1, ACK, control]
+  - [1, PSH, control]
+  - [1, RST, control]
+  - [1, SYN, control]
+  - [1, FIN, control]
+  - [16, Ventana, control]
+  - [16, Suma de verificación, integridad]
+  - [16, Puntero de urgencia, control]
+  - [32, "Opciones, de 0 a 40 bytes", opcional]
+groups:
+  extremos: blue
+  orden: teal
+  control: orange
+  integridad: grape
+  opcional: {color: gray, dashed: true}

@@ -1,0 +1,18 @@
+title: Una app web pequeña
+note: en amarillo, lo que toca este cambio; cuatro niveles de profundidad
+tree:
+  app/:
+    src/:
+      components/:
+        ui/:
+          Button.tsx: el botón con sus cuatro variantes
+          Dialog.tsx: {note: "modal accesible, con foco atrapado y cierre con Escape", highlight: true}
+        Header.tsx:
+      hooks/:
+        note: vacía de momento
+        children:
+      main.tsx: el punto de entrada
+    public/:
+      favicon.svg:
+    Makefile: {highlight: true}
+    package.json: dependencias y scripts

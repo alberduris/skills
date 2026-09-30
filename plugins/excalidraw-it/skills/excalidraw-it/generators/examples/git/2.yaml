@@ -1,0 +1,31 @@
+title: Un flujo de ramas con develop
+note: features que salen de develop, un hotfix que sale de main, y main que vuelve a develop
+colors: {hotfix: red}
+history:
+  - commit: Commit inicial
+  - commit: Añadir el README
+    tag: v1.0.0
+  - branch: develop
+  - commit: Configurar la CI
+  - branch: feature/login
+  - commit: Formulario de login
+  - commit: OAuth con Google
+  - checkout: develop
+  - branch: feature/search
+  - commit: Índice de búsqueda de texto completo
+  - checkout: main
+  - branch: hotfix
+  - commit: Arreglar el carrito vacío
+  - checkout: main
+  - merge: hotfix
+    tag: v1.0.1
+  - checkout: develop
+  - merge: main
+  - merge: feature/login
+  - checkout: feature/search
+  - commit: Ordenar por fecha
+  - checkout: develop
+  - merge: feature/search
+  - checkout: main
+  - merge: develop
+    tag: v1.1.0

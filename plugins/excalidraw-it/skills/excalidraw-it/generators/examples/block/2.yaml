@@ -1,0 +1,24 @@
+title: Un portátil por bloques
+note: cuatro columnas; la caché abarca tres, y los huecos de las filas 1 y 3 son spaces
+nests:
+  cpu: {title: procesador, color: violet}
+  memoria: {title: memoria, color: orange}
+blocks:
+  nucleo1: {label: Núcleo 1, at: [0, 0], nest: cpu}
+  nucleo2: {label: Núcleo 2, at: [1, 0], nest: cpu}
+  gpu: {label: "GPU\nintegrada", at: [2, 0], nest: cpu}
+  monitor: {label: Monitor externo, at: [3, 0], external: true}
+  cache: {label: Caché L3, at: [0, 1], columns: 3, nest: cpu}
+  controlador: {label: Controlador de memoria, at: [0, 2], columns: 2, color: teal}
+  chipset: {label: Chipset, at: [2, 2], color: teal}
+  wifi: {label: Tarjeta Wi-Fi, at: [3, 2], external: true}
+  ram1: {label: RAM 1, at: [0, 3], nest: memoria}
+  ram2: {label: RAM 2, at: [1, 3], nest: memoria}
+  ssd: {label: SSD NVMe, at: [2, 3], color: grape}
+edges:
+  - [gpu, monitor, HDMI]
+  - [cpu, controlador, pide datos]
+  - [cpu, chipset, DMI]
+  - [controlador, memoria, lee y escribe]
+  - [chipset, ssd, PCIe]
+  - [chipset, wifi]

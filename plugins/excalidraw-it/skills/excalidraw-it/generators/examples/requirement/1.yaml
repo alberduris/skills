@@ -1,0 +1,22 @@
+title: Requisitos de la skill excalidraw-it
+note: cada requisito, lo que lo cumple y cómo se comprueba
+nodes:
+  qa: {kind: element, name: QA del operador, at: [0, 0], fields: {tipo: revisión, doc: la captura}}
+  r1: {kind: requirement, name: Diagramas sin slop, at: [1, 0], columns: 2,
+       fields: {id: 1, texto: el operador no tiene que retocar nada, riesgo: alto, verificación: demostración}}
+  r2: {kind: designConstraint, name: Solo por el MCP, at: [3, 0],
+       fields: {id: 2, texto: nunca escribir la escena por Chrome, riesgo: alto, verificación: inspección}}
+  r11: {kind: functionalRequirement, name: Lint limpio, at: [1, 1],
+        fields: {id: 1.1, texto: ningún finding tras cada escritura, riesgo: medio, verificación: test}}
+  r12: {kind: performanceRequirement, name: Contexto contenido, at: [2, 1],
+        fields: {id: 1.2, texto: nunca leer la escena entera, riesgo: medio, verificación: análisis}}
+  write: {kind: element, name: write.py, at: [3, 1], fields: {tipo: script, doc: scripts/write.py}}
+  lint: {kind: element, name: lint.py, at: [1, 2], fields: {tipo: script, doc: scripts/lint.py}}
+  fetch: {kind: element, name: fetch.py, at: [2, 2], fields: {tipo: script, doc: scripts/fetch.py}}
+edges:
+  - [r1, r11, contains]
+  - [r1, r12, contains]
+  - [qa, r1, verifies]
+  - [lint, r11, satisfies]
+  - [fetch, r12, satisfies]
+  - [write, r2, satisfies]

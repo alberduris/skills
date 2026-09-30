@@ -1,0 +1,18 @@
+title: Dos vueltas atrás que se cruzarían
+nodes:
+  a: {label: Empieza, kind: terminal}
+  b: Prepara los datos
+  c: Entrena el modelo
+  d: {label: '¿Converge?', kind: decision}
+  e: Evalúa en validación
+  f: {label: '¿Mejora al anterior?', kind: decision}
+  g: {label: Publica, kind: terminal}
+edges:
+  - [a, b]
+  - [b, c]
+  - [c, d]
+  - [d, e, sí]
+  - [d, b, 'no, más datos']
+  - [e, f]
+  - [f, g, sí]
+  - [f, c, 'no, reentrena']

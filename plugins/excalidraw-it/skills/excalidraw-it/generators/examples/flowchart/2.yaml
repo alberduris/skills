@@ -1,0 +1,35 @@
+title: Despliegue continuo
+note: de un push a main hasta producción, con sus vueltas atrás
+nodes:
+  push: {label: Push a main, kind: terminal}
+  build: Compilar y testear
+  green: {label: '¿Tests en verde?', kind: decision}
+  notify: {label: Avisar al autor, beside: green}
+  staging: Desplegar en staging
+  cancel: {label: Despliegue cancelado, kind: terminal, beside: staging}
+  smoke: {label: '¿Smoke test OK?', kind: decision}
+  rollback: {label: "Revertir staging\ny abrir incidencia", beside: smoke}
+  flag: {label: '¿Va detrás de un flag?', kind: decision}
+  review: "Revisión manual\ndel cambio"
+  approved: {label: '¿Aprobado?', kind: decision}
+  prod: Desplegar en producción
+  errors: {label: '¿Suben los errores?', kind: decision}
+  live: {label: En producción, kind: terminal}
+edges:
+  - [push, build]
+  - [build, green]
+  - [green, staging, sí]
+  - [green, notify, 'no']
+  - [notify, cancel]
+  - [staging, smoke]
+  - [smoke, flag, sí]
+  - [smoke, rollback, 'no']
+  - [rollback, build]
+  - [flag, review, 'no']
+  - [flag, prod, sí]
+  - [review, approved]
+  - [approved, prod, sí]
+  - [approved, build, 'no']
+  - [prod, errors]
+  - [errors, staging, sí]
+  - [errors, live, 'no']

@@ -1,0 +1,14 @@
+title: Código de dibujo por receta
+note: caracteres escritos para dibujar cada tipo a mano; kanban ya usa la pieza card
+bars:
+  architecture: 3673
+  mindmap: 5403
+  organigrama: 3710
+  swimlanes: 4673
+  gantt: 3431
+  timeline: 2835
+  git: 5088
+  use case: 5020
+  journey: 4096
+  kanban: {value: 1436, color: teal}
+reference: {label: media, value: mean}

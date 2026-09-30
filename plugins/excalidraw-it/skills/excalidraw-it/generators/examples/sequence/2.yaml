@@ -1,0 +1,32 @@
+title: Pago con tarjeta
+note: Un cliente paga su pedido; el banco puede pedir un código antes de autorizar
+participants:
+  cliente: {label: Cliente, actor: true}
+  web: Tienda web
+  pagos: Pasarela de pago
+  banco: Banco emisor
+messages:
+  - [cliente, web, pagar pedido, +]
+  - [web, web, calcula el total]
+  - note: {left: web, text: el carrito queda bloqueado mientras se cobra}
+  - [web, pagos, crear cobro, +]
+  - [pagos, web, pide el importe con IVA, +]
+  - reply: [web, pagos, importe, -]
+  - [pagos, banco, autorizar]
+  - opt:
+      el banco pide 3-D Secure:
+        - reply: [banco, cliente, código por SMS]
+        - [cliente, banco, introduce el código]
+  - alt:
+      autorizado:
+        - reply: [banco, pagos, aprobado]
+      denegado:
+        - reply: [banco, pagos, rechazado]
+        - loop:
+            hasta 3 intentos:
+              - [pagos, banco, reintentar]
+  - note: {right: banco, text: guarda la autorización 7 días}
+  - reply: [pagos, web, resultado del cobro, -]
+  - note: {over: [web, pagos], text: la tienda anota el cobro en el pedido}
+  - reply: [web, cliente, página de resultado, -]
+  - async: [web, cliente, correo de confirmación]

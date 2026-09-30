@@ -1,0 +1,9 @@
+title: Por qué falla el despliegue de los viernes
+note: cinco categorías, la última sola; listas de causas muy desiguales
+effect: "El despliegue\nfalla"
+categories:
+  Personas: [el que sabe está de vacaciones, prisa por cerrar la semana, nadie revisa el cambio]
+  Proceso: [sin congelación de código, rollback manual, checklist desactualizada, pruebas de humo opcionales, aprobación por chat, ventanas de despliegue solapadas]
+  Herramientas: [CI lenta, scripts sin versionar]
+  Entorno: [staging distinto de producción]
+  Medición: [alertas ruidosas, sin métricas de negocio, logs sin correlación, dashboards que nadie mira]

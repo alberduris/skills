@@ -1,0 +1,18 @@
+title: Pagos de una tienda online
+note: un pedido se paga con cualquier método que cumpla la interfaz
+classes:
+  Cliente: {at: [0, 0], color: blue, attributes: [-email, -dirección], methods: ["+pedidos() Pedido[]"]}
+  MetodoPago: {at: [1, 0], columns: 2, stereotype: interface,
+               methods: ["+autorizar(importe) bool", "+devolver(cargo)"]}
+  Pedido: {at: [0, 1], color: blue, attributes: [-id, -total, -estado], methods: [+pagar(metodo)]}
+  Tarjeta: {at: [1, 1], attributes: [-número, -caducidad], methods: ["+autorizar(importe) bool", "+devolver(cargo)"]}
+  Bizum: {at: [2, 1], attributes: [-teléfono], methods: ["+autorizar(importe) bool", "+devolver(cargo)"]}
+  LineaPedido: {at: [0, 2], color: blue, attributes: [-sku, -cantidad, -precio]}
+  Cargo: {at: [1, 2], color: teal, attributes: [-id, -importe, -fecha]}
+relations:
+  - [Tarjeta, MetodoPago, realizes]
+  - [Bizum, MetodoPago, realizes]
+  - [Cliente, Pedido, associates, hace]
+  - [Pedido, LineaPedido, composes, 1..*]
+  - [Pedido, Tarjeta, depends, paga con]
+  - [Tarjeta, Cargo, associates, genera]

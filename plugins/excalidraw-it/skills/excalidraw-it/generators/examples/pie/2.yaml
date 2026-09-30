@@ -1,0 +1,12 @@
+title: Presupuesto de un viaje a Lisboa
+note: 1.845 € en total, sin sorpresas; el orden es el de los gastos, no su tamaño
+sort: false
+slices:
+  Vuelos de ida y vuelta: 420
+  Hotel en Alfama, 4 noches: {value: 760, color: red}
+  Comidas: 390
+  Transporte público: 38
+  Museos y entradas: 95
+  Pastéis de nata: 22
+  Recuerdos: 120
+  Imprevistos: 0

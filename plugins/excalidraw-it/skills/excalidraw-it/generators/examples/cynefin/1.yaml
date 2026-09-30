@@ -1,0 +1,12 @@
+title: El trabajo de la skill en Cynefin
+note: dónde cae cada tarea, según cuánto se sabe de causa y efecto
+domains:
+  complex: [qué hace que un diagrama no sea slop, qué tipos merecen generador, cuándo pieza y cuándo receta]
+  complicated: [colocar etiquetas sin choques, curvas que no se pasan, un treemap squarified]
+  chaotic: ["la API key, pegada en el chat", "el conversor, roto por Mermaid 12"]
+  clear: [aplicar una entrada con VB, pasar lint --fix, anclar un texto centrado]
+confusion: ["state: ¿Mermaid o a mano?", "¿generadores ya?"]
+transitions:
+  - [complex, complicated, el patrón se repite]
+  - [complicated, clear, la regla entra en el ledger]
+  - [clear, chaotic, complacencia]

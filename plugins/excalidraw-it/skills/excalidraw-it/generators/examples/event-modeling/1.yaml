@@ -1,0 +1,15 @@
+title: El bucle de escritura como event model
+note: el tiempo corre hacia la derecha, y cada paso lleva al siguiente
+frames:
+  - [ui, "Chat del\noperador"]
+  - [cmd, "Escribir\nla escena"]
+  - [evt, "Escena.Elementos\nañadidos"]
+  - [rmo, "Hallazgos\ndel lint"]
+  - [pcr, lint --fix]
+  - [cmd, "Aplicar\nel arreglo"]
+  - [evt, "Escena.Elementos\narreglados"]
+  - [rmo, Captura]
+  - [ui, "Escena en el\nnavegador"]
+  - [cmd, Dar el VB]
+  - [evt, "Ledger.Entrada\naprobada"]
+  - [rmo, types.yaml]

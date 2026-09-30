@@ -1,0 +1,9 @@
+title: Preparar una charla técnica
+note: en gris, lo que aún no está hecho
+root: "Charla en\nla meetup"
+branches:
+  Contenido: [idea central, tres ejemplos reales, {text: "una demo que falle\na propósito", muted: true}, conclusión, {text: preguntas previstas, muted: true}, bibliografía, {text: resumen de un minuto, muted: true}]
+  Demo: [repo preparado, {text: plan B sin red, muted: true}]
+  "Después de la charla\ny el turno de preguntas":
+  Diapositivas: {color: grape, leaves: [plantilla, {text: gráficos, muted: true}, notas del orador]}
+  Logística: [{text: billete de tren, muted: true}]

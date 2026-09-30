@@ -1,0 +1,11 @@
+title: La sintaxis de un packet de Mermaid
+note: en caja redondeada, lo que se escribe tal cual; en caja recta, otra regla
+rules:
+  diagrama: [packet, {more: <campo>}]
+  campo:
+    - choice:
+        - [<número>, {opt: ["-", <número>]}]
+        - ["+", <número>]
+    - ":"
+    - <texto>
+  texto: ['"', {opt: {more: <carácter salvo comillas>}}, '"']

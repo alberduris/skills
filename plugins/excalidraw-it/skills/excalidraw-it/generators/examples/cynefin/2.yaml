@@ -1,0 +1,30 @@
+title: Urgencias de un hospital en Cynefin
+note: cómo se trata cada situación de la guardia, según lo que se sabe de ella al llegar
+domains:
+  complex:
+    - un paciente con síntomas que no encajan en ningún protocolo conocido
+    - la saturación de los viernes por la noche
+    - la coordinación con atención primaria
+  complicated:
+    - un diagnóstico diferencial con pruebas
+    - ajustar la dosis a un paciente renal
+  chaotic:
+    - un accidente con múltiples víctimas
+    - una caída del sistema de historias clínicas
+    - un incendio en planta
+    - un brote infeccioso en la sala de espera
+    - la falta de camas de UCI
+    - un paciente agresivo
+  clear:
+    - el triaje de Manchester
+    - una sutura simple
+confusion: [un paciente que llega sin datos, "¿quién decide: médico o enfermería?"]
+transitions:
+  - [complex, complicated, se encuentra la causa]
+  - [complicated, complex, falla el protocolo]
+  - [chaotic, complex, se estabiliza la situación y se empieza a sondear]
+  - [complicated, clear, se escribe el protocolo]
+  - [clear, chaotic, rutina sin revisar]
+words:
+  clear: [Obvio, "percibir, categorizar, responder"]
+  confusion: Desorden

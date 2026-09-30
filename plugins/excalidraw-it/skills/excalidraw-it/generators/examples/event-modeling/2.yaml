@@ -1,0 +1,18 @@
+title: Un pedido de la tienda online
+note: del carrito a la entrega, con el cobro y el envío en sus propios streams
+frames:
+  - [ui, Carrito de la compra]
+  - [cmd, Confirmar pedido]
+  - [evt, Pedido.Pedido confirmado]
+  - [pcr, Cobrador automático]
+  - [cmd, Cobrar tarjeta]
+  - [evt, Pago.Cobro aceptado]
+  - [evt, Pedido.Pedido pagado]
+  - [evt, Pedido.Factura emitida]
+  - [rmo, Pedidos por preparar]
+  - [ui, Pantalla del almacén]
+  - [cmd, Enviar paquete]
+  - [evt, Envío.Paquete enviado con transportista refrigerado]
+  - [rmo, Seguimiento]
+words:
+  events: Stream

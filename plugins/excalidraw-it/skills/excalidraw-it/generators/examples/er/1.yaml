@@ -1,0 +1,16 @@
+title: Modelo de datos de Excalidraw+
+note: lo que la skill lee y escribe por el MCP
+entities:
+  Workspace: {at: [0, 0], attributes: {id: PK, name}}
+  Collection: {at: [1, 0], attributes: {id: PK, workspaceId: FK, name}}
+  Scene: {at: [2, 0], attributes: {id: PK, collectionId: FK, name, sceneVersion}}
+  Element: {at: [3, 0], attributes: {id: PK, sceneId: FK, type, containerId: FK}}
+  User: {at: [0, 1], attributes: {id: PK, workspaceId: FK, role}}
+  Revision: {at: [2, 1], attributes: {id: PK, sceneId: FK, created}}
+relations:
+  - [Workspace, Collection, exactly_one, zero_or_many, contiene]
+  - [Workspace, User, exactly_one, one_or_many, tiene]
+  - [Collection, Scene, exactly_one, zero_or_many, agrupa]
+  - [Scene, Element, exactly_one, zero_or_many, contiene]
+  - [Scene, Revision, exactly_one, zero_or_many, guarda]
+  - [Element, Element, zero_or_one, zero_or_many, ata]

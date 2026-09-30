@@ -1,0 +1,21 @@
+title: Quién hace qué en una escena de Excalidraw+
+note: El operador y Claude trabajan en la escena; el invitado solo la ve
+system: Excalidraw+
+actors:
+  Operador: {uses: [view, fix, share], color: blue}
+  Claude: {uses: [write, read, shot], color: orange}
+  Invitado: {uses: [view], side: right, color: teal}
+cases:
+  view: Ver la escena en vivo
+  fix: Corregir a mano
+  share: Compartir la escena
+  link: Crear enlace de invitación
+  write: Escribir elementos
+  check: Validar el formato
+  read: Leer la escena
+  shot: Hacer captura
+include:
+  - [share, link]
+  - [write, check]
+extend:
+  - [fix, view]

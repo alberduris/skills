@@ -1,0 +1,23 @@
+title: Una escritura de excalidraw-it
+note: Claude escribe con write.py y valida con lint.py hasta que la escena queda limpia
+participants:
+  claude: Claude
+  writer: write.py
+  lint: lint.py
+  xplus: Excalidraw+
+  browser: Navegador
+messages:
+  - [claude, writer, payload por stdin]
+  - [writer, xplus, edit_scene_content]
+  - async: [xplus, browser, la escena cambia]
+  - reply: [xplus, writer, ids añadidos]
+  - reply: [writer, claude, 1 línea + fichero]
+  - loop:
+      hasta lint limpio:
+        - [claude, lint, lint.py --fix]
+        - [lint, xplus, GET content (REST)]
+        - reply: [xplus, lint, elementos]
+        - [lint, xplus, edit_scene_content (fixes)]
+        - reply: [lint, claude, clean]
+  - [claude, xplus, take_screenshot]
+  - reply: [xplus, claude, PNG]

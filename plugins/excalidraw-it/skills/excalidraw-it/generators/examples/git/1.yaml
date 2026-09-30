@@ -1,0 +1,25 @@
+title: Una historia de la skill excalidraw-it
+note: plausible, no la real; cada rama en su fila, cada commit en su columna
+history:
+  - commit: init
+  - commit: sins
+  - branch: types
+  - commit: types.yaml
+  - branch: mermaid
+  - commit: convert.mjs
+  - checkout: types
+  - commit: flowchart
+  - checkout: mermaid
+  - commit: image guard
+  - checkout: types
+  - merge: mermaid
+  - commit: state
+  - checkout: main
+  - commit: fonts.py
+  - merge: types
+    tag: v0.2
+  - branch: fix
+  - commit: broken-word
+  - checkout: main
+  - merge: fix
+    tag: v0.3

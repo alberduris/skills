@@ -1,0 +1,25 @@
+title: Una tetería como mapa de Wardley
+note: el ejemplo clásico de Simon Wardley; posiciones aproximadas a las de su mapa
+anchors:
+  Negocio: [0.95, 0.63]
+  Público: [0.95, 0.78]
+components:
+  Taza de té: [0.79, 0.61]
+  Taza: [0.73, 0.78]
+  Té: [0.63, 0.81]
+  Agua caliente: [0.52, 0.80]
+  Agua: [0.38, 0.82]
+  Hervidor: {at: [0.43, 0.35], inertia: true}
+  Electricidad: [0.10, 0.70]
+links:
+  - [Negocio, Taza de té]
+  - [Público, Taza de té]
+  - [Taza de té, Taza]
+  - [Taza de té, Té]
+  - [Taza de té, Agua caliente]
+  - [Agua caliente, Agua]
+  - [Agua caliente, Hervidor]
+  - [Hervidor, Electricidad]
+evolve:
+  Hervidor: {to: 0.62, name: Hervidor eléctrico}
+  Electricidad: {to: 0.89, name: Red eléctrica}

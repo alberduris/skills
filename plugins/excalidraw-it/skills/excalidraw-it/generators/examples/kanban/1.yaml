@@ -1,0 +1,20 @@
+title: Lo que queda de la ronda de tipos
+note: cada tarjeta, con su ticket, su prioridad y quién la lleva
+people: {Claude: orange, Operador: blue}
+columns:
+  Por hacer:
+    - {ticket: EXC-21, title: Barras con xychart, tag: alta, person: Claude}
+    - {ticket: EXC-22, title: Seis gráficas más, tag: media, person: Claude}
+    - {ticket: EXC-23, title: Ocho tipos de nicho, tag: media, person: Claude}
+    - {ticket: EXC-24, title: Generadores por tipo, tag: alta, person: Claude}
+    - {ticket: EXC-25, title: Limpiar el sandbox, tag: baja, person: Operador}
+  En curso:
+    color: blue
+    limit: 2
+    cards:
+      - {ticket: EXC-20, title: Kanban, tag: alta, person: Claude}
+      - {ticket: EXC-19, title: Bucles de state, tag: baja, person: Operador}
+  Hecho:
+    - {ticket: EXC-16, title: Timeline, tag: media, person: Claude}
+    - {ticket: EXC-17, title: Git, tag: media, person: Claude}
+    - {ticket: EXC-18, title: Use case y journey, tag: media, person: Claude}

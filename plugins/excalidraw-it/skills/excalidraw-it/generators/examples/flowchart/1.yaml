@@ -1,0 +1,32 @@
+title: El bucle de escritura
+note: cómo Claude escribe un diagrama con excalidraw-it, de la petición a la entrega
+nodes:
+  start: {label: Petición del operador, kind: terminal}
+  plan: Planificar el diagrama
+  ledger: Revisar sins y pieces
+  write: Escribir con write.py
+  lint: lint.py --fix
+  findings: {label: '¿Quedan findings?', kind: decision}
+  hand: {label: Arreglar a mano, beside: findings}
+  shot: take_screenshot
+  looks: {label: '¿Se ve bien?', kind: decision}
+  show: Enseñar al operador
+  corrects: {label: '¿El operador corrige?', kind: decision}
+  read: {label: Leer solo lo que nombra, beside: corrects}
+  end: {label: Hecho, kind: terminal}
+edges:
+  - [start, plan]
+  - [plan, ledger]
+  - [ledger, write]
+  - [write, lint]
+  - [lint, findings]
+  - [findings, hand, sí]
+  - [hand, lint]
+  - [findings, shot, 'no']
+  - [shot, looks]
+  - [looks, plan, 'no']
+  - [looks, show, sí]
+  - [show, corrects]
+  - [corrects, read, sí]
+  - [read, plan]
+  - [corrects, end, 'no']

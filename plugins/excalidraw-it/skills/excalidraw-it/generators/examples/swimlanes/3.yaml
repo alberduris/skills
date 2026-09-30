@@ -1,0 +1,30 @@
+title: Una reclamación con muchas vueltas
+note: carriles estrechos, tres vueltas atrás y traspasos que cruzan carriles
+lanes:
+  Cliente: blue
+  Soporte: grape
+  Técnico: teal
+steps:
+  abre: {label: Abre, lane: Cliente, row: 0, kind: terminal}
+  lee: {label: Lee, lane: Soporte, row: 0}
+  prueba: {label: Prueba, lane: Técnico, row: 1}
+  claro: {label: '¿Claro?', lane: Soporte, row: 2, kind: decision}
+  aclara: {label: Aclara, lane: Cliente, row: 2}
+  arregla: {label: Arregla, lane: Técnico, row: 3}
+  vale: {label: '¿Vale?', lane: Cliente, row: 3, kind: decision}
+  cierra: {label: Cierra, lane: Soporte, row: 4}
+  vuelve: {label: '¿Vuelve?', lane: Técnico, row: 4, kind: decision}
+  fin: {label: Fin, lane: Cliente, row: 5, kind: terminal}
+edges:
+  - [abre, lee]
+  - [lee, prueba]
+  - [prueba, claro]
+  - [claro, aclara, 'no']
+  - [aclara, lee]
+  - [claro, arregla, sí]
+  - [arregla, vale]
+  - [vale, prueba, 'no']
+  - [vale, cierra, sí]
+  - [cierra, vuelve]
+  - [vuelve, arregla, sí]
+  - [vuelve, fin, 'no']

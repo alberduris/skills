@@ -1,0 +1,15 @@
+title: Pedir un diagrama a Claude
+actors: {Operador: blue, Claude: orange}
+stages:
+  Pedir:
+    color: blue
+    tasks: {Describir el diagrama: [4, Operador], Elegir el tipo: [3, Operador, Claude]}
+  Dibujar:
+    color: violet
+    tasks: {Dibujar a mano: [3, Claude], Pasar el lint: [4, Claude]}
+  Revisar:
+    color: teal
+    tasks: {Abrir el enlace: [5, Operador], Encontrar un fallo: [2, Operador]}
+  Corregir:
+    color: orange
+    tasks: {Señalar el fallo: [3, Operador], Arreglarlo: [4, Claude], Dar el VB: [5, Operador]}

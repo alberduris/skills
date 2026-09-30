@@ -1,0 +1,10 @@
+title: Por qué el diagrama de un agente sale slop
+note: cada causa, un sin o una regla que ya está en la skill
+effect: "El diagrama\nsale slop"
+categories:
+  Texto: {color: blue, causes: [recortado al final, una palabra partida, un glifo de otra fuente, centrado por su borde]}
+  Flechas: {color: teal, causes: [un extremo suelto, tapada por su etiqueta, una curva que se pasa, enganchada fuera del eje]}
+  Composición: {color: violet, causes: [etiquetas que chocan, caja más estrecha que su texto, título sobre un borde curvo]}
+  Estilo: {color: orange, causes: [trazo fino y a mano alzada, opacidad en todo el elemento]}
+  Ruta: {color: grape, causes: [create_diagram para todo, Mermaid llega como imagen, Mermaid se come los bucles]}
+  Revisión: {color: cyan, causes: [leer la escena entera, una captura reducida, enseñar sin pasar el lint]}

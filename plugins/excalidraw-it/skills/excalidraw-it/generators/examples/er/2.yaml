@@ -1,0 +1,18 @@
+title: Préstamos de una biblioteca
+note: un socio avala a otros; Autoría une libros y autores
+entities:
+  Socio: {at: [0, 0], attributes: {id: PK, nombre, email, avalistaId: FK}}
+  Préstamo: {at: [1, 0], attributes: {id: PK, socioId: FK, ejemplarId: FK, desde, hasta}}
+  Ejemplar: {at: [2, 0], attributes: {id: PK, isbn: FK, estado}}
+  Autor: {at: [0, 1], attributes: {id: PK, nombre}}
+  Autoría: {at: [1, 1], color: gray, attributes: {isbn: PK FK, autorId: PK FK}}
+  Libro: {at: [2, 1], attributes: {isbn: PK, título, editorialId: FK}}
+  Editorial: {at: [1, 2], columns: 2, color: teal, attributes: {id: PK, nombre, país}}
+relations:
+  - [Socio, Préstamo, exactly_one, zero_or_many, pide]
+  - [Ejemplar, Préstamo, exactly_one, zero_or_many, sale en]
+  - [Libro, Ejemplar, exactly_one, one_or_many, tiene]
+  - [Autor, Autoría, exactly_one, one_or_many, firma]
+  - [Libro, Autoría, exactly_one, one_or_many, lleva]
+  - [Editorial, Libro, zero_or_one, zero_or_many, publica]
+  - [Socio, Socio, zero_or_one, zero_or_many, avala]

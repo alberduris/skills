@@ -1,0 +1,33 @@
+title: Un agente de soporte responde un ticket
+note: qué hace el agente, qué consulta y qué pasa cuando algo falla
+nodes:
+  ticket: {label: Llega un ticket, kind: input}
+  classify: Clasificar el ticket
+  known: {label: '¿Caso conocido?', kind: decision}
+  escalate: {label: Escalar a una persona, beside: known}
+  search: Buscar casos parecidos
+  kb: {label: Buscador de la base, kind: tool, beside: search}
+  draft: Redactar la respuesta
+  policies: {label: politicas.md, kind: document, beside: draft}
+  check: {label: '¿Cumple las políticas?', kind: decision}
+  send: {label: Enviar la respuesta, kind: action}
+  helpdesk: {label: API del helpdesk, kind: tool, beside: send}
+  notify: {label: Avisar al equipo, beside: send}
+  close: Cerrar el ticket
+edges:
+  - [ticket, classify]
+  - [classify, known]
+  - [known, search, sí]
+  - [known, escalate, 'no']
+  - [search, draft]
+  - [draft, check]
+  - [check, send, sí]
+  - [check, draft, 'no']
+  - [send, close]
+  - [notify, close]
+failures:
+  - [send, notify, si falla]
+flows:
+  Responder: {from: search, to: send, color: teal}
+words:
+  action: acción que ve el cliente

@@ -1,0 +1,30 @@
+title: Un pedido en la tienda online
+note: del carrito a la puerta de casa, con sus dos vueltas atrás
+lanes:
+  Cliente: blue
+  Tienda: grape
+  Pasarela de pago: orange
+  Almacén: teal
+steps:
+  pedido: {label: Hace el pedido, lane: Cliente, row: 0, kind: terminal}
+  valida: {label: Valida el carrito, lane: Tienda, row: 0}
+  stock: {label: '¿Hay stock?', lane: Tienda, row: 1, kind: decision}
+  cobra: {label: Cobra la tarjeta, lane: Pasarela de pago, row: 1}
+  espera: {label: "Acepta esperar\nuna semana", lane: Cliente, row: 1}
+  ok: {label: '¿Cobro aceptado?', lane: Pasarela de pago, row: 2, kind: decision}
+  prepara: {label: Prepara el envío, lane: Almacén, row: 2}
+  tarjeta: {label: Cambia de tarjeta, lane: Cliente, row: 3}
+  entrega: {label: "Lo entrega al\ntransportista", lane: Almacén, row: 3}
+  recibe: {label: Recibe el pedido, lane: Cliente, row: 4, kind: terminal}
+edges:
+  - [pedido, valida]
+  - [valida, stock]
+  - [stock, cobra, sí]
+  - [stock, espera, 'no']
+  - [espera, cobra]
+  - [cobra, ok]
+  - [ok, prepara, sí]
+  - [ok, tarjeta, 'no']
+  - [tarjeta, cobra]
+  - [prepara, entrega]
+  - [entrega, recibe, envía]

@@ -1,0 +1,10 @@
+title: Tipos de diagrama
+note: En negro, los tipos ya decididos, con su ruta. En gris, los pendientes.
+root: Tipos de diagrama
+branches:
+  Cajas y flechas: {color: blue, leaves: [flowchart (a mano), architecture (a mano), ER (a mano), class (a mano), {text: C4, muted: true}, {text: block, muted: true}]}
+  Interacción: {color: violet, leaves: [sequence (a mano), state (mermaid), {text: use case, muted: true}, {text: requirement, muted: true}]}
+  Tiempo: {color: teal, leaves: [{text: gantt, muted: true}, {text: timeline, muted: true}, {text: user journey, muted: true}, {text: git, muted: true}, {text: kanban, muted: true}]}
+  Jerarquía: {color: orange, leaves: [{text: mindmap, muted: true}, {text: organigrama, muted: true}, {text: treeView, muted: true}, {text: treemap, muted: true}]}
+  Gráficas: {color: grape, leaves: [{text: pie, muted: true}, {text: barras y líneas, muted: true}, {text: quadrant, muted: true}, {text: radar, muted: true}, {text: sankey, muted: true}, {text: venn, muted: true}]}
+  Nicho: {color: gray, leaves: [{text: wardley, muted: true}, {text: ishikawa, muted: true}, {text: railroad, muted: true}, {text: packet, muted: true}, {text: cynefin, muted: true}]}

@@ -1,0 +1,7 @@
+title: Dos editores de texto, cara a cara
+note: de 0 a 10, un anillo por punto; puntuaciones de un solo usuario
+levels: 10
+axes: [arranque, extensiones, "curva de\naprendizaje", memoria, atajos]
+series:
+  Vim: [10, 7, 2, 10, 10]
+  VS Code: [5, 10, 8, 3, 7]

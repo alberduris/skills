@@ -1,0 +1,9 @@
+title: De qué están hechos los diagramas
+note: 604 elementos en las 10 escenas dibujadas a mano
+slices:
+  textos: 261
+  rectángulos: 147
+  flechas: 84
+  elipses: 62
+  líneas: 46
+  rombos: 4

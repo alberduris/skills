@@ -1,0 +1,12 @@
+lane-with-header:
+  what: "a column made of a light gray body rectangle and a colored header rectangle on top of it, with the header label centered; with --across, a row with its header on its left"
+  use: "one lane per actor, system or phase in a swimlane process, with the steps drawn inside the body; --across for a flow that runs left to right in time, such as an event model"
+  variants: "number of lanes, header color per lane, lane width, lane height, across with a header width"
+box-with-title:
+  what: "a rounded container with a small title as standalone text 20 px from the left edge and 14 px from the top, both in the same groupIds"
+  use: "a group, zone or system boundary that needs a name and no header"
+  variants: "dashed or solid border, border and title color"
+card:
+  what: "a white rounded box with a title and, if given, a ticket in gray top left, a tag in a colored pill top right, and a person at the foot as an avatar with their initial beside their name, all in one group"
+  use: "a task on a kanban board, a backlog item, any note that has an id, a status or an owner"
+  variants: "ticket, tag and person each optional, tag color, person color, fixed width to line up a column"

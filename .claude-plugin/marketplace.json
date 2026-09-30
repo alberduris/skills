@@ -106,6 +106,17 @@
       },
       "source": "./plugins/telegram-notify",
       "category": "productivity"
+    },
+    {
+      "name": "excalidraw-it",
+      "description": "Draw diagrams with your agent on a live Excalidraw+ scene: 32 diagram types from a few lines of YAML, plus a lint that catches what agents get wrong on the canvas",
+      "version": "0.1.0",
+      "author": {
+        "name": "alberduris",
+        "email": "alberduris@summiz.ai"
+      },
+      "source": "./plugins/excalidraw-it",
+      "category": "visualization"
     }
   ]
 }

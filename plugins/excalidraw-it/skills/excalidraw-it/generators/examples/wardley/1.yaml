@@ -1,0 +1,35 @@
+title: La skill excalidraw-it como mapa de Wardley
+note: arriba, lo que ve el operador; a la derecha, lo más maduro; posiciones estimadas por Claude
+anchors:
+  Operador: [0.97, 0.52]
+components:
+  Diagrama legible: [0.86, 0.40]
+  Escena de Excalidraw+: [0.74, 0.68]
+  Receta por tipo: [0.64, 0.30]
+  Lint y sins: [0.56, 0.14]
+  Pieces: [0.46, 0.34]
+  MCP de Excalidraw+: [0.48, 0.62]
+  Claude: [0.36, 0.76]
+  mermaid-to-excalidraw: {at: [0.30, 0.52], inertia: true}
+  Excalidraw: [0.50, 0.88]
+  Mermaid: [0.14, 0.70]
+  Open Color: [0.24, 0.90]
+  Fuentes de Excalidraw: [0.18, 0.80]
+  Chrome headless: [0.06, 0.90]
+links:
+  - [Operador, Diagrama legible]
+  - [Diagrama legible, Escena de Excalidraw+]
+  - [Diagrama legible, Receta por tipo]
+  - [Diagrama legible, Lint y sins]
+  - [Receta por tipo, Pieces]
+  - [Receta por tipo, MCP de Excalidraw+]
+  - [Receta por tipo, Claude]
+  - [Receta por tipo, mermaid-to-excalidraw]
+  - [Lint y sins, MCP de Excalidraw+]
+  - [Pieces, Open Color]
+  - [Pieces, Fuentes de Excalidraw]
+  - [Escena de Excalidraw+, Excalidraw]
+  - [mermaid-to-excalidraw, Mermaid]
+  - [mermaid-to-excalidraw, Chrome headless]
+evolve:
+  Receta por tipo: {to: 0.56, name: Generador por tipo}

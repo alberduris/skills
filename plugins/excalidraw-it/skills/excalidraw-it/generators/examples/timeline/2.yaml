@@ -1,0 +1,18 @@
+title: Las fases de excalidraw-it
+note: tres fases; las descripciones se parten solas en líneas
+periods:
+  Fase 1:
+    color: violet
+    events:
+      Sins y checks: cada error que los agentes repiten en el lienzo, con la regla que lo evita y el check de lint que lo caza
+      Pieces: piezas prefabricadas que salen bien a la primera
+  Fase 2:
+    color: blue
+    events:
+      Una receta por tipo: treinta y tres tipos de diagrama dibujados y aprobados por el operador
+  Fase 3:
+    color: teal
+    events:
+      Pilotos: bar-chart, architecture y wardley
+      Tanda 1: diecisiete tipos de cálculo puro, en cuatro forks
+      QA: null

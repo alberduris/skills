@@ -1,0 +1,8 @@
+title: Las tres rutas, puntuadas
+note: de 1 a 5, un anillo por punto, según lo que vimos en la ronda de tipos
+axes: [calidad visual, editable, tipos que cubre, poco código, control del layout, sin sorpresas]
+levels: 5
+series:
+  create_diagram: {scores: [2, 5, 2, 5, 1, 2], color: violet}
+  Mermaid: {scores: [3, 4, 1, 5, 1, 2], color: teal}
+  a mano: {scores: [5, 5, 5, 1, 5, 3], color: orange}

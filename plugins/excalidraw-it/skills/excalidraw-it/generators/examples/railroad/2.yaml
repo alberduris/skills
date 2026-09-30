@@ -1,0 +1,14 @@
+title: La gramática de un valor JSON
+note: en caja redondeada, lo que se escribe tal cual; en caja recta, otra regla
+rules:
+  valor:
+    choice: [<objeto>, <array>, <cadena>, <número>, "true", "false", "null"]
+  objeto:
+    - "{"
+    - opt: [<cadena>, ":", <valor>, {opt: {more: [",", <cadena>, ":", <valor>]}}]
+    - "}"
+  número:
+    - opt: "-"
+    - choice: ["0", [<dígito del 1 al 9>, {opt: {more: <dígito>}}]]
+    - opt: [".", {more: <dígito>}]
+    - opt: [{choice: [e, E]}, {opt: {choice: ["+", "-"]}}, {more: <dígito>}]

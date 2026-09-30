@@ -1,0 +1,16 @@
+title: La librería online en su contexto
+note: "nivel 1 del modelo C4: quién la usa y de qué sistemas depende"
+nodes:
+  cliente: {name: Cliente, kind: Persona, text: "compra libros\ndesde casa", at: [1, 0], role: person}
+  pasarela: {name: Pasarela de pago, kind: Sistema externo, text: cobra con tarjeta, at: [0, 1], role: external}
+  libreria: {name: Librería online, kind: Sistema de software, text: "permite buscar libros, comprarlos y seguir cada pedido", at: [1, 1]}
+  correo: {name: Servicio de correo, kind: Sistema externo, at: [2, 1], role: external}
+  almacen: {name: Almacén, kind: Sistema externo, text: "guarda el stock\ny los envíos", at: [0, 2], role: external}
+  empleado: {name: Empleado de almacén, kind: Persona, text: prepara los paquetes, at: [1, 2], role: person}
+edges:
+  - [cliente, libreria, busca y compra libros, HTTPS]
+  - [libreria, pasarela, cobra el pedido, API REST]
+  - [libreria, correo, envía la confirmación, SMTP]
+  - [correo, cliente, le manda los correos]
+  - [libreria, empleado, le asigna los pedidos, panel web]
+  - [empleado, almacen, registra las salidas, lector de códigos]

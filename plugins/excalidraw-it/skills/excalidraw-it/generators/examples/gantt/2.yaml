@@ -1,0 +1,16 @@
+title: La fase 3, día a día
+note: cuatro semanas que cruzan de septiembre a octubre; una tarea de un solo día
+today: 2026-10-02
+sections:
+  Generadores:
+    tasks:
+      Pilotos: [2026-09-29, 2026-09-30]
+      "Tanda 1: los tipos de cálculo puro": [2026-10-01, 2026-10-09]
+      "Tanda 2: los tipos con rejilla que da el agente": [2026-10-12, 2026-10-21]
+  Revisión:
+    color: grape
+    tasks:
+      Consolidar helpers: [2026-10-22, 2026-10-23]
+      QA del operador: [2026-10-23, 2026-10-23]
+milestones:
+  Todos los tipos con generador: 2026-10-23

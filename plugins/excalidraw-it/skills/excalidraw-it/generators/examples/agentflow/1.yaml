@@ -1,0 +1,33 @@
+title: Claude dibuja un tipo de diagrama
+note: 'un agentflow: quién hace cada paso, con qué herramienta y qué consulta'
+nodes:
+  ask: {label: Petición del operador, kind: input}
+  recipe: Leer la receta del tipo
+  payload: Generar el payload
+  write: {label: Escribir en la escena, kind: action}
+  lint: Pasar el lint
+  clean: {label: '¿Limpio?', kind: decision}
+  shot: Hacer la captura
+  show: {label: Enseñar al operador, kind: action}
+  warn: {label: Avisar al operador, beside: write}
+  fix: {label: Arreglar a mano, beside: clean}
+  types: {label: types.yaml, kind: document, beside: recipe}
+  sins: {label: sins.yaml, kind: document, beside: payload}
+  writepy: {label: write.py, kind: tool, beside: write}
+  lintpy: {label: lint.py, kind: tool, beside: lint}
+  screenshot: {label: take_screenshot, kind: tool, beside: shot}
+edges:
+  - [ask, recipe]
+  - [recipe, payload]
+  - [payload, write]
+  - [write, lint]
+  - [lint, clean]
+  - [clean, shot, sí]
+  - [shot, show]
+  - [clean, fix, 'no']
+  - [fix, lint]
+failures:
+  - [write, warn, si falla]
+flows:
+  Dibujar: {from: recipe, to: clean}
+  Revisar: {from: shot, to: show}

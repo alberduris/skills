@@ -1,0 +1,8 @@
+title: "Legible, editable, barato: elige dos"
+note: dónde cae cada ruta, según la ronda de tipos
+sets: {legible: blue, editable: teal, barato: orange}
+items:
+  - [[legible, editable], a mano]
+  - [[editable, barato], "create_diagram\nMermaid, 5 tipos"]
+  - [[legible, barato], "Mermaid\ncomo imagen"]
+  - [[legible, editable, barato], generadores]

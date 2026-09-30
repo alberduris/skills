@@ -1,7 +1,7 @@
 ---
 name: excalidraw-it
 description: Draw diagrams with the operator on a live Excalidraw+ scene, through the Excalidraw+ MCP. Draws each diagram type from a few lines of YAML with a generator of its own, and carries the known sins agents commit on the canvas, each with the rule that prevents it and the lint check that catches it, plus a ledger of prefab pieces that come out right the first time.
-version: "0.1.0"
+version: "0.1.1"
 disable-model-invocation: true
 ---
 
@@ -9,8 +9,8 @@ A diagram here is a scene in the operator's Excalidraw+ workspace. You write it 
 
 [!SETUP]:
 
-1. Call the format guide that matches the task once per session: `read_diagram_format`, `read_freeform_format` or `read_presentation_format`. The server instructions ask for it before the first write, although the server accepts writes without it, and it costs about 10k tokens.
-2. Use `create_scene` or an existing scene id, and give the operator the link `https://app.excalidraw.com/s/<workspace>/<sceneId>`. Both ids come in the `create_scene` response.
+1. Before the first JSON you write by hand, or the first `create_diagram`, call the format guide that matches the task, once per session: `read_diagram_format`, `read_freeform_format` or `read_presentation_format`. It costs about 10k tokens. Skip it while `draw.py`, `pieces.py` or `mermaid.py` write every element: their payloads already follow the format.
+2. Use an existing scene id, or `create_scene` in the collection the operator names; with none named, in the one `list_collections` marks `isDefault: true` (`private` works only with a personal API key). Give the operator the link `https://app.excalidraw.com/s/<workspace>/<sceneId>`, with `metadata.workspace` and `metadata.id` of the `create_scene` response.
 
 [!TYPES]:
 

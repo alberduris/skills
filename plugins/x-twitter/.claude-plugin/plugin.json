@@ -1,6 +1,6 @@
 {
   "name": "x-twitter",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "37-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
   "author": {
     "name": "alberduris",

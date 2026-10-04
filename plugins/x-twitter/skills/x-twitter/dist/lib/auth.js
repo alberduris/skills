@@ -7,9 +7,14 @@
  * unset. Note that `search-news` used to belong here and no longer does: 0.6.6
  * accepts OAuth 1.0a for it. Re-check this list when bumping the SDK.
  */
-const APP_ONLY = new Set(["count", "trending", "usage"]);
+const APP_ONLY = new Set(["count", "usage"]);
 /** Same, but only on the full-archive variant reached through `--all`. */
 const APP_ONLY_WITH_ALL = new Set(["search", "thread"]);
+/**
+ * Same, except under `--personalized`: worldwide trends accept only the bearer,
+ * while the account's personalized trends accept only user context.
+ */
+const APP_ONLY_UNLESS_PERSONALIZED = new Set(["trending"]);
 /**
  * Bookmark writes are the one family the X API restricts to OAuth 2.0 user
  * context; OAuth 1.0a and App-Only are both rejected, so no combination of the
@@ -23,7 +28,9 @@ const APP_ONLY_WITH_ALL = new Set(["search", "thread"]);
 const NEEDS_OAUTH2_USER = new Set(["bookmark", "unbookmark"]);
 export function authModeFor(command, args) {
     const needsBearer = APP_ONLY.has(command) ||
-        (APP_ONLY_WITH_ALL.has(command) && args.includes("--all"));
+        (APP_ONLY_WITH_ALL.has(command) && args.includes("--all")) ||
+        (APP_ONLY_UNLESS_PERSONALIZED.has(command) &&
+            !args.includes("--personalized"));
     return needsBearer ? "app-only" : "user";
 }
 /**

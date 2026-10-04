@@ -103,7 +103,7 @@ X_ACCESS_TOKEN_SECRET=your_access_token_secret
 
 ### Optional: Bearer Token
 
-`count`, `trending`, `usage`, and `search`/`thread` with `--all` (full archive back to 2006) accept only an App-Only Bearer Token:
+`count`, `trending` (worldwide; `--personalized` runs without it), `usage`, and `search`/`thread` with `--all` (full archive back to 2006) accept only an App-Only Bearer Token:
 
 ```
 X_API_BEARER_TOKEN=your_bearer_token
@@ -115,7 +115,7 @@ Generate it from the X Developer Console under **Keys and tokens > Bearer Token*
 
 - Node.js 18+
 - X Developer account with OAuth 1.0a credentials
-- (Optional) Bearer Token for `count`, `trending`, `usage` and full archive search
+- (Optional) Bearer Token for `count`, worldwide `trending`, `usage` and full archive search
 
 ## License
 

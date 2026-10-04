@@ -37,6 +37,13 @@ describe("authModeFor", () => {
   it("leaves search-news on user context (xdk 0.6.6 accepts OAuth 1.0a)", () => {
     assert.equal(authModeFor("search-news", []), "user");
   });
+
+  it("keeps personalized trending on user context, the only scheme its endpoint accepts", () => {
+    assert.equal(authModeFor("trending", []), "app-only");
+    assert.equal(authModeFor("trending", ["--personalized"]), "user");
+    const mode = authModeFor("trending", ["--personalized"]);
+    assert.doesNotThrow(() => assertCredentials("trending", mode, NO_BEARER));
+  });
 });
 
 describe("assertCredentials", () => {

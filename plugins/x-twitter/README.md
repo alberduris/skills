@@ -1,6 +1,6 @@
 # X API
 
-36-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
+37-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
 
 ## Commands
 
@@ -42,8 +42,8 @@
 ### Bookmarks
 | Command | Description |
 |---------|-------------|
-| `bookmark` | Bookmark a post |
-| `unbookmark` | Remove a bookmark |
+| `bookmark` | Bookmark a post (unavailable: needs OAuth 2.0 user context) |
+| `unbookmark` | Remove a bookmark (unavailable: needs OAuth 2.0 user context) |
 | `bookmarks` | List your bookmarks |
 
 ### Moderation
@@ -70,6 +70,23 @@
 | `search-users` | Search users by query |
 | `trending` | Trending topics (worldwide or personalized) |
 
+### Communities
+| Command | Description |
+|---------|-------------|
+| `search-communities` | Search communities by keyword |
+| `community` | Look up a community by ID |
+
+### News
+| Command | Description |
+|---------|-------------|
+| `search-news` | Search news stories by query |
+| `news` | Look up a news story by ID |
+
+### Account
+| Command | Description |
+|---------|-------------|
+| `usage` | Posts read this cycle against the project cap (a read quota, not a credit balance) |
+
 ## Setup
 
 1. Go to [console.x.com](https://console.x.com) > Apps > Create a new App
@@ -84,21 +101,21 @@ X_ACCESS_TOKEN=your_access_token
 X_ACCESS_TOKEN_SECRET=your_access_token_secret
 ```
 
-### Optional: Bearer Token (full archive search)
+### Optional: Bearer Token
 
-To use `search --all` (full archive back to 2006), you also need an App-Only Bearer Token:
+`count`, `trending`, `usage`, and `search`/`thread` with `--all` (full archive back to 2006) accept only an App-Only Bearer Token:
 
 ```
 X_API_BEARER_TOKEN=your_bearer_token
 ```
 
-Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. When present, the client auto-selects Bearer auth for read endpoints that require it.
+Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. The CLI attaches it to those commands only; every other command runs under your OAuth 1.0a user context, so user-context fields such as `connection_status` stay in the responses.
 
 ## Requirements
 
 - Node.js 18+
 - X Developer account with OAuth 1.0a credentials
-- (Optional) Bearer Token for full archive search
+- (Optional) Bearer Token for `count`, `trending`, `usage` and full archive search
 
 ## License
 

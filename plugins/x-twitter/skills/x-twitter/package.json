@@ -1,6 +1,6 @@
 {
   "name": "x-twitter-skill",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "37-command Claude Code skill for X/Twitter",
   "license": "MIT",
   "type": "module",

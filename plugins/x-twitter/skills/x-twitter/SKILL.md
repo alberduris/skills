@@ -23,8 +23,8 @@ b) `search` — search posts by query. IMPORTANT: by default searches only the l
 c) `get` — retrieve one or more posts by ID; `data` is always an array. @docs/get.md.
 d) `post` — create a tweet, reply, or quote tweet. @docs/post.md.
 e) `delete` — delete a post owned by the authenticated user. @docs/delete.md.
-f) `thread` — the conversation author's thread containing a post: the first post plus the author's replies to themselves, oldest first. Other people's replies are left out. Use `--all` for threads older than 7 days. @docs/thread.md.
-g) `replies` — the direct replies to a post, one page at a time. @docs/replies.md.
+f) `thread` — the conversation author's thread containing a post: the first post plus the author's replies to it or to another post in the thread, oldest first. Other people's replies, and the author's replies under them, are left out. Use `--all` for threads older than 7 days. @docs/thread.md.
+g) `replies` — the direct replies to a post, newest first, one page at a time. IMPORTANT: by default searches only the last 7 days, so for a post older than that the replies come back partial with no warning; use `--all`. @docs/replies.md.
 h) `transcript` — the transcript of a post's video(s), from the subtitle track X generates; a video X published no subtitles for has none. @docs/transcript.md.
 
 Engagement:

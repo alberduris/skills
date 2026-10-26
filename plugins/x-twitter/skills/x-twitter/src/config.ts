@@ -52,12 +52,13 @@ export function loadConfig(skillDir: string): Credentials {
   const cwd = process.cwd();
 
   // cwd first (project-level), then the skill directory, then the environment
-  const sources = [
-    parseEnvFile(resolve(cwd, ".env.local")),
-    parseEnvFile(resolve(cwd, ".env")),
-    parseEnvFile(resolve(skillDir, ".env.local")),
-    parseEnvFile(resolve(skillDir, ".env")),
+  const files = [
+    resolve(cwd, ".env.local"),
+    resolve(cwd, ".env"),
+    resolve(skillDir, ".env.local"),
+    resolve(skillDir, ".env"),
   ];
+  const sources = files.map(parseEnvFile);
 
   const missing: RequiredVar[] = [];
   const get = (key: RequiredVar): string => {
@@ -75,8 +76,12 @@ export function loadConfig(skillDir: string): Credentials {
 
   if (missing.length > 0) {
     throw new Error(
-      `Missing required environment variables: ${missing.join(", ")}\n` +
-        `Set them in .env.local, .env, or as environment variables.`,
+      [
+        `Missing required environment variables: ${missing.join(", ")}`,
+        "Looked in, in order:",
+        ...files.map((file) => `  - ${file}`),
+        "  - the environment",
+      ].join("\n"),
     );
   }
 

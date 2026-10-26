@@ -7,9 +7,10 @@ import { output, type Output } from "./output.ts";
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
- * The author's self-thread containing a post, as a human reads one on x.com:
- * the conversation's root plus the author's replies to themselves, oldest
- * first. Other people's replies are left out; `replies` reads those.
+ * The author's thread containing a post, as a human reads one on x.com: the
+ * conversation's root plus the author's replies to it or to another post
+ * already in the thread, oldest first. Other people's replies, and the
+ * author's replies under them, are left out; `replies` reads those.
  */
 export async function thread(client: Client, args: string[]): Promise<Output> {
   const flags = parseArgs<{ id: string; all: boolean }>(args, {
@@ -28,7 +29,7 @@ export async function thread(client: Client, args: string[]): Promise<Output> {
   const [root] = hydrate(rootResponse);
   if (!root) return output(rootResponse, []);
 
-  const posts: Post[] = [root];
+  const found: Post[] = [];
   const errors = [...(rootResponse.errors ?? [])];
   let nextToken: string | undefined;
   do {
@@ -41,27 +42,32 @@ export async function thread(client: Client, args: string[]): Promise<Output> {
         next_token: nextToken,
       },
     );
-    posts.push(...hydrate(page).filter((post) => post.in_reply_to_user?.id === root.author.id));
+    found.push(...hydrate(page));
     errors.push(...(page.errors ?? []));
     nextToken = page.meta?.next_token;
   } while (nextToken);
 
   // Oldest first by ID: IDs grow with creation time to the millisecond, while
-  // created_at has whole seconds, which posts of a fast thread share.
-  posts.sort((a, b) => (BigInt(a.id) < BigInt(b.id) ? -1 : 1));
+  // created_at has whole seconds, which posts of a fast thread share. A reply's
+  // ID is larger than its parent's, so one pass in this order builds the chain.
+  found.sort((a, b) => (BigInt(a.id) < BigInt(b.id) ? -1 : 1));
+  const chain = new Map([[root.id, root]]);
+  for (const post of found) {
+    const parent = post.referenced_tweets?.find((ref) => ref.type === "replied_to")?.id;
+    if (parent && chain.has(parent)) chain.set(post.id, post);
+  }
 
   const hints: string[] = [];
   if (!flags.all && Date.now() - Date.parse(root.created_at) > WEEK_MS) {
     hints.push(
       `Recent search covers only the last 7 days and this thread began on ${root.created_at}, ` +
-        "so any of its posts older than that are missing. Use --all to search the full archive.",
+        "so any of its posts older than that are missing, along with the posts that follow them. " +
+        "Use --all to search the full archive.",
     );
-  }
-  // Judged by the thread's rule, not by absence from `posts`: recent search
-  // also misses the author's own posts older than 7 days.
-  const ownReply = seed.author.id === root.author.id && seed.in_reply_to_user?.id === root.author.id;
-  if (seed.id !== root.id && !ownReply) {
+  } else if (!chain.has(seed.id)) {
+    // Claimed only when the search covered the whole conversation: a missing
+    // older post breaks the chain and would drop a given post that belongs.
     hints.push(`Post ${seed.id} is not part of @${root.author.username}'s thread; \`get ${seed.id}\` reads it.`);
   }
-  return output(errors.length > 0 ? { errors } : {}, posts, hints);
+  return output(errors.length > 0 ? { errors } : {}, [...chain.values()], hints);
 }

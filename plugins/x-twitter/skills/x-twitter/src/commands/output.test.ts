@@ -95,52 +95,69 @@ describe("search", () => {
 });
 
 describe("thread", () => {
-  // @alice (42) started conversation 100 and replied to herself twice; 300 is
-  // her reply to someone else.
-  const root = post("100", { created_at: "2024-06-01T00:00:00.000Z" });
-  const self = (id: string, day: number, to = "42") =>
-    post(id, { conversation_id: "100", in_reply_to_user_id: to, created_at: `2024-06-0${day}T00:00:00.000Z` });
+  // @alice (42) started conversation 100 and @bob (77) replied with 200. She
+  // answered him with 300 and replied to her own 300 with 400, a side
+  // conversation under bob's reply. Her thread is 100, then 500 and 600.
+  const root = post("100");
+  const reply = (id: string, to: string, fields: object = {}) =>
+    post(id, {
+      conversation_id: "100",
+      in_reply_to_user_id: "42",
+      referenced_tweets: [{ type: "replied_to", id: to }],
+      ...fields,
+    });
+  const posts = [
+    root,
+    reply("200", "100", { author_id: "77" }),
+    reply("300", "200", { in_reply_to_user_id: "77" }),
+    reply("400", "300"),
+    reply("500", "100"),
+    reply("600", "500"),
+  ];
+  const byId = (...wanted: string[]) => wanted.map((id) => posts.find((p) => p.id === id));
+  const ids = (result: { data?: unknown }) => (result.data as { id: string }[]).map((p) => p.id);
 
+  // The search finds all of alice's posts in the conversation, newest first
+  // over two pages, so 600 arrives a page before its parent 500.
+  const search = (url: URL) =>
+    url.searchParams.get("next_token") === "page2"
+      ? { data: byId("500", "100"), meta: {} }
+      : { data: byId("600", "400", "300"), meta: { next_token: "page2" } };
   const routes = {
-    "GET /2/tweets": (url: URL) =>
-      url.searchParams.get("ids") === "100" ? { data: [root] } : { data: [self("200", 2)] },
-    "GET /2/tweets/search/recent": (url: URL) =>
-      url.searchParams.get("next_token") === "page2"
-        ? { data: [self("200", 2), root], meta: {} }
-        : { data: [self("400", 4), self("300", 3, "77")], meta: { next_token: "page2" } },
+    "GET /2/tweets": (url: URL) => ({
+      data: byId(url.searchParams.get("ids") ?? ""),
+      includes: { users: [{ id: "42", username: "alice" }] },
+    }),
+    "GET /2/tweets/search/recent": search,
+    "GET /2/tweets/search/all": search,
   };
 
   it("orders posts by ID, since a fast thread shares created_at seconds", async () => {
-    const sameSecond = (id: string) => self(id, 2);
     const { result } = await run(["thread", "100"], {
       "GET /2/tweets": { data: [root] },
-      "GET /2/tweets/search/recent": { data: [sameSecond("1000"), sameSecond("999"), root] },
+      "GET /2/tweets/search/recent": { data: [reply("1000", "999"), reply("999", "100"), root] },
     });
-    assert.deepEqual((result.data as { id: string }[]).map((p) => p.id), ["100", "999", "1000"]);
+    assert.deepEqual(ids(result), ["100", "999", "1000"]);
   });
 
-  it("keeps the root and the author's replies to themselves, oldest first, across pages", async () => {
-    const { result, requests } = await run(["thread", "200"], routes);
-    assert.deepEqual((result.data as { id: string }[]).map((p) => p.id), ["100", "200", "400"]);
+  it("keeps the chain of the author's replies from the first post, oldest first, across pages", async () => {
+    const { result, requests } = await run(["thread", "600"], routes);
+    assert.deepEqual(ids(result), ["100", "500", "600"]);
     assert.equal(requests.length, 4);
   });
 
-  it("hints at --all when the thread began more than 7 days ago", async () => {
-    const { result } = await run(["thread", "200"], routes);
-    assert.match(result.hints?.[0] ?? "", /began on 2024-06-01.*--all/);
+  it("hints that the given post is not part of the thread when it sits under someone else's reply", async () => {
+    for (const id of ["200", "400"]) {
+      const { result } = await run(["thread", id, "--all"], routes);
+      assert.deepEqual(ids(result), ["100", "500", "600"]);
+      assert.deepEqual(result.hints, [`Post ${id} is not part of @alice's thread; \`get ${id}\` reads it.`]);
+    }
   });
 
-  it("hints that the given post is not part of the thread when someone else wrote it", async () => {
-    const reply = post("500", { author_id: "77", conversation_id: "100", in_reply_to_user_id: "42" });
-    const { result } = await run(["thread", "500"], {
-      "GET /2/tweets": (url: URL) =>
-        url.searchParams.get("ids") === "100"
-          ? { data: [root], includes: { users: [{ id: "42", username: "alice" }] } }
-          : { data: [reply] },
-      "GET /2/tweets/search/recent": { data: [root] },
-    });
-    assert.deepEqual((result.data as { id: string }[]).map((p) => p.id), ["100"]);
-    assert.equal(result.hints?.at(-1), "Post 500 is not part of @alice's thread; `get 500` reads it.");
+  it("hints at --all, and makes no membership claim, when the thread began more than 7 days ago", async () => {
+    const { result } = await run(["thread", "400"], routes);
+    assert.equal(result.hints?.length, 1);
+    assert.match(result.hints?.[0] ?? "", /began on 2024-06-01.*--all/);
   });
 
   it("prints X's errors and no posts when the post does not exist", async () => {

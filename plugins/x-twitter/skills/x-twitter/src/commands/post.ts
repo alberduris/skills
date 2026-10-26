@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs } from "../lib/args.js";
-import { resolveEnum } from "../lib/enums.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs } from "../lib/args.ts";
+import { resolveEnum } from "../lib/enums.ts";
 
 interface PostFlags {
   text: string;
@@ -31,17 +31,17 @@ export async function post(
   const body: Record<string, unknown> = { text: flags.text };
 
   if (flags.replyTo) {
-    body.reply = { inReplyToTweetId: flags.replyTo };
+    body.reply = { in_reply_to_tweet_id: flags.replyTo };
   }
   if (flags.quoteTweetId) {
-    body.quoteTweetId = flags.quoteTweetId;
+    body.quote_tweet_id = flags.quoteTweetId;
   }
   if (flags.replySettings) {
-    body.replySettings = flags.replySettings;
+    body.reply_settings = flags.replySettings;
   }
   if (flags.paidPartnership) {
-    body.paidPartnership = true;
+    body.paid_partnership = true;
   }
 
-  return client.posts.create(body);
+  return client.post("/2/tweets", body);
 }

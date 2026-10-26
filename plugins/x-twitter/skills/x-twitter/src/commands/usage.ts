@@ -1,5 +1,5 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
 
 interface UsageFlags {
   days?: number;
@@ -8,7 +8,7 @@ interface UsageFlags {
 
 /**
  * Project consumption against the post-read cap. This is not a credit balance:
- * `projectUsage` counts posts read, and stays flat when you create or delete
+ * `project_usage` counts posts read, and stays flat when you create or delete
  * them. The X API exposes no dollar balance — that lives in the Developer
  * Console only.
  */
@@ -20,9 +20,8 @@ export async function usage(client: Client, args: string[]): Promise<unknown> {
     },
   });
 
-  const response = await client.usage.get({
-    ...(flags.days !== undefined && { days: flags.days }),
-  });
+  // Accepts only app-only auth
+  const response = await client.get("/2/usage/tweets", { days: flags.days }, "app-only");
 
   return flags.raw ? response : response.data;
 }

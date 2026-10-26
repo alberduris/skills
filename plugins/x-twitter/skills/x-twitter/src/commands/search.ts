@@ -1,24 +1,19 @@
-import type { Client, PostsClient } from "@xdevplatform/xdk";
-import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
-import type { TweetField } from "../lib/fields.js";
-import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
-import { resolveEnum } from "../lib/enums.js";
-
-type SortOrder = NonNullable<
-  NonNullable<Parameters<PostsClient["searchRecent"]>[1]>["sortOrder"]
->;
+import type { Client } from "../http/client.ts";
+import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.ts";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.ts";
+import { resolveEnum } from "../lib/enums.ts";
 
 interface SearchFlags {
   query: string;
   all: boolean;
   maxResults?: number;
-  sortOrder?: SortOrder;
+  sortOrder?: string;
   startTime?: string;
   endTime?: string;
   sinceId?: string;
   untilId?: string;
   nextToken?: string;
-  tweetFields: TweetField[];
+  tweetFields: string[];
   raw: boolean;
 }
 
@@ -55,25 +50,27 @@ export async function search(
   }
 
   if (flags.sortOrder !== undefined) {
-    flags.sortOrder = resolveEnum<SortOrder>("sortOrder", flags.sortOrder);
+    flags.sortOrder = resolveEnum("sortOrder", flags.sortOrder);
   }
 
-  const options = {
-    tweetFields: flags.tweetFields,
+  const query = {
+    query: flags.query,
+    "tweet.fields": flags.tweetFields,
     expansions: TWEET_EXPANSIONS,
-    userFields: TWEET_USER_FIELDS,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.sortOrder !== undefined && { sortOrder: flags.sortOrder }),
-    ...(flags.startTime !== undefined && { startTime: flags.startTime }),
-    ...(flags.endTime !== undefined && { endTime: flags.endTime }),
-    ...(flags.sinceId !== undefined && { sinceId: flags.sinceId }),
-    ...(flags.untilId !== undefined && { untilId: flags.untilId }),
-    ...(flags.nextToken !== undefined && { nextToken: flags.nextToken }),
+    "user.fields": TWEET_USER_FIELDS,
+    max_results: flags.maxResults,
+    sort_order: flags.sortOrder,
+    start_time: flags.startTime,
+    end_time: flags.endTime,
+    since_id: flags.sinceId,
+    until_id: flags.untilId,
+    next_token: flags.nextToken,
   };
 
+  // The full archive accepts only app-only auth
   const response = flags.all
-    ? await client.posts.searchAll(flags.query, options)
-    : await client.posts.searchRecent(flags.query, options);
+    ? await client.get("/2/tweets/search/all", query, "app-only")
+    : await client.get("/2/tweets/search/recent", query);
 
   const data = flags.raw ? response : (response.data ?? []);
 

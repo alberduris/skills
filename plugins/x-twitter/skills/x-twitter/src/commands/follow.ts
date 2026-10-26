@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs } from "../lib/args.js";
-import { resolveMyId, resolveUserId } from "../lib/resolve.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs } from "../lib/args.ts";
+import { resolveMyId, resolveUserId } from "../lib/resolve.ts";
 
 export async function follow(client: Client, args: string[]): Promise<unknown> {
   const { target } = parseArgs<{ target: string }>(args, {
@@ -9,7 +9,9 @@ export async function follow(client: Client, args: string[]): Promise<unknown> {
 
   const myId = await resolveMyId(client);
   const targetUserId = await resolveUserId(client, target);
-  return client.users.followUser(myId, { targetUserId });
+  return client.post(path`/2/users/${myId}/following`, {
+    target_user_id: targetUserId,
+  });
 }
 
 export async function unfollow(
@@ -22,5 +24,5 @@ export async function unfollow(
 
   const myId = await resolveMyId(client);
   const targetUserId = await resolveUserId(client, target);
-  return client.users.unfollowUser(myId, targetUserId);
+  return client.delete(path`/2/users/${myId}/following/${targetUserId}`);
 }

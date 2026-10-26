@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, TEMPORAL, RAW } from "../lib/args.js";
-import { resolveEnum } from "../lib/enums.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs, TEMPORAL, RAW } from "../lib/args.ts";
+import { resolveEnum } from "../lib/enums.ts";
 
 interface CountFlags {
   query: string;
@@ -28,16 +28,18 @@ export async function count(client: Client, args: string[]): Promise<unknown> {
     flags.granularity = resolveEnum("granularity", flags.granularity);
   }
 
-  const options: Record<string, unknown> = {
-    ...(flags.startTime !== undefined && { startTime: flags.startTime }),
-    ...(flags.endTime !== undefined && { endTime: flags.endTime }),
-    ...(flags.granularity !== undefined && { granularity: flags.granularity }),
-    ...(flags.nextToken !== undefined && { nextToken: flags.nextToken }),
-  };
-
-  const response = flags.all
-    ? await client.posts.getCountsAll(flags.query, options)
-    : await client.posts.getCountsRecent(flags.query, options);
+  // Both counts endpoints accept only app-only auth
+  const response = await client.get(
+    flags.all ? "/2/tweets/counts/all" : "/2/tweets/counts/recent",
+    {
+      query: flags.query,
+      start_time: flags.startTime,
+      end_time: flags.endTime,
+      granularity: flags.granularity,
+      next_token: flags.nextToken,
+    },
+    "app-only",
+  );
 
   return flags.raw ? response : (response.data ?? []);
 }

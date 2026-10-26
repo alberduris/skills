@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
+import { parseArgs, PAGINATION, TEMPORAL, RAW } from "./args.ts";
 
 describe("parseArgs", () => {
   describe("positional arguments", () => {

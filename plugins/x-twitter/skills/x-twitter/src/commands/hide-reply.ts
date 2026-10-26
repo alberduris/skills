@@ -1,5 +1,5 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs } from "../lib/args.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs } from "../lib/args.ts";
 
 export async function hideReply(
   client: Client,
@@ -9,5 +9,5 @@ export async function hideReply(
     positional: { key: "tweetId", label: "A tweet ID" },
   });
 
-  return client.posts.hideReply(tweetId, { hidden: true });
+  return client.put(path`/2/tweets/${tweetId}/hidden`, { hidden: true });
 }

@@ -1,4 +1,4 @@
-Retrieves the authenticated user's home timeline (reverse chronological, not the algorithmic "For you" feed). Maps to GET /2/users/:id/timelines/reverse_chronological. Invoke via `node <base_directory>/x.js timeline [flags]`. Output is JSON to stdout.
+Retrieves the authenticated user's home timeline (reverse chronological, not the algorithmic "For you" feed). Maps to GET /2/users/:id/timelines/reverse_chronological. Invoke via `node <base_directory>/x.ts timeline [flags]`. Output is JSON to stdout.
 
 [!NOTE] Results skew heavily toward the authenticated account's own posts and do not reproduce the "Following" tab of the web client. Use `--exclude replies,retweets` to improve signal.
 

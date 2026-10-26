@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import { COMMUNITY_FIELDS } from "../lib/fields.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { COMMUNITY_FIELDS } from "../lib/fields.ts";
 
 export async function community(
   client: Client,
@@ -11,10 +11,8 @@ export async function community(
     flags: { ...RAW },
   });
 
-  const options: Record<string, unknown> = {
-    communityFields: COMMUNITY_FIELDS,
-  };
-
-  const response = await client.communities.getById(flags.id, options);
+  const response = await client.get(path`/2/communities/${flags.id}`, {
+    "community.fields": COMMUNITY_FIELDS,
+  });
   return flags.raw ? response : response.data;
 }

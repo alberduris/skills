@@ -1,17 +1,15 @@
 ---
 name: x-twitter
-description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 37-command skill for Twitter/X automation.
+description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 35-command skill for Twitter/X automation.
 license: MIT
 metadata:
   author: alberduris
   version: "1.9.2"
   tags: x, twitter, x-twitter, twitter-api, social-media, tweets, automation
-allowed-tools: Bash(node *), Bash(npm *), Bash(npx *), Bash(ls *)
+allowed-tools: Bash(node *)
 ---
 
-X (Twitter) API v2 skill using the authenticated user's own developer credentials (OAuth 1.0a, pay-per-use). All commands go through a single entry point: `node <base_directory>/x.js <command> [flags]`. Each command has its own doc file with the full reference for flags and behavior.
-
-[!SETUP] Before first use, check whether `<base_directory>/node_modules` exists. If it does NOT exist, run `npm ci --prefix <base_directory>`, which installs the versions `package-lock.json` pins and leaves that file untouched. Then check whether `<base_directory>/dist/x.js` exists. If it does NOT exist, run `npm run build --prefix <base_directory>`. NEVER cd into the skill directory; use --prefix to target it without changing your working directory.
+X (Twitter) API v2 skill using the authenticated user's own developer credentials (OAuth 1.0a, pay-per-use). All commands go through a single entry point: `node <base_directory>/x.ts <command> [flags]`, which Node.js 22.18 or later runs directly, with nothing to install or build. Each command has its own doc file with the full reference for flags and behavior.
 
 [!COMMANDS]
 
@@ -40,38 +38,36 @@ Feed:
 p) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Results skew heavily toward the authenticated account's own posts and do not reproduce the "Following" tab of the web client. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
 q) `mentions` — posts that mention you. @docs/mentions.md.
 
-Bookmarks (reads work, WRITES DO NOT — `bookmark`/`unbookmark` require OAuth 2.0 user-context, which no supported credential provides; see @docs/bookmark.md before attempting):
-r) `bookmark` — NON-FUNCTIONAL. Fails with an auth error naming OAuth2UserToken. @docs/bookmark.md.
-s) `unbookmark` — NON-FUNCTIONAL, same reason. @docs/bookmark.md.
-t) `bookmarks` — list your bookmarks. Works. @docs/bookmark.md.
+Bookmarks:
+r) `bookmarks` — list your bookmarks. Adding or removing bookmarks is NOT possible: X accepts only OAuth 2.0 user context for those writes, which no supported credential provides. @docs/bookmark.md.
 
 Moderation:
-u) `mute` — mute a user. @docs/mute.md.
-v) `unmute` — unmute a user. @docs/mute.md.
-w) `muted` — list muted accounts. @docs/mute.md.
-x) `blocked` — list blocked accounts. @docs/blocked.md.
-y) `hide-reply` — hide a reply to your post. @docs/hide-reply.md.
+s) `mute` — mute a user. @docs/mute.md.
+t) `unmute` — unmute a user. @docs/mute.md.
+u) `muted` — list muted accounts. @docs/mute.md.
+v) `blocked` — list blocked accounts. @docs/blocked.md.
+w) `hide-reply` — hide a reply to your post. @docs/hide-reply.md.
 
 Analytics:
-z) `likers` — users who liked a post. @docs/likers.md.
-aa) `reposters` — users who reposted a post. @docs/reposters.md.
-ab) `quotes` — quote tweets of a post. @docs/quotes.md.
-ac) `count` — count posts matching a query over time. @docs/count.md.
-ad) `reposts-of-me` — reposts of your posts by others. @docs/reposts-of-me.md.
+x) `likers` — users who liked a post. @docs/likers.md.
+y) `reposters` — users who reposted a post. @docs/reposters.md.
+z) `quotes` — quote tweets of a post. @docs/quotes.md.
+aa) `count` — count posts matching a query over time. @docs/count.md.
+ab) `reposts-of-me` — reposts of your posts by others. @docs/reposts-of-me.md.
 
 Discovery:
-ae) `search-users` — search users by query. @docs/search-users.md.
-af) `trending` — trending topics (worldwide or personalized). @docs/trending.md.
+ac) `search-users` — search users by query. @docs/search-users.md.
+ad) `trending` — trending topics (worldwide or personalized). @docs/trending.md.
 
 Communities:
-ag) `search-communities` — search communities by keyword (name, description). Returns metadata: name, description, member count, join policy. @docs/search-communities.md.
-ah) `community` — look up a community by ID. @docs/community.md.
+ae) `search-communities` — search communities by keyword (name, description). Returns metadata: name, description, member count, join policy. @docs/search-communities.md.
+af) `community` — look up a community by ID. @docs/community.md.
 
 News:
-ai) `search-news` — search trending news stories by query. Returns headlines, summaries, categories, keywords, and related posts. @docs/search-news.md.
-aj) `news` — look up a news story by ID. @docs/news.md.
+ag) `search-news` — search trending news stories by query. Returns headlines, summaries, categories, keywords, and related posts. @docs/search-news.md.
+ah) `news` — look up a news story by ID. @docs/news.md.
 
 Account:
-ak) `usage` — posts read this cycle against the project cap. This is a READ QUOTA, not a credit balance: it cannot tell you whether you have money left, and it keeps working normally when credits are depleted. @docs/usage.md.
+ai) `usage` — posts read this cycle against the project cap. This is a READ QUOTA, not a credit balance: it cannot tell you whether you have money left, and it keeps working normally when credits are depleted. @docs/usage.md.
 
-[!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the plugin directory, d) `.env` in the plugin directory, e) environment variables. Obtain them from the X Developer Console (Apps > Keys and tokens). One CONDITIONALLY REQUIRED variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token), generated from the X Developer Console (Apps > Keys and tokens > Bearer Token). Five commands accept no other auth scheme and fail without it: `count` (ALWAYS, not only with `--all`), `trending` (default worldwide branch; `--personalized` does not need it), `search --all`, `thread --all`, and `usage`. Everything else runs under user-context auth and the Bearer is deliberately NOT attached, because the SDK prefers Bearer on any GET that accepts both schemes, which silently strips user-context fields such as `connection_status` and `receives_your_dm` — no error, no warning, just missing data.
+[!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the skill directory (`<base_directory>`), d) `.env` in the skill directory, e) environment variables. `<base_directory>/.env.example` lists every variable. Obtain them from the X Developer Console (Apps > Keys and tokens). One CONDITIONALLY REQUIRED variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token), generated from the X Developer Console (Apps > Keys and tokens > Bearer Token). Five commands authenticate with it instead of OAuth 1.0a and fail without it, before sending any request: `count` (ALWAYS, not only with `--all`), `trending` (default worldwide branch; `--personalized` accepts only user context and does not need it), `search --all`, `thread --all`, and `usage`. Their endpoints (post counts, usage, trends by place, full-archive search) are App-Only. Every other command runs under OAuth 1.0a user context, which is what returns user-context fields such as `connection_status` and `receives_your_dm`.

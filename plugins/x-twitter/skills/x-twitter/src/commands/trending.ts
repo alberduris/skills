@@ -1,5 +1,5 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
 
 export async function trending(
   client: Client,
@@ -12,9 +12,11 @@ export async function trending(
     },
   });
 
+  // Trends by place (WOEID 1 is worldwide) accept only app-only auth; the
+  // account's personalized trends accept only user context.
   const response = flags.personalized
-    ? await client.trends.getPersonalized()
-    : await client.trends.getByWoeid(1);
+    ? await client.get("/2/users/personalized_trends")
+    : await client.get("/2/trends/by/woeid/1", {}, "app-only");
 
   return flags.raw ? response : (response.data ?? []);
 }

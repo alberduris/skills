@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import { USER_FIELDS_EXTENDED } from "../lib/fields.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { USER_FIELDS_EXTENDED } from "../lib/fields.ts";
 
 interface MeFlags {
   fields: string[];
@@ -18,16 +18,13 @@ export async function me(client: Client, args: string[]): Promise<unknown> {
     defaults: { fields: USER_FIELDS_EXTENDED },
   });
 
-  const options: Record<string, unknown> = {
-    userFields: flags.fields,
-  };
-
-  if (flags.pinnedTweet) {
-    options.expansions = ["pinned_tweet_id"];
-    options.tweetFields = ["created_at", "text", "public_metrics"];
-  }
-
-  const response = await client.users.getMe(options);
+  const response = await client.get("/2/users/me", {
+    "user.fields": flags.fields,
+    ...(flags.pinnedTweet && {
+      expansions: "pinned_tweet_id",
+      "tweet.fields": ["created_at", "text", "public_metrics"],
+    }),
+  });
 
   if (flags.raw || flags.pinnedTweet) {
     return response;

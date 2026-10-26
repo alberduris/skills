@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.ts";
 
 interface ThreadFlags {
   tweetId: string;
@@ -20,14 +20,19 @@ export async function thread(
     },
   });
 
-  const options = {
-    tweetFields: TWEET_FIELDS,
+  const fields = {
+    "tweet.fields": TWEET_FIELDS,
     expansions: TWEET_EXPANSIONS,
-    userFields: TWEET_USER_FIELDS,
+    "user.fields": TWEET_USER_FIELDS,
   };
 
+  // The full archive accepts only app-only auth. The lookups use it too, so a
+  // missing bearer fails before the first billed read rather than after it.
+  const auth = flags.all ? "app-only" : "user";
+  const searchPath = flags.all ? "/2/tweets/search/all" : "/2/tweets/search/recent";
+
   // 1. Fetch the given tweet to obtain its conversation_id
-  const seedResponse = await client.posts.getById(flags.tweetId, options);
+  const seedResponse = await client.get(path`/2/tweets/${flags.tweetId}`, fields, auth);
   const seedTweet = seedResponse.data as Record<string, unknown> | undefined;
   if (!seedTweet) {
     return { error: `Tweet ${flags.tweetId} not found.` };
@@ -36,21 +41,21 @@ export async function thread(
   const conversationId = (seedTweet.conversation_id as string) ?? flags.tweetId;
 
   // 2. Search all tweets in the conversation (auto-paginate)
-  const query = `conversation_id:${conversationId}`;
   const seen = new Set<string>();
   const tweets: Record<string, unknown>[] = [];
   let nextToken: string | undefined;
 
   do {
-    const searchOpts = {
-      ...options,
-      maxResults: 100,
-      ...(nextToken && { nextToken }),
-    };
-
-    const response = flags.all
-      ? await client.posts.searchAll(query, searchOpts)
-      : await client.posts.searchRecent(query, searchOpts);
+    const response = await client.get(
+      searchPath,
+      {
+        query: `conversation_id:${conversationId}`,
+        ...fields,
+        max_results: 100,
+        next_token: nextToken,
+      },
+      auth,
+    );
 
     const data = response.data as Record<string, unknown>[] | undefined;
     if (data) {
@@ -63,7 +68,7 @@ export async function thread(
       }
     }
 
-    nextToken = (response.meta as { next_token?: string } | undefined)?.next_token;
+    nextToken = response.meta?.next_token;
   } while (nextToken);
 
   // 3. Ensure root tweet is included (search may miss it if older than 7 days)
@@ -71,7 +76,7 @@ export async function thread(
     if (conversationId === flags.tweetId) {
       tweets.unshift(seedTweet);
     } else {
-      const rootResponse = await client.posts.getById(conversationId, options);
+      const rootResponse = await client.get(path`/2/tweets/${conversationId}`, fields, auth);
       const rootTweet = rootResponse.data as Record<string, unknown> | undefined;
       if (rootTweet) tweets.unshift(rootTweet);
     }

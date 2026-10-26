@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import { USER_FIELDS_EXTENDED } from "../lib/fields.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { USER_FIELDS_EXTENDED } from "../lib/fields.ts";
 
 interface UserFlags {
   input: string;
@@ -25,24 +25,22 @@ export async function user(client: Client, args: string[]): Promise<unknown> {
     ? flags.input.slice(1)
     : flags.input;
 
-  const options: Record<string, unknown> = {
-    userFields: flags.fields,
-  };
+  const query = { "user.fields": flags.fields };
 
   // Comma-separated → multiple IDs
   if (input.includes(",")) {
     const ids = input.split(",").map((id) => id.trim());
-    const response = await client.users.getByIds(ids, options);
+    const response = await client.get("/2/users", { ids, ...query });
     return flags.raw ? response : (response.data ?? []);
   }
 
   // All digits → single ID lookup
   if (/^\d+$/.test(input)) {
-    const response = await client.users.getById(input, options);
+    const response = await client.get(path`/2/users/${input}`, query);
     return flags.raw ? response : response.data;
   }
 
   // Otherwise → username lookup
-  const response = await client.users.getByUsername(input, options);
+  const response = await client.get(path`/2/users/by/username/${input}`, query);
   return flags.raw ? response : response.data;
 }

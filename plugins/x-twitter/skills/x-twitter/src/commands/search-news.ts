@@ -1,13 +1,12 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import type { NewsField } from "../lib/fields.js";
-import { NEWS_FIELDS } from "../lib/fields.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { NEWS_FIELDS } from "../lib/fields.ts";
 
 interface SearchNewsFlags {
   query: string;
   maxResults?: number;
   maxAgeHours?: number;
-  fields?: NewsField[];
+  fields?: string[];
   raw: boolean;
 }
 
@@ -25,12 +24,11 @@ export async function searchNews(
     },
   });
 
-  const newsFields = flags.fields ?? NEWS_FIELDS;
-
-  const response = await client.news.search(flags.query, {
-    newsFields,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.maxAgeHours !== undefined && { maxAgeHours: flags.maxAgeHours }),
+  const response = await client.get("/2/news/search", {
+    query: flags.query,
+    "news.fields": flags.fields ?? NEWS_FIELDS,
+    max_results: flags.maxResults,
+    max_age_hours: flags.maxAgeHours,
   });
 
   return flags.raw ? response : (response.data ?? []);

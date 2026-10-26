@@ -1,17 +1,17 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
-import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
-import { resolveMyId } from "../lib/resolve.js";
-import { resolveEnum } from "../lib/enums.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, PAGINATION, TEMPORAL, RAW, type FlagDef } from "../lib/args.ts";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.ts";
+import { resolveMyId } from "../lib/resolve.ts";
+import { resolveEnum } from "../lib/enums.ts";
+
+const EXCLUDE: Record<string, FlagDef> = {
+  "--exclude": { key: "exclude", type: "string[]" },
+};
 
 export async function timeline(
   client: Client,
   args: string[],
 ): Promise<unknown> {
-  const EXCLUDE: Record<string, import("../lib/args.js").FlagDef> = {
-    "--exclude": { key: "exclude", type: "string[]" },
-  };
-
   const flags = parseArgs<{
     maxResults?: number;
     nextToken?: string;
@@ -27,17 +27,15 @@ export async function timeline(
 
   const myId = await resolveMyId(client);
 
-  const options: Record<string, unknown> = {
-    tweetFields: TWEET_FIELDS,
+  const response = await client.get(path`/2/users/${myId}/timelines/reverse_chronological`, {
+    "tweet.fields": TWEET_FIELDS,
     expansions: TWEET_EXPANSIONS,
-    userFields: TWEET_USER_FIELDS,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.nextToken !== undefined && { paginationToken: flags.nextToken }),
-    ...(flags.startTime !== undefined && { startTime: flags.startTime }),
-    ...(flags.endTime !== undefined && { endTime: flags.endTime }),
-    ...(flags.exclude !== undefined && { exclude: flags.exclude }),
-  };
-
-  const response = await client.users.getTimeline(myId, options);
+    "user.fields": TWEET_USER_FIELDS,
+    max_results: flags.maxResults,
+    pagination_token: flags.nextToken,
+    start_time: flags.startTime,
+    end_time: flags.endTime,
+    exclude: flags.exclude,
+  });
   return flags.raw ? response : (response.data ?? []);
 }

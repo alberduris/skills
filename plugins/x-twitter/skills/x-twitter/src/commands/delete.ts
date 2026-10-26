@@ -1,5 +1,5 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs } from "../lib/args.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs } from "../lib/args.ts";
 
 export async function del(
   client: Client,
@@ -9,5 +9,5 @@ export async function del(
     positional: { key: "id", label: "A post ID" },
   });
 
-  return client.posts.delete(id);
+  return client.delete(path`/2/tweets/${id}`);
 }

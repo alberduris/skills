@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { resolve } from "path";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 export interface Config {
   apiKey: string;
@@ -42,7 +42,7 @@ function parseEnvFile(path: string): Record<string, string> {
 }
 
 function resolveVar(
-  key: RequiredVar,
+  key: string,
   sources: Record<string, string>[],
 ): string | undefined {
   for (const source of sources) {
@@ -51,15 +51,19 @@ function resolveVar(
   return process.env[key];
 }
 
-export function loadConfig(pluginDir: string): Config {
+/**
+ * `skillDir` is the directory holding x.ts, wherever the skill is installed;
+ * its .env files apply to every project the skill runs from.
+ */
+export function loadConfig(skillDir: string): Config {
   const cwd = process.cwd();
 
-  // cwd first (project-level), then plugin dir — matches bash plugin pattern
+  // cwd first (project-level), then the skill directory, then the environment
   const sources = [
     parseEnvFile(resolve(cwd, ".env.local")),
     parseEnvFile(resolve(cwd, ".env")),
-    parseEnvFile(resolve(pluginDir, ".env.local")),
-    parseEnvFile(resolve(pluginDir, ".env")),
+    parseEnvFile(resolve(skillDir, ".env.local")),
+    parseEnvFile(resolve(skillDir, ".env")),
   ];
 
   const missing: RequiredVar[] = [];
@@ -83,8 +87,8 @@ export function loadConfig(pluginDir: string): Config {
     );
   }
 
-  // Optional: Bearer Token for App-Only auth (needed for full archive search)
-  const bearerToken = resolveVar("X_API_BEARER_TOKEN" as RequiredVar, sources);
+  // Optional: only the endpoints that accept nothing but app-only auth need it
+  const bearerToken = resolveVar("X_API_BEARER_TOKEN", sources);
   if (bearerToken) {
     config.bearerToken = bearerToken;
   }

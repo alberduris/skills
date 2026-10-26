@@ -1,11 +1,10 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import type { NewsField } from "../lib/fields.js";
-import { NEWS_FIELDS } from "../lib/fields.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { NEWS_FIELDS } from "../lib/fields.ts";
 
 interface NewsFlags {
   id: string;
-  fields?: NewsField[];
+  fields?: string[];
   raw: boolean;
 }
 
@@ -21,9 +20,9 @@ export async function news(
     },
   });
 
-  const newsFields = flags.fields ?? NEWS_FIELDS;
-
-  const response = await client.news.get(flags.id, { newsFields });
+  const response = await client.get(path`/2/news/${flags.id}`, {
+    "news.fields": flags.fields ?? NEWS_FIELDS,
+  });
 
   return flags.raw ? response : response.data;
 }

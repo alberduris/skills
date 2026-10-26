@@ -1,7 +1,7 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, PAGINATION, RAW } from "../lib/args.js";
-import { USER_FIELDS } from "../lib/fields.js";
-import { resolveMyId, resolveUserId } from "../lib/resolve.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, PAGINATION, RAW } from "../lib/args.ts";
+import { USER_FIELDS } from "../lib/fields.ts";
+import { resolveMyId, resolveUserId } from "../lib/resolve.ts";
 
 export async function mute(client: Client, args: string[]): Promise<unknown> {
   const { target } = parseArgs<{ target: string }>(args, {
@@ -10,7 +10,9 @@ export async function mute(client: Client, args: string[]): Promise<unknown> {
 
   const myId = await resolveMyId(client);
   const targetUserId = await resolveUserId(client, target);
-  return client.users.muteUser(myId, { targetUserId });
+  return client.post(path`/2/users/${myId}/muting`, {
+    target_user_id: targetUserId,
+  });
 }
 
 export async function unmute(client: Client, args: string[]): Promise<unknown> {
@@ -20,7 +22,7 @@ export async function unmute(client: Client, args: string[]): Promise<unknown> {
 
   const myId = await resolveMyId(client);
   const targetUserId = await resolveUserId(client, target);
-  return client.users.unmuteUser(myId, targetUserId);
+  return client.delete(path`/2/users/${myId}/muting/${targetUserId}`);
 }
 
 export async function muted(client: Client, args: string[]): Promise<unknown> {
@@ -32,12 +34,10 @@ export async function muted(client: Client, args: string[]): Promise<unknown> {
 
   const myId = await resolveMyId(client);
 
-  const options: Record<string, unknown> = {
-    userFields: USER_FIELDS,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.nextToken !== undefined && { paginationToken: flags.nextToken }),
-  };
-
-  const response = await client.users.getMuting(myId, options);
+  const response = await client.get(path`/2/users/${myId}/muting`, {
+    "user.fields": USER_FIELDS,
+    max_results: flags.maxResults,
+    pagination_token: flags.nextToken,
+  });
   return flags.raw ? response : (response.data ?? []);
 }

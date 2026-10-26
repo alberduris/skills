@@ -1,12 +1,12 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, RAW } from "../lib/args.js";
-import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, RAW } from "../lib/args.ts";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.ts";
 
 function articleHint(tweet: Record<string, unknown>): string | undefined {
   const article = tweet.article as Record<string, unknown> | undefined;
   if (!article) return undefined;
-  if (article.plainText) return undefined;
-  return "Hint: this tweet is an article (long-form post). The full content is in `article.plainText` but it was not returned because `article` is missing from --fields. Re-fetch with default fields or add `article` to --fields.";
+  if (article.plain_text) return undefined;
+  return "Hint: this tweet is an article (long-form post). The full content is in `article.plain_text` but it was not returned because `article` is missing from --fields. Re-fetch with default fields or add `article` to --fields.";
 }
 
 export async function get(
@@ -28,21 +28,20 @@ export async function get(
 
   const ids = flags.idsRaw.split(",").map((id) => id.trim());
 
-  const options = {
-    tweetFields: flags.tweetFields,
+  const query = {
+    "tweet.fields": flags.tweetFields,
     expansions: TWEET_EXPANSIONS,
-    userFields: TWEET_USER_FIELDS,
+    "user.fields": TWEET_USER_FIELDS,
   };
 
   if (ids.length === 1) {
-    const response = await client.posts.getById(ids[0], options);
+    const response = await client.get(path`/2/tweets/${ids[0]}`, query);
     const data = flags.raw ? response : response.data;
     const hint = !flags.raw && data ? articleHint(data as Record<string, unknown>) : undefined;
     if (hint) return { hint, data };
     return data;
   }
 
-  const response = await client.posts.getByIds(ids, options);
-  const data = flags.raw ? response : (response.data ?? []);
-  return data;
+  const response = await client.get("/2/tweets", { ids, ...query });
+  return flags.raw ? response : (response.data ?? []);
 }

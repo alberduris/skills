@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, PAGINATION, RAW } from "../lib/args.js";
-import { USER_FIELDS } from "../lib/fields.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, PAGINATION, RAW } from "../lib/args.ts";
+import { USER_FIELDS } from "../lib/fields.ts";
 
 export async function reposters(
   client: Client,
@@ -16,12 +16,10 @@ export async function reposters(
     flags: { ...PAGINATION, ...RAW },
   });
 
-  const options: Record<string, unknown> = {
-    userFields: USER_FIELDS,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.nextToken !== undefined && { paginationToken: flags.nextToken }),
-  };
-
-  const response = await client.posts.getRepostedBy(flags.tweetId, options);
+  const response = await client.get(path`/2/tweets/${flags.tweetId}/retweeted_by`, {
+    "user.fields": USER_FIELDS,
+    max_results: flags.maxResults,
+    pagination_token: flags.nextToken,
+  });
   return flags.raw ? response : (response.data ?? []);
 }

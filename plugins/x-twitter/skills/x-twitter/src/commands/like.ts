@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs } from "../lib/args.js";
-import { resolveMyId } from "../lib/resolve.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs } from "../lib/args.ts";
+import { resolveMyId } from "../lib/resolve.ts";
 
 export async function like(client: Client, args: string[]): Promise<unknown> {
   const { tweetId } = parseArgs<{ tweetId: string }>(args, {
@@ -8,7 +8,7 @@ export async function like(client: Client, args: string[]): Promise<unknown> {
   });
 
   const myId = await resolveMyId(client);
-  return client.users.likePost(myId, { tweetId });
+  return client.post(path`/2/users/${myId}/likes`, { tweet_id: tweetId });
 }
 
 export async function unlike(client: Client, args: string[]): Promise<unknown> {
@@ -17,5 +17,5 @@ export async function unlike(client: Client, args: string[]): Promise<unknown> {
   });
 
   const myId = await resolveMyId(client);
-  return client.users.unlikePost(myId, tweetId);
+  return client.delete(path`/2/users/${myId}/likes/${tweetId}`);
 }

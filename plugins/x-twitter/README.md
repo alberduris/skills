@@ -1,6 +1,6 @@
 # X API
 
-37-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
+35-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
 
 ## Commands
 
@@ -42,9 +42,9 @@
 ### Bookmarks
 | Command | Description |
 |---------|-------------|
-| `bookmark` | Bookmark a post (unavailable: needs OAuth 2.0 user context) |
-| `unbookmark` | Remove a bookmark (unavailable: needs OAuth 2.0 user context) |
 | `bookmarks` | List your bookmarks |
+
+Adding or removing bookmarks is not supported: X accepts only OAuth 2.0 user context for those writes, and none of the credentials below provide it.
 
 ### Moderation
 | Command | Description |
@@ -92,7 +92,7 @@
 1. Go to [console.x.com](https://console.x.com) > Apps > Create a new App
 2. Enable OAuth 1.0a with **Read and Write** permissions
 3. Go to Keys and tokens, generate all four credentials
-4. Add them to `.env.local` or `.env`:
+4. Add them to `.env.local` or `.env`, either in the directory you run commands from or in the skill directory (`skills/x-twitter/`, where `.env.example` is a template); environment variables work too:
 
 ```
 X_API_KEY=your_api_key
@@ -109,11 +109,11 @@ X_ACCESS_TOKEN_SECRET=your_access_token_secret
 X_API_BEARER_TOKEN=your_bearer_token
 ```
 
-Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. The CLI attaches it to those commands only; every other command runs under your OAuth 1.0a user context, so user-context fields such as `connection_status` stay in the responses.
+Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. The CLI sends it for those commands only; every other command runs under your OAuth 1.0a user context, so user-context fields such as `connection_status` stay in the responses.
 
 ## Requirements
 
-- Node.js 18+
+- Node.js 22.18+, which runs `skills/x-twitter/x.ts` directly: nothing to install or build
 - X Developer account with OAuth 1.0a credentials
 - (Optional) Bearer Token for `count`, worldwide `trending`, `usage` and full archive search
 

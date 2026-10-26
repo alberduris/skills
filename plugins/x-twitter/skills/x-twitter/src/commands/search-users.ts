@@ -1,6 +1,6 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, PAGINATION, RAW } from "../lib/args.js";
-import { USER_FIELDS } from "../lib/fields.js";
+import type { Client } from "../http/client.ts";
+import { parseArgs, PAGINATION, RAW } from "../lib/args.ts";
+import { USER_FIELDS } from "../lib/fields.ts";
 
 export async function searchUsers(
   client: Client,
@@ -16,12 +16,11 @@ export async function searchUsers(
     flags: { ...PAGINATION, ...RAW },
   });
 
-  const options: Record<string, unknown> = {
-    userFields: USER_FIELDS,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.nextToken !== undefined && { nextToken: flags.nextToken }),
-  };
-
-  const response = await client.users.search(flags.query, options);
+  const response = await client.get("/2/users/search", {
+    query: flags.query,
+    "user.fields": USER_FIELDS,
+    max_results: flags.maxResults,
+    next_token: flags.nextToken,
+  });
   return flags.raw ? response : (response.data ?? []);
 }

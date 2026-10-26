@@ -1,37 +1,4 @@
-import type {
-  CommunitiesClient,
-  NewsClient,
-  PostsClient,
-  UsersClient,
-} from "@xdevplatform/xdk";
-
-/**
- * Field and expansion names are literal string unions in the SDK, not plain
- * strings. Deriving them from the client signatures keeps one source of truth:
- * when the SDK adds or drops a field, tsc flags the lists below instead of
- * letting a bad name reach the API at runtime.
- *
- * Values coming from `--fields` on the command line stay untyped until
- * `parseArgs` hands them back as the command's flag type — that single cast in
- * lib/args.ts is the only place dynamic input crosses into these types.
- */
-type PostOptions = NonNullable<Parameters<PostsClient["searchRecent"]>[1]>;
-export type TweetField = NonNullable<PostOptions["tweetFields"]>[number];
-export type TweetExpansion = NonNullable<PostOptions["expansions"]>[number];
-export type TweetUserField = NonNullable<PostOptions["userFields"]>[number];
-
-type UserOptions = NonNullable<Parameters<UsersClient["getByUsername"]>[1]>;
-export type UserField = NonNullable<UserOptions["userFields"]>[number];
-
-type CommunityOptions = NonNullable<Parameters<CommunitiesClient["getById"]>[1]>;
-export type CommunityField = NonNullable<
-  CommunityOptions["communityFields"]
->[number];
-
-type NewsOptions = NonNullable<Parameters<NewsClient["search"]>[1]>;
-export type NewsField = NonNullable<NewsOptions["newsFields"]>[number];
-
-export const TWEET_FIELDS: TweetField[] = [
+export const TWEET_FIELDS = [
   "article",
   "author_id",
   "created_at",
@@ -43,10 +10,10 @@ export const TWEET_FIELDS: TweetField[] = [
   "text",
 ];
 
-export const TWEET_EXPANSIONS: TweetExpansion[] = ["author_id"];
-export const TWEET_USER_FIELDS: TweetUserField[] = ["name", "username"];
+export const TWEET_EXPANSIONS = ["author_id"];
+export const TWEET_USER_FIELDS = ["name", "username"];
 
-export const USER_FIELDS: UserField[] = [
+export const USER_FIELDS = [
   "created_at",
   "description",
   "id",
@@ -57,7 +24,7 @@ export const USER_FIELDS: UserField[] = [
   "verified_type",
 ];
 
-export const USER_FIELDS_EXTENDED: UserField[] = [
+export const USER_FIELDS_EXTENDED = [
   ...USER_FIELDS,
   "connection_status",
   "location",
@@ -66,7 +33,7 @@ export const USER_FIELDS_EXTENDED: UserField[] = [
   "url",
 ];
 
-export const COMMUNITY_FIELDS: CommunityField[] = [
+export const COMMUNITY_FIELDS = [
   "access",
   "created_at",
   "description",
@@ -76,7 +43,7 @@ export const COMMUNITY_FIELDS: CommunityField[] = [
   "name",
 ];
 
-export const NEWS_FIELDS: NewsField[] = [
+export const NEWS_FIELDS = [
   "category",
   "cluster_posts_results",
   "contexts",

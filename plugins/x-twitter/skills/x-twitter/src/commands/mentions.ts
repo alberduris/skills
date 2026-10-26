@@ -1,7 +1,7 @@
-import type { Client } from "@xdevplatform/xdk";
-import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.js";
-import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.js";
-import { resolveMyId } from "../lib/resolve.js";
+import { path, type Client } from "../http/client.ts";
+import { parseArgs, PAGINATION, TEMPORAL, RAW } from "../lib/args.ts";
+import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.ts";
+import { resolveMyId } from "../lib/resolve.ts";
 
 export async function mentions(
   client: Client,
@@ -17,16 +17,14 @@ export async function mentions(
 
   const myId = await resolveMyId(client);
 
-  const options: Record<string, unknown> = {
-    tweetFields: TWEET_FIELDS,
+  const response = await client.get(path`/2/users/${myId}/mentions`, {
+    "tweet.fields": TWEET_FIELDS,
     expansions: TWEET_EXPANSIONS,
-    userFields: TWEET_USER_FIELDS,
-    ...(flags.maxResults !== undefined && { maxResults: flags.maxResults }),
-    ...(flags.nextToken !== undefined && { paginationToken: flags.nextToken }),
-    ...(flags.startTime !== undefined && { startTime: flags.startTime }),
-    ...(flags.endTime !== undefined && { endTime: flags.endTime }),
-  };
-
-  const response = await client.users.getMentions(myId, options);
+    "user.fields": TWEET_USER_FIELDS,
+    max_results: flags.maxResults,
+    pagination_token: flags.nextToken,
+    start_time: flags.startTime,
+    end_time: flags.endTime,
+  });
   return flags.raw ? response : (response.data ?? []);
 }

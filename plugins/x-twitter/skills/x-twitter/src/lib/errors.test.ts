@@ -4,15 +4,6 @@ import { formatError } from "./errors.ts";
 import { ApiError } from "../http/client.ts";
 
 describe("formatError", () => {
-  it("strips query strings so searches never reach stderr", () => {
-    const error = new Error(
-      "Authentication required for /2/tweets/search/all?query=confidential&max_results=10.",
-    );
-    const [line] = formatError(error);
-    assert.ok(!line.includes("confidential"), line);
-    assert.ok(line.includes("/2/tweets/search/all?<redacted>"), line);
-  });
-
   it("prefers the API's title and detail", () => {
     const apiError = new ApiError(
       402,

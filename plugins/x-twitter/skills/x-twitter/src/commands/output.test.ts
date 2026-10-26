@@ -130,6 +130,19 @@ describe("thread", () => {
     assert.match(result.hints?.[0] ?? "", /began on 2024-06-01.*--all/);
   });
 
+  it("hints that the given post is not part of the thread when someone else wrote it", async () => {
+    const reply = post("500", { author_id: "77", conversation_id: "100", in_reply_to_user_id: "42" });
+    const { result } = await run(["thread", "500"], {
+      "GET /2/tweets": (url: URL) =>
+        url.searchParams.get("ids") === "100"
+          ? { data: [root], includes: { users: [{ id: "42", username: "alice" }] } }
+          : { data: [reply] },
+      "GET /2/tweets/search/recent": { data: [root] },
+    });
+    assert.deepEqual((result.data as { id: string }[]).map((p) => p.id), ["100"]);
+    assert.equal(result.hints?.at(-1), "Post 500 is not part of @alice's thread; `get 500` reads it.");
+  });
+
   it("prints X's errors and no posts when the post does not exist", async () => {
     const errors = [{ message: "Could not find tweet with ids: [1]." }];
     const { result, requests } = await run(["thread", "1"], { "GET /2/tweets": { errors } });

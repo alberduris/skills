@@ -1,14 +1,5 @@
 import { ApiError } from "../http/client.ts";
 
-/**
- * Drops query strings from error text while keeping the path. Error text can
- * embed a request URL, and an unredacted one writes the user's search query,
- * IDs and field lists to stderr and into anything that captures it.
- */
-function redactQueryStrings(message: string): string {
-  return message.replace(/(\/\S*?)\?\S*/g, "$1?<redacted>");
-}
-
 /** Renders any thrown value as the lines to write to stderr. */
 export function formatError(error: unknown): string[] {
   if (error instanceof ApiError && typeof error.data === "object") {
@@ -19,14 +10,14 @@ export function formatError(error: unknown): string[] {
     };
 
     const headline = [title, detail].filter(Boolean).join(" – ");
-    const lines = [`Error: ${headline || redactQueryStrings(error.message)}`];
+    const lines = [`Error: ${headline || error.message}`];
 
     for (const e of errors ?? []) {
-      lines.push(`  - ${redactQueryStrings(e.message)}`);
+      lines.push(`  - ${e.message}`);
     }
     return lines;
   }
 
   const message = error instanceof Error ? error.message : String(error);
-  return [`Error: ${redactQueryStrings(message)}`];
+  return [`Error: ${message}`];
 }

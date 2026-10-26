@@ -10,7 +10,7 @@
 | `me` | Your account data (profile, metrics, verification) |
 | `search` | Search posts by query (recent or full archive) |
 | `get` | Retrieve post(s) by ID |
-| `thread` | The author's thread containing a post |
+| `thread` | The conversation author's thread containing a post |
 | `replies` | Direct replies to a post |
 | `transcript` | Transcript of a post's video(s), from X's own subtitles |
 | `post` | Create a tweet, reply, or quote tweet |
@@ -64,7 +64,7 @@ Adding or removing bookmarks is not supported: X accepts only OAuth 2.0 user con
 | `reposters` | Users who reposted a post |
 | `quotes` | Quote tweets of a post |
 | `count` | Count posts matching a query over time |
-| `reposts-of-me` | Reposts of your posts by others |
+| `reposts-of-me` | Your posts that others reposted; `reposters` lists who |
 
 ### Discovery
 | Command | Description |

@@ -13,7 +13,7 @@ X (Twitter) API v2 skill using the authenticated user's own developer credential
 
 [!OUTPUT] Every command prints one JSON object: X's response with `includes` folded into `data`, plus our hints, as `{ data, meta?, errors?, hints? }`. `meta` and `errors` are exactly as X sent them: `meta.next_token` is the value for `--next-token`, and `errors` says why something is missing, including partial errors next to good data. `hints` is an array of strings from the CLI. `data` is absent only when X sent none. Field names are X's own.
 
-[!POSTS] Every command that returns posts (`get`, `search`, `thread`, `replies`, `quotes`, `mentions`, `timeline`, `bookmarks`, `reposts-of-me`, `me --pinned-tweet`) shows them as x.com does, in one shape: `author` (id, name, username) in place of `author_id`; `text` is the full text a human reads, long posts included, with t.co links expanded and the links to the post's own media and to the quoted post removed; `media` holds the attached photos and videos as X describes them (type, url, preview_image_url, duration_ms, variants, alt_text); `referenced_tweets` embeds quoted and retweeted posts in full, while a replied-to post stays `{ type: "replied_to", id }` and the replied-to user is in `in_reply_to_user`; `article` holds an X Article's `title` and full `plain_text`. A referenced post X did not return stays as its `{ type, id }`, and `errors` says why.
+[!POSTS] Every command that returns posts (`get`, `search`, `thread`, `replies`, `quotes`, `mentions`, `timeline`, `bookmarks`, `reposts-of-me`, `me --pinned-tweet`) shows them as x.com does, in one shape: `author` (id, name, username) in place of `author_id`; `text` is the full text a human reads, long posts included, with t.co links expanded and the links to the post's own media and to the quoted post removed; `media` holds the attached photos and videos as X describes them (type, url, preview_image_url, duration_ms, variants, alt_text); `referenced_tweets` embeds quoted and retweeted posts in full, while a replied-to post stays `{ type: "replied_to", id }` and the replied-to user is in `in_reply_to_user`; `article` holds an X Article's `title` and full `plain_text`. A referenced post X did not return stays as its `{ type, id }`, and `errors` says why. The posts an embedded post references are not requested: they stay `{ type, id }` with no error, a quoted one's link is still removed from the embedded post's text, and `get <id>` reads them.
 
 [!COMMANDS]
 
@@ -23,7 +23,7 @@ b) `search` — search posts by query. IMPORTANT: by default searches only the l
 c) `get` — retrieve one or more posts by ID; `data` is always an array. @docs/get.md.
 d) `post` — create a tweet, reply, or quote tweet. @docs/post.md.
 e) `delete` — delete a post owned by the authenticated user. @docs/delete.md.
-f) `thread` — the author's thread containing a post: the first post plus the author's replies to themselves, oldest first. Other people's replies are left out. Use `--all` for threads older than 7 days. @docs/thread.md.
+f) `thread` — the conversation author's thread containing a post: the first post plus the author's replies to themselves, oldest first. Other people's replies are left out. Use `--all` for threads older than 7 days. @docs/thread.md.
 g) `replies` — the direct replies to a post, one page at a time. @docs/replies.md.
 h) `transcript` — the transcript of a post's video(s), from the subtitle track X generates; a video X published no subtitles for has none. @docs/transcript.md.
 
@@ -59,7 +59,7 @@ z) `likers` — users who liked a post. @docs/likers.md.
 aa) `reposters` — users who reposted a post. @docs/reposters.md.
 ab) `quotes` — quote tweets of a post. @docs/quotes.md.
 ac) `count` — count posts matching a query over time. @docs/count.md.
-ad) `reposts-of-me` — reposts of your posts by others. @docs/reposts-of-me.md.
+ad) `reposts-of-me` — your own posts that others reposted; the reposters are not included, `reposters <id>` lists them. @docs/reposts-of-me.md.
 
 Discovery:
 ae) `search-users` — search users by query. @docs/search-users.md.

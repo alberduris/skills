@@ -1,13 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-
-export interface Config {
-  apiKey: string;
-  apiSecret: string;
-  accessToken: string;
-  accessTokenSecret: string;
-  bearerToken?: string;
-}
+import type { Credentials } from "./http/client.ts";
 
 const REQUIRED_VARS = [
   "X_API_KEY",
@@ -55,7 +48,7 @@ function resolveVar(
  * `skillDir` is the directory holding x.ts, wherever the skill is installed;
  * its .env files apply to every project the skill runs from.
  */
-export function loadConfig(skillDir: string): Config {
+export function loadConfig(skillDir: string): Credentials {
   const cwd = process.cwd();
 
   // cwd first (project-level), then the skill directory, then the environment
@@ -73,7 +66,7 @@ export function loadConfig(skillDir: string): Config {
     return value ?? "";
   };
 
-  const config: Config = {
+  const config: Credentials = {
     apiKey: get("X_API_KEY"),
     apiSecret: get("X_API_SECRET"),
     accessToken: get("X_ACCESS_TOKEN"),

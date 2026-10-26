@@ -57,8 +57,9 @@ export interface Post {
  * `attachments.media_keys` becomes `media`, and quoted and retweeted posts are
  * embedded in `referenced_tweets`. A replied-to post stays a reference, as
  * x.com shows only "Replying to @user"; so does any reference X did not
- * include, and X's `errors` says why. `note_tweet` and `entities` are consumed
- * into `text`.
+ * include, which X's `errors` explains at the top level but not for the posts
+ * an embedded post references, since X expands one level only. `note_tweet`
+ * and `entities` are consumed into `text`.
  */
 export function hydrate({ data, includes = {} }: ApiResponse): Post[] {
   const users = index<User>(includes.users, "id");

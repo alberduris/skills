@@ -57,5 +57,11 @@ export async function thread(client: Client, args: string[]): Promise<Output> {
         "so any of its posts older than that are missing. Use --all to search the full archive.",
     );
   }
+  // Judged by the thread's rule, not by absence from `posts`: recent search
+  // also misses the author's own posts older than 7 days.
+  const ownReply = seed.author.id === root.author.id && seed.in_reply_to_user?.id === root.author.id;
+  if (seed.id !== root.id && !ownReply) {
+    hints.push(`Post ${seed.id} is not part of @${root.author.username}'s thread; \`get ${seed.id}\` reads it.`);
+  }
   return output(errors.length > 0 ? { errors } : {}, posts, hints);
 }

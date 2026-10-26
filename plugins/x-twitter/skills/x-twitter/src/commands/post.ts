@@ -1,6 +1,7 @@
 import type { Client } from "../http/client.ts";
 import { parseArgs } from "../lib/args.ts";
 import { resolveEnum } from "../lib/enums.ts";
+import { output, type Output } from "./output.ts";
 
 interface PostFlags {
   text: string;
@@ -13,7 +14,7 @@ interface PostFlags {
 export async function post(
   client: Client,
   args: string[],
-): Promise<unknown> {
+): Promise<Output> {
   const flags = parseArgs<PostFlags>(args, {
     positional: { key: "text", label: "Post text" },
     flags: {
@@ -25,7 +26,7 @@ export async function post(
   });
 
   if (flags.replySettings) {
-    flags.replySettings = resolveEnum("replySettings", flags.replySettings);
+    flags.replySettings = resolveEnum("reply-settings", flags.replySettings);
   }
 
   const body: Record<string, unknown> = { text: flags.text };
@@ -43,5 +44,5 @@ export async function post(
     body.paid_partnership = true;
   }
 
-  return client.post("/2/tweets", body);
+  return output(await client.post("/2/tweets", body));
 }

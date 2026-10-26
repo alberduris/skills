@@ -1,0 +1,182 @@
+{
+  "data": [
+    {
+      "attachments": {
+        "media_keys": [
+          "13_2114521224038469632"
+        ]
+      },
+      "author_id": "1890388644273258496",
+      "conversation_id": "2114523620026282002",
+      "created_at": "2026-10-26T01:04:51.000Z",
+      "edit_history_tweet_ids": [
+        "2114523620026282002"
+      ],
+      "entities": {
+        "urls": [
+          {
+            "display_url": "pic.x.com/4VYFVLavB5",
+            "end": 304,
+            "expanded_url": "https://x.com/ErnestoSOFTWARE/status/2114523620026282002/video/1",
+            "media_key": "13_2114521224038469632",
+            "start": 281,
+            "url": "https://t.co/4VYFVLavB5"
+          },
+          {
+            "display_url": "x.com/ernestosoftwar…",
+            "end": 328,
+            "expanded_url": "https://twitter.com/ernestosoftware/status/2112940887806296269",
+            "start": 305,
+            "url": "https://t.co/kZGuAmOinY"
+          }
+        ]
+      },
+      "id": "2114523620026282002",
+      "note_tweet": {
+        "text": "Holy sh*t... Opus 5.5 can now generate 100M+ views with just 20 videos \n\ntheres 100s of these account spawning\nevery single day but..\n\n99% are not performing, < 1000 views\n\nand the 1% that is generating millions\nof views are simply good directors.\n\nThe new moat is being a good director.\n\nthe same way Claudes designs \nare purple gradient slop by default\n\nClaudes editing skill will look \nterrible by default \n\nSo your job is to \n\nstudy frame by frame\nWhat makes a viral video.\n\nprovide good references\n\nand become a good director\n\nthats how you end up making \nmasterpieces like these.."
+      },
+      "paid_partnership": false,
+      "public_metrics": {
+        "bookmark_count": 1511,
+        "impression_count": 61825,
+        "like_count": 977,
+        "quote_count": 4,
+        "reply_count": 26,
+        "retweet_count": 90
+      },
+      "referenced_tweets": [
+        {
+          "id": "2112940887806296269",
+          "type": "quoted"
+        }
+      ],
+      "text": "Holy sh*t... Opus 5.5 can now generate 100M+ views with just 20 videos \n\ntheres 100s of these account spawning\nevery single day but..\n\n99% are not performing, &lt; 1000 views\n\nand the 1% that is generating millions\nof views are simply good directors.\n\nThe new moat is being a good https://t.co/4VYFVLavB5 https://t.co/kZGuAmOinY"
+    }
+  ],
+  "includes": {
+    "media": [
+      {
+        "duration_ms": 60000,
+        "media_key": "13_2114521224038469632",
+        "preview_image_url": "https://pbs.twimg.com/amplify_video_thumb/2114521224038469632/img/z58G-HU_-Dgrgi5s.jpg",
+        "type": "video",
+        "variants": [
+          {
+            "content_type": "application/x-mpegURL",
+            "url": "https://video.twimg.com/amplify_video/2114521224038469632/pl/l6eZkvuuqoqC2yW-.m3u8?v=027"
+          },
+          {
+            "bit_rate": 832000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2114521224038469632/vid/avc1/442x360/p7L9YCRFQ60P_GAo.mp4"
+          },
+          {
+            "bit_rate": 256000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2114521224038469632/vid/avc1/332x270/RHeHLJG_HiNa05Bk.mp4"
+          },
+          {
+            "bit_rate": 2176000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2114521224038469632/vid/avc1/884x720/JNtGW3WeHqp8X39b.mp4"
+          },
+          {
+            "bit_rate": 10368000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2114521224038469632/vid/avc1/1200x976/SUk6GLG5I6laNwf2.mp4"
+          }
+        ]
+      }
+    ],
+    "tweets": [
+      {
+        "article": {
+          "cover_media": "3_2112939335972458497",
+          "entities": {
+            "mentions": [
+              {
+                "end": 23,
+                "start": 12,
+                "username": "viktor_com"
+              }
+            ],
+            "urls": [
+              {
+                "text": "higgsfield.ai/mcp"
+              },
+              {
+                "text": "Postiz.com"
+              },
+              {
+                "text": "viktor.com/integrations/postiz"
+              }
+            ]
+          },
+          "media_entities": [
+            "3_2112939921228931072",
+            "3_2112939788214939648",
+            "3_2112939568571777026",
+            "3_2112940052648951809",
+            "3_2112939505489420288",
+            "3_2112939600024862724",
+            "3_2112939984155967488",
+            "3_2112939630693687296",
+            "3_2112939471586852864",
+            "3_2112940022919798784",
+            "3_2112940110178029568",
+            "3_2112939950807109632",
+            "3_2112939663400812544",
+            "3_2112939692823838723",
+            "3_2112939404251590656",
+            "3_2112940080830550017",
+            "3_2112939886344888320",
+            "3_2112939433242583040"
+          ],
+          "plain_text": "we generated 10M+ views on\nTikTok without filming a single video\n \nthis is just one of our accounts\nwe have more with a few million views \n\nthat go way beyond 10M+ views\nno creators & no editors\nwe literally did it all with slideshows\nand were not the only ones doing this\nsome of the biggest apps on the App Store\nare running slideshow pages right now\nand most founders have no idea\n \nPURE is doing $5M/mo and pulled over 100M views from just 7 slideshow pages\nRunna is doing $4M/mo and one of their slideshows hit 19M views\na lot of these pages are built around a character\n \nand Claude can keep the same character in every post with Higgsfield\nfor context our content has done 150M+ views with our UGC program\nso trust me when I say this is the cheapest way to get views I have ever seen\nin this article ill break down why slideshows work with a real case study & exactly how to automate them.\nenough yapping.\nWHAT MAKES A SLIDESHOW GO VIRAL?\nbefore starting our own slideshow page\nI studied 500+ slideshow pages\nand the ones that go viral almost always\napply these 3 things\n1. A STRONG HOOK\nthe first slide is the only thing people see before they decide to swipe\nso the best hooks call out exactly who its for\n \nthis recipe page has 488M views\nand the biggest one is\n\"5 weeknight dinners for your lazy ass\" with 42M😭\nThis applies for every niche\ninstead of saying \" 5 ways to get abs\"\nYou should say \" 5 ways to get abs with this lazy 5 minute workout\nthe hook has to make you need the next slide\nand sometimes the craziest thing works best\n \nthis is one of PURE's pages\nevery post is a girl with \"sometimes you just gotta traumatise these men back\"\nThat hook makes you need the next slide.\nyou are literally forced to swipe to see what she texted him\nthey post the same hook with a different text every time\nand the 4 above did between 8.7M and 9.2M views each\nonce you find a viral hook\nIt just works everytime.\nyou can see the same thing with this other page:\n \n\"dinners you'll actually look forward to\"\nthey posted that exact hook 3 times in June\nand it did 11M, 4.4M and 3.5M views\nthen she kept going with the same idea\n\"dinners worth coming home to\" is already on part 11\nand it keeps going viral\nsame hook & different food every time\n2. A CONSISTENT THEME OR CHARACTER\nwhen people see the same character\nover and over they start to recognize your page\n \ngo look at these 2 pages\nevery single post looks like the same page\nArise posts the same anime guy with \"we built a leveling system in real life\"\nand GoTall uses the same boxers and skeleton with a tape measure every time\nso when someone clicks on your profile\nit looks like a real page and they actually follow it\nmost people just post whatever they find on Pinterest\nand the feed ends up looking all over the place\nso nobody knows what the page is about\npick 1 theme or 1 character and stick to it\nClaude can keep it the same on every post with Higgsfield\n4. THE SOUND MATTERS\nmost people pick a random sound for the slideshows\nbut it actualyl matters a lot\nif you pick a song thats trending, people might stay\njust to listen to it while they swipe\n \non that same recipe page the slideshows with \"In the Mood\"\naverages 12M views\nand the ones with \"Dinner Is Served\" average almost 10M\nwhile the page average is 1.4M\nso when a sound works in your niche just keep using it\nWHY THEYRE SO EASY TO MAKE\na video needs a creator to film it and an editor to cut it\nreal UGC runs $15 to $25 per video\n \na slideshow just needs a few photos and a good hook\nand now Claude can make the slides\nand Higgsfield can make the photos\nand if you want the character to move\nyou can use Kling AI right inside Higgsfield\nso you can post 2 or 3 a day on every page\nfor basically nothing\nHOW WE GOT 10M VIEWS REPURPOSING CONTENT\nwe had an old recipe app\nand recipes are content that already exists everywhere\nso instead of making something new\nwe just turned recipes into slideshows\nevery slideshow was the same simple format\n \na photo of the food with the name on it\nthen what you need to make it\nthats literally it\nthen a CTA to the app at the end.\nwe posted 1-2 a day and genearted 8.6M views\n \nour best one did 981K views\nso if you already have content in your app\nHOW TO AUTOMATE IT\nthose 193 slideshows were all made and posted by hand\nand when we stopped posting in January the page stopped too\n[ADD: what you tried first before Viktor, e.g. a VA in Canva, and why it didnt stick]\nso this time we handed the whole thing to Viktor\nthis is exactly how we set it up\n1. FIND THE BIGGEST PAGE IN YOUR NICHE\nfirst we found the page thats already winning in our niche\nand sent it through ViewTrack ( our own tool )\n \nit pulls every slideshow they ever posted\nwith the views and the saves of each one\nso you can see exactly what works before you make anything\n2. SEND IT TO VIKTOR\nthen we dropped that page in Slack and told Viktor to go through it\nusing the viewtrack api key\nViktor is the AI employee we use in Slack\nand we have him connected to ViewTrack, Claude, Higgsfield and Postiz\n \nhe went through all 353 slideshows on that page\nand found the 3 formats that get most of the views\nthe top one averages 6M views a post\nthen he sent Claude a brief for 2 months of slideshows\n3. CLAUDE MAKES ALL OF THEM\nClaude took the brief, made the photos with Higgsfield\nand built every slide with our app on the last one\n( Claude uses Higgsfield through their mcp: higgsfield.ai/mcp )\n \n120 slideshows in one go\nwhich would take a VA weeks to make in Canva\n4. YOU APPROVE AND POSTIZ POSTS IT\nonce Claude was done Viktor dropped them back in Slack for us to check\nwe hit approve\nand Viktor scheduled all of them on Postiz\n \nthats 120 slideshows scheduled from Nov 1 to Dec 30\nin a few minutes\n \nrunning this many posts by hand is literally impossible\nthats why we use Postiz\nYou can try postiz here: Postiz.com \nI also tested Postiz myself on my personal brand\nand the first post published did 200K views\n \nthey have a direct connector with Viktor as well \nviktor.com/integrations/postiz\n\nthen every Monday have Viktor send you the views of every slideshow\nthen have Claude make a Pt2 of the ones that went viral\nand for the ones that went really viral\nhave Claude turn the slides into a video with Kling 4 on Higgsfield\nand post it on the same page\nIts a new model that just came out 3x cheaper than seedance 2.5\nHOW THIS TURNS INTO SALES\nviews are cool but views dont pay the bills\n \nthe last slide of every slideshow should be your app\nalso your caption should have the full app of the name\nspecially when starting out, because your app can\ntake a while to show #1.\nfrom what we have seen 5M views is about $2,000 to $5,000 in revenue\ndepending on how good your onboarding is\nits not as good as UGC or Influencers but the upside\nis that is very automatable and easy to do.\nso to recap\n> find the biggest page in your niche\n> send it through Viktor using viewtrack api key\n> have Viktor find what the best formats\n> let Claude and Higgsfield make the slideshows\n> turn the winners into videos with Kling AI on Higgsfield\n> approve and let Viktor schedule them on Postiz\n> put your app on the last slide and do this at scale\ndrop any questions below, ill try to answer all of them\nI think slideshows are the most slept on way to get views for an app right now\ntell me im wrong\nTry free at @viktor_com. $100 in credits.\nFull link in my first reply.\nThank you Viktor & Postiz for sponsoring this article",
+          "preview_text": "we generated 10M+ views on\nTikTok without filming a single video\n \nthis is just one of our accounts\nwe have more with a few million views \n\nthat go way beyond 10M+ views\nno creators & no editors\nwe",
+          "title": "How we automated a slideshow farm 10M+ views/mo ran by AI agents "
+        },
+        "author_id": "1890388644273258496",
+        "conversation_id": "2112940887806296269",
+        "created_at": "2026-10-21T16:15:38.000Z",
+        "edit_history_tweet_ids": [
+          "2112940887806296269"
+        ],
+        "entities": {
+          "urls": [
+            {
+              "display_url": "x.com/i/article/2112…",
+              "end": 23,
+              "expanded_url": "https://x.com/i/article/2112939307782508544",
+              "start": 0,
+              "status": 404,
+              "unwound_url": "https://x.com/i/article/2112939307782508544",
+              "url": "https://t.co/FEVMXfmHnq"
+            }
+          ]
+        },
+        "id": "2112940887806296269",
+        "paid_partnership": true,
+        "public_metrics": {
+          "bookmark_count": 1105,
+          "impression_count": 328647,
+          "like_count": 327,
+          "quote_count": 22,
+          "reply_count": 25,
+          "retweet_count": 33
+        },
+        "text": "https://t.co/FEVMXfmHnq"
+      }
+    ],
+    "users": [
+      {
+        "id": "1890388644273258496",
+        "name": "Ernesto Lopez",
+        "username": "ErnestoSOFTWARE"
+      }
+    ]
+  },
+  "meta": {
+    "result_count": 1
+  }
+}

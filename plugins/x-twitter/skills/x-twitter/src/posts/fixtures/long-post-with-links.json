@@ -1,0 +1,130 @@
+{
+  "data": [
+    {
+      "attachments": {
+        "media_keys": [
+          "13_2113776813121941504"
+        ]
+      },
+      "author_id": "11348282",
+      "conversation_id": "2113776971603689874",
+      "created_at": "2026-10-23T23:37:56.000Z",
+      "edit_history_tweet_ids": [
+        "2113776971603689874"
+      ],
+      "entities": {
+        "urls": [
+          {
+            "description": "Before astronauts return to the lunar surface, NASA will first conduct one of the most ambitious and complex test missions in the agency's history. ",
+            "display_url": "go.nasa.gov/4jzartX",
+            "end": 188,
+            "expanded_url": "https://go.nasa.gov/4jzartX",
+            "images": [
+              {
+                "height": 2250,
+                "url": "https://pbs.twimg.com/news_img/2113776976758444032/75yidGQd?format=jpg&name=orig",
+                "width": 4000
+              },
+              {
+                "height": 150,
+                "url": "https://pbs.twimg.com/news_img/2113776976758444032/75yidGQd?format=jpg&name=150x150",
+                "width": 150
+              }
+            ],
+            "start": 165,
+            "status": 200,
+            "title": "NASA’s Artemis III Mission to Test Future Moon Lander Operations - NASA",
+            "unwound_url": "https://www.nasa.gov/missions/artemis/nasas-artemis-iii-mission-to-test-future-moon-lander-operations/?utm_source=TWITTER&utm_medium=NASA&utm_campaign=NASASocial&linkId=1026248244",
+            "url": "https://t.co/jSHP2lHuOx"
+          },
+          {
+            "display_url": "pic.x.com/m8taK5B7Oy",
+            "end": 298,
+            "expanded_url": "https://x.com/NASA/status/2113776971603689874/video/1",
+            "media_key": "13_2113776813121941504",
+            "start": 275,
+            "url": "https://t.co/m8taK5B7Oy"
+          }
+        ]
+      },
+      "id": "2113776971603689874",
+      "note_tweet": {
+        "entities": {
+          "urls": [
+            {
+              "display_url": "go.nasa.gov/4jzartX",
+              "end": 188,
+              "expanded_url": "https://go.nasa.gov/4jzartX",
+              "start": 165,
+              "url": "https://t.co/G5CkHbQhFR"
+            },
+            {
+              "display_url": "go.nasa.gov/4zV3TLc",
+              "end": 327,
+              "expanded_url": "https://go.nasa.gov/4zV3TLc",
+              "start": 304,
+              "url": "https://t.co/zEDKEcLpXY"
+            }
+          ]
+        },
+        "text": "We are not slowing down. 🚀\n\nOur Artemis III mission will send four astronauts to low Earth orbit next year to test critical systems needed for future lunar landings https://t.co/G5CkHbQhFR and we’re accelerating efforts to ensure the success of Artemis IV, the first Artemis mission on the lunar surface https://t.co/zEDKEcLpXY."
+      },
+      "paid_partnership": false,
+      "public_metrics": {
+        "bookmark_count": 358,
+        "impression_count": 1312074,
+        "like_count": 7649,
+        "quote_count": 87,
+        "reply_count": 370,
+        "retweet_count": 1012
+      },
+      "text": "We are not slowing down. 🚀\n\nOur Artemis III mission will send four astronauts to low Earth orbit next year to test critical systems needed for future lunar landings https://t.co/jSHP2lHuOx and we’re accelerating efforts to ensure the success of Artemis IV, the first Artemis https://t.co/m8taK5B7Oy"
+    }
+  ],
+  "includes": {
+    "media": [
+      {
+        "duration_ms": 59893,
+        "media_key": "13_2113776813121941504",
+        "preview_image_url": "https://pbs.twimg.com/media/HVWk812WIAAg_hz.jpg",
+        "type": "video",
+        "variants": [
+          {
+            "bit_rate": 288000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2113776813121941504/vid/avc1/480x270/CK1pQpicyNC7ryVp.mp4?tag=16"
+          },
+          {
+            "bit_rate": 2176000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2113776813121941504/vid/avc1/1280x720/vgdTe2MM6TZV0rFz.mp4?tag=16"
+          },
+          {
+            "content_type": "application/x-mpegURL",
+            "url": "https://video.twimg.com/amplify_video/2113776813121941504/pl/Sws2JLpHl8xdzMyH.m3u8?tag=16&v=ab6"
+          },
+          {
+            "bit_rate": 10368000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2113776813121941504/vid/avc1/1920x1080/oa29OYgVBG7qAyEB.mp4?tag=16"
+          },
+          {
+            "bit_rate": 832000,
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2113776813121941504/vid/avc1/640x360/5hFfAy0kkbJaZ6iQ.mp4?tag=16"
+          }
+        ]
+      }
+    ],
+    "users": [
+      {
+        "id": "11348282",
+        "name": "NASA",
+        "username": "NASA"
+      }
+    ]
+  },
+  "meta": {
+    "result_count": 1
+  }
+}

@@ -1,6 +1,6 @@
 # X API
 
-35-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
+36-command Claude Code skill for X/Twitter. Post, search, engage, moderate — all from your terminal.
 
 ## Commands
 
@@ -10,7 +10,8 @@
 | `me` | Your account data (profile, metrics, verification) |
 | `search` | Search posts by query (recent or full archive) |
 | `get` | Retrieve post(s) by ID |
-| `thread` | Retrieve a full thread/conversation by any tweet ID |
+| `thread` | The author's thread containing a post |
+| `replies` | Direct replies to a post |
 | `post` | Create a tweet, reply, or quote tweet |
 | `delete` | Delete a post |
 
@@ -103,19 +104,19 @@ X_ACCESS_TOKEN_SECRET=your_access_token_secret
 
 ### Optional: Bearer Token
 
-`count`, `trending` (worldwide; `--personalized` runs without it), `usage`, and `search`/`thread` with `--all` (full archive back to 2006) accept only an App-Only Bearer Token:
+`count`, `trending` (worldwide; `--personalized` runs without it) and `usage` accept only an App-Only Bearer Token:
 
 ```
 X_API_BEARER_TOKEN=your_bearer_token
 ```
 
-Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. The CLI sends it for those commands only; every other command runs under your OAuth 1.0a user context, so user-context fields such as `connection_status` stay in the responses.
+Generate it from the X Developer Console under **Keys and tokens > Bearer Token**. The CLI sends it for those commands only; every other command, full-archive search (`--all`, back to 2006) included, runs under your OAuth 1.0a user context, so user-context fields such as `connection_status` stay in the responses.
 
 ## Requirements
 
 - Node.js 22.18+, which runs `skills/x-twitter/x.ts` directly: nothing to install or build
 - X Developer account with OAuth 1.0a credentials
-- (Optional) Bearer Token for `count`, worldwide `trending`, `usage` and full archive search
+- (Optional) Bearer Token for `count`, worldwide `trending` and `usage`
 
 ## License
 

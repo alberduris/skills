@@ -1,4 +1,5 @@
 import type { Client } from "../http/client.ts";
+import type { Output } from "./output.ts";
 import { me } from "./me.ts";
 import { search } from "./search.ts";
 import { get } from "./get.ts";
@@ -27,9 +28,10 @@ import { searchCommunities } from "./search-communities.ts";
 import { searchNews } from "./search-news.ts";
 import { news } from "./news.ts";
 import { thread } from "./thread.ts";
+import { replies } from "./replies.ts";
 import { usage } from "./usage.ts";
 
-export type Command = (client: Client, args: string[]) => Promise<unknown>;
+export type Command = (client: Client, args: string[]) => Promise<Output>;
 
 export const commands: Record<string, Command> = {
   me,
@@ -66,5 +68,6 @@ export const commands: Record<string, Command> = {
   "search-news": searchNews,
   news,
   thread,
+  replies,
   usage,
 };

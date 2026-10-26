@@ -1,17 +1,17 @@
 import { path, type Client } from "../http/client.ts";
-import { parseArgs, PAGINATION, RAW } from "../lib/args.ts";
+import { parseArgs, PAGINATION } from "../lib/args.ts";
 import { USER_FIELDS } from "../lib/fields.ts";
 import { resolveMyId } from "../lib/resolve.ts";
+import { output, type Output } from "./output.ts";
 
 export async function blocked(
   client: Client,
   args: string[],
-): Promise<unknown> {
+): Promise<Output> {
   const flags = parseArgs<{
     maxResults?: number;
     nextToken?: string;
-    raw: boolean;
-  }>(args, { flags: { ...PAGINATION, ...RAW } });
+  }>(args, { flags: { ...PAGINATION } });
 
   const myId = await resolveMyId(client);
 
@@ -20,5 +20,5 @@ export async function blocked(
     max_results: flags.maxResults,
     pagination_token: flags.nextToken,
   });
-  return flags.raw ? response : (response.data ?? []);
+  return output(response, response.data ?? []);
 }

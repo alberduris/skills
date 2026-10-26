@@ -1,6 +1,7 @@
 import type { Client } from "../http/client.ts";
-import { parseArgs, TEMPORAL, RAW } from "../lib/args.ts";
+import { parseArgs, TEMPORAL } from "../lib/args.ts";
 import { resolveEnum } from "../lib/enums.ts";
+import { output, type Output } from "./output.ts";
 
 interface CountFlags {
   query: string;
@@ -9,15 +10,13 @@ interface CountFlags {
   endTime?: string;
   granularity?: string;
   nextToken?: string;
-  raw: boolean;
 }
 
-export async function count(client: Client, args: string[]): Promise<unknown> {
+export async function count(client: Client, args: string[]): Promise<Output> {
   const flags = parseArgs<CountFlags>(args, {
     positional: { key: "query", label: "A search query" },
     flags: {
       ...TEMPORAL,
-      ...RAW,
       "--all": { key: "all", type: "boolean" },
       "--granularity": { key: "granularity", type: "string" },
       "--next-token": { key: "nextToken", type: "string" },
@@ -41,5 +40,5 @@ export async function count(client: Client, args: string[]): Promise<unknown> {
     "app-only",
   );
 
-  return flags.raw ? response : (response.data ?? []);
+  return output(response, response.data ?? []);
 }

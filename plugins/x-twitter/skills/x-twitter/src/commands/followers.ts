@@ -1,22 +1,22 @@
 import { path, type Client } from "../http/client.ts";
-import { parseArgs, PAGINATION, RAW } from "../lib/args.ts";
+import { parseArgs, PAGINATION } from "../lib/args.ts";
 import { USER_FIELDS } from "../lib/fields.ts";
 import { resolveUserId } from "../lib/resolve.ts";
+import { output, type Output } from "./output.ts";
 
 interface ListFlags {
   target: string;
   maxResults?: number;
   nextToken?: string;
-  raw: boolean;
 }
 
 export async function followers(
   client: Client,
   args: string[],
-): Promise<unknown> {
+): Promise<Output> {
   const flags = parseArgs<ListFlags>(args, {
     positional: { key: "target", label: "A username or user ID" },
-    flags: { ...PAGINATION, ...RAW },
+    flags: { ...PAGINATION },
   });
 
   const userId = await resolveUserId(client, flags.target);
@@ -26,16 +26,16 @@ export async function followers(
     max_results: flags.maxResults,
     pagination_token: flags.nextToken,
   });
-  return flags.raw ? response : (response.data ?? []);
+  return output(response, response.data ?? []);
 }
 
 export async function following(
   client: Client,
   args: string[],
-): Promise<unknown> {
+): Promise<Output> {
   const flags = parseArgs<ListFlags>(args, {
     positional: { key: "target", label: "A username or user ID" },
-    flags: { ...PAGINATION, ...RAW },
+    flags: { ...PAGINATION },
   });
 
   const userId = await resolveUserId(client, flags.target);
@@ -45,5 +45,5 @@ export async function following(
     max_results: flags.maxResults,
     pagination_token: flags.nextToken,
   });
-  return flags.raw ? response : (response.data ?? []);
+  return output(response, response.data ?? []);
 }

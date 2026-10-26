@@ -1,9 +1,9 @@
-Retrieves a full thread (conversation) given any tweet ID from within it. Automatically resolves the conversation_id, fetches all tweets via search, paginates, deduplicates, and returns them sorted chronologically. Invoke via `node <base_directory>/x.ts thread <tweet_id> [flags]`. Output is JSON to stdout.
+Retrieves the author's thread containing a post, as a human reads one on x.com: the conversation's first post plus every post in it where the author replies to themselves, oldest first. Other people's replies, and the author's replies to them, are left out; use `replies` for those. Pass any post ID from the thread. Invoke via `node <base_directory>/x.ts thread <tweet_id> [flags]`. Output is JSON to stdout.
 
-[!HOW-IT-WORKS] 1) Fetches the given tweet to obtain its conversation_id (always equals the root tweet's ID). 2) Searches `conversation_id:<id>` to collect all tweets in the conversation (auto-paginates). 3) Ensures the root tweet is included even if outside the search window. 4) Deduplicates and sorts chronologically.
+[!HOW-IT-WORKS] 1) Looks up the given post to find its conversation (the conversation's ID is its first post's ID) and, if different, looks up that first post to find the author. 2) Searches `conversation_id:<id> from:<author>`, following every page. 3) Keeps the posts whose `in_reply_to_user` is the author.
 
-[!FLAGS] a) no flags — returns the full thread using recent search (last 7 days). b) `--all` — use full archive search instead of recent (requires `X_API_BEARER_TOKEN`). Use this for threads older than 7 days. c) `--raw` — output wraps into `{ data: [...] }` envelope.
+[!FLAGS] a) no flags — searches the last 7 days. b) `--all` — searches the full archive. Use it for threads older than 7 days; `hints` says when the thread began before that window.
 
-[!OUTPUT-SHAPE] Default produces an array of tweet objects sorted oldest-first. Each tweet includes default fields (text, author_id, created_at, conversation_id, public_metrics, article, referenced_tweets, in_reply_to_user_id) with expanded author (name, username). Article tweets (long-form posts) will include `article.plain_text` with the full content. If recent search returned very few results, a `hint` field is included suggesting `--all`.
+[!OUTPUT-SHAPE] `data` is an array of posts, oldest first. When the given post does not exist, `data` is empty and `errors` says why.
 
-[!IMPORTANT] This is the correct way to read a thread. Do NOT use `search "conversation_id:..."` manually — the `thread` command handles everything automatically (resolution, pagination, root tweet inclusion, chronological sorting).
+[!COST] Every post returned is a billed read. Only the author's posts are fetched, so a thread with hundreds of replies from others costs about as many reads as the author's own posts.

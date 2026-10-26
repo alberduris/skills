@@ -1,5 +1,6 @@
+/** Keyed by flag name, so errors name the flag the user typed. */
 const ENUMS: Record<string, { valid: string[]; aliases: Record<string, string> }> = {
-  sortOrder: {
+  sort: {
     valid: ["recency", "relevancy"],
     aliases: { recent: "recency", relevant: "relevancy", latest: "recency" },
   },
@@ -7,7 +8,7 @@ const ENUMS: Record<string, { valid: string[]; aliases: Record<string, string> }
     valid: ["minute", "hour", "day"],
     aliases: { minutes: "minute", hours: "hour", days: "day", hourly: "hour", daily: "day" },
   },
-  replySettings: {
+  "reply-settings": {
     valid: ["following", "mentionedUsers", "subscribers", "verified"],
     aliases: { friends: "following", mentioned: "mentionedUsers", subs: "subscribers" },
   },
@@ -17,8 +18,8 @@ const ENUMS: Record<string, { valid: string[]; aliases: Record<string, string> }
   },
 };
 
-export function resolveEnum(param: string, value: string): string {
-  const def = ENUMS[param];
+export function resolveEnum(flag: string, value: string): string {
+  const def = ENUMS[flag];
   if (!def) return value;
 
   if (def.valid.includes(value)) return value;
@@ -31,6 +32,6 @@ export function resolveEnum(param: string, value: string): string {
     .join(", ");
   const hint = aliasList ? ` (aliases: ${aliasList})` : "";
   throw new Error(
-    `Invalid value '${value}' for --${param}. Valid: ${def.valid.join(", ")}${hint}`,
+    `Invalid value '${value}' for --${flag}. Valid: ${def.valid.join(", ")}${hint}`,
   );
 }

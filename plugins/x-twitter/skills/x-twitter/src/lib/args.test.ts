@@ -1,6 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { parseArgs, PAGINATION, TEMPORAL, RAW } from "./args.ts";
+import { parseArgs, PAGINATION, TEMPORAL, type FlagDef } from "./args.ts";
+
+const ALL: Record<string, FlagDef> = { "--all": { key: "all", type: "boolean" } };
 
 describe("parseArgs", () => {
   describe("positional arguments", () => {
@@ -34,17 +36,17 @@ describe("parseArgs", () => {
 
   describe("boolean flags", () => {
     it("defaults boolean flags to false", () => {
-      const result = parseArgs<{ raw: boolean }>([], {
-        flags: { "--raw": { key: "raw", type: "boolean" } },
+      const result = parseArgs<{ all: boolean }>([], {
+        flags: ALL,
       });
-      assert.equal(result.raw, false);
+      assert.equal(result.all, false);
     });
 
     it("sets boolean flag to true when present", () => {
-      const result = parseArgs<{ raw: boolean }>(["--raw"], {
-        flags: { "--raw": { key: "raw", type: "boolean" } },
+      const result = parseArgs<{ all: boolean }>(["--all"], {
+        flags: ALL,
       });
-      assert.equal(result.raw, true);
+      assert.equal(result.all, true);
     });
   });
 
@@ -101,37 +103,37 @@ describe("parseArgs", () => {
   describe("unknown flags", () => {
     it("throws on unknown flag", () => {
       assert.throws(
-        () => parseArgs(["--bogus"], { flags: { ...RAW } }),
+        () => parseArgs(["--bogus"], { flags: { ...ALL } }),
         /Unknown flag: --bogus/,
       );
     });
   });
 
   describe("composable flag sets", () => {
-    it("composes PAGINATION + RAW", () => {
+    it("composes PAGINATION + ALL", () => {
       const result = parseArgs<{
         maxResults?: number;
         nextToken?: string;
-        raw: boolean;
-      }>(["--max-results", "5", "--raw"], {
-        flags: { ...PAGINATION, ...RAW },
+        all: boolean;
+      }>(["--max-results", "5", "--all"], {
+        flags: { ...PAGINATION, ...ALL },
       });
       assert.equal(result.maxResults, 5);
-      assert.equal(result.raw, true);
+      assert.equal(result.all, true);
     });
 
-    it("composes PAGINATION + TEMPORAL + RAW", () => {
+    it("composes PAGINATION + TEMPORAL + ALL", () => {
       const result = parseArgs<{
         maxResults?: number;
         startTime?: string;
         endTime?: string;
-        raw: boolean;
+        all: boolean;
       }>(["--start-time", "2024-01-01", "--end-time", "2024-12-31"], {
-        flags: { ...PAGINATION, ...TEMPORAL, ...RAW },
+        flags: { ...PAGINATION, ...TEMPORAL, ...ALL },
       });
       assert.equal(result.startTime, "2024-01-01");
       assert.equal(result.endTime, "2024-12-31");
-      assert.equal(result.raw, false);
+      assert.equal(result.all, false);
     });
   });
 
@@ -158,10 +160,10 @@ describe("parseArgs", () => {
 
   describe("empty args with no positional", () => {
     it("returns defaults only", () => {
-      const result = parseArgs<{ raw: boolean }>([], {
-        flags: { ...RAW },
+      const result = parseArgs<{ all: boolean }>([], {
+        flags: { ...ALL },
       });
-      assert.equal(result.raw, false);
+      assert.equal(result.all, false);
     });
   });
 
@@ -170,14 +172,14 @@ describe("parseArgs", () => {
       const result = parseArgs<{
         query: string;
         maxResults?: number;
-        raw: boolean;
-      }>(["cats", "--max-results", "25", "--raw"], {
+        all: boolean;
+      }>(["cats", "--max-results", "25", "--all"], {
         positional: { key: "query", label: "A query" },
-        flags: { ...PAGINATION, ...RAW },
+        flags: { ...PAGINATION, ...ALL },
       });
       assert.equal(result.query, "cats");
       assert.equal(result.maxResults, 25);
-      assert.equal(result.raw, true);
+      assert.equal(result.all, true);
     });
   });
 });

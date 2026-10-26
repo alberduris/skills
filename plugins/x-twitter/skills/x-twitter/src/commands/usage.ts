@@ -1,9 +1,9 @@
 import type { Client } from "../http/client.ts";
-import { parseArgs, RAW } from "../lib/args.ts";
+import { parseArgs } from "../lib/args.ts";
+import { output, type Output } from "./output.ts";
 
 interface UsageFlags {
   days?: number;
-  raw: boolean;
 }
 
 /**
@@ -12,10 +12,9 @@ interface UsageFlags {
  * them. The X API exposes no dollar balance — that lives in the Developer
  * Console only.
  */
-export async function usage(client: Client, args: string[]): Promise<unknown> {
+export async function usage(client: Client, args: string[]): Promise<Output> {
   const flags = parseArgs<UsageFlags>(args, {
     flags: {
-      ...RAW,
       "--days": { key: "days", type: "number" },
     },
   });
@@ -23,5 +22,5 @@ export async function usage(client: Client, args: string[]): Promise<unknown> {
   // Accepts only app-only auth
   const response = await client.get("/2/usage/tweets", { days: flags.days }, "app-only");
 
-  return flags.raw ? response : response.data;
+  return output(response);
 }

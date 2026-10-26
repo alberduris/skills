@@ -20,10 +20,6 @@ export const TEMPORAL: Record<string, FlagDef> = {
   "--end-time": { key: "endTime", type: "string" },
 };
 
-export const RAW: Record<string, FlagDef> = {
-  "--raw": { key: "raw", type: "boolean" },
-};
-
 export function parseArgs<T>(
   args: string[],
   schema: ParseSchema,

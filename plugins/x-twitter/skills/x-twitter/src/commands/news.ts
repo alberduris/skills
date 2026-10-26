@@ -1,21 +1,20 @@
 import { path, type Client } from "../http/client.ts";
-import { parseArgs, RAW } from "../lib/args.ts";
+import { parseArgs } from "../lib/args.ts";
 import { NEWS_FIELDS } from "../lib/fields.ts";
+import { output, type Output } from "./output.ts";
 
 interface NewsFlags {
   id: string;
   fields?: string[];
-  raw: boolean;
 }
 
 export async function news(
   client: Client,
   args: string[],
-): Promise<unknown> {
+): Promise<Output> {
   const flags = parseArgs<NewsFlags>(args, {
     positional: { key: "id", label: "A news story ID" },
     flags: {
-      ...RAW,
       "--fields": { key: "fields", type: "string[]" },
     },
   });
@@ -24,5 +23,5 @@ export async function news(
     "news.fields": flags.fields ?? NEWS_FIELDS,
   });
 
-  return flags.raw ? response : response.data;
+  return output(response);
 }

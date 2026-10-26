@@ -17,10 +17,13 @@ const PUT = (url: string, body: unknown): SentRequest => ({ method: "PUT", url: 
 const DELETE = (url: string): SentRequest => ({ method: "DELETE", url: API + url, auth: "user" });
 
 // Default field sets as they appear in the query string
-const TWEETS =
-  "tweet.fields=article%2Cauthor_id%2Ccreated_at%2Cconversation_id%2Cpaid_partnership" +
-  "%2Cpublic_metrics%2Creferenced_tweets%2Cin_reply_to_user_id%2Ctext" +
-  "&expansions=author_id&user.fields=name%2Cusername";
+const POSTS =
+  "tweet.fields=article%2Cattachments%2Cauthor_id%2Cconversation_id%2Ccreated_at%2Centities" +
+  "%2Cin_reply_to_user_id%2Cnote_tweet%2Cpublic_metrics%2Creferenced_tweets%2Cpaid_partnership" +
+  "&expansions=author_id%2Cattachments.media_keys%2Creferenced_tweets.id%2Creferenced_tweets.id.author_id" +
+  "%2Creferenced_tweets.id.attachments.media_keys%2Cin_reply_to_user_id" +
+  "&media.fields=type%2Curl%2Cpreview_image_url%2Cduration_ms%2Cvariants%2Calt_text" +
+  "&user.fields=name%2Cusername";
 const USERS =
   "user.fields=created_at%2Cdescription%2Cid%2Cname%2Cprofile_image_url" +
   "%2Cpublic_metrics%2Cusername%2Cverified_type";
@@ -32,12 +35,17 @@ const NEWS =
   "news.fields=category%2Ccluster_posts_results%2Ccontexts%2Cdisclaimer%2Chook" +
   "%2Ckeywords%2Cname%2Csummary%2Cupdated_at";
 
-// Lookups that other commands make first: the account is me1, @alice is 42,
-// and tweet 200 belongs to conversation 100.
+// Lookups that other commands make first: the account is me1 and has pinned
+// post 300, @alice is 42, and post 200 replies in conversation 100, which
+// @alice started.
+const POST_LOOKUP: Record<string, object> = {
+  "100": { id: "100", text: "", conversation_id: "100", author_id: "42" },
+  "200": { id: "200", text: "", conversation_id: "100", author_id: "42" },
+};
 const ROUTES = {
-  "GET /2/users/me": { data: { id: "me1" } },
+  "GET /2/users/me": { data: { id: "me1", pinned_tweet_id: "300" } },
   "GET /2/users/by/username/alice": { data: { id: "42" } },
-  "GET /2/tweets/200": { data: { id: "200", conversation_id: "100" } },
+  "GET /2/tweets": (url: URL) => ({ data: [POST_LOOKUP[url.searchParams.get("ids") ?? ""]].filter(Boolean) }),
 };
 const ME = GET("/2/users/me");
 const ALICE = GET("/2/users/by/username/alice");
@@ -47,23 +55,23 @@ const CASES: [string[], SentRequest[]][] = [
   [["me"], [GET(`/2/users/me?${USERS_EXTENDED}`)]],
   [["me", "--fields", "id,username"], [GET("/2/users/me?user.fields=id%2Cusername")]],
   [["me", "--pinned-tweet"], [
-    GET(`/2/users/me?${USERS_EXTENDED}&expansions=pinned_tweet_id&tweet.fields=created_at%2Ctext%2Cpublic_metrics`),
+    GET(`/2/users/me?${USERS_EXTENDED}%2Cpinned_tweet_id`),
+    GET(`/2/tweets?ids=300&${POSTS}`),
   ]],
   [["search", 'from:alice "hello world"'], [
-    GET(`/2/tweets/search/recent?query=from%3Aalice%20%22hello%20world%22&${TWEETS}`),
+    GET(`/2/tweets/search/recent?query=from%3Aalice%20%22hello%20world%22&${POSTS}`),
   ]],
   [["search", "cats", "--all", "--max-results", "50", "--sort", "recent",
     "--start-time", "2024-01-01T00:00:00Z", "--end-time", "2024-12-31T00:00:00Z",
-    "--since-id", "1", "--until-id", "2", "--next-token", "tok", "--fields", "text,id"], [
+    "--since-id", "1", "--until-id", "2", "--next-token", "tok"], [
     GET(
-      "/2/tweets/search/all?query=cats&tweet.fields=text%2Cid&expansions=author_id&user.fields=name%2Cusername" +
+      `/2/tweets/search/all?query=cats&${POSTS}` +
         "&max_results=50&sort_order=recency&start_time=2024-01-01T00%3A00%3A00Z&end_time=2024-12-31T00%3A00%3A00Z" +
         "&since_id=1&until_id=2&next_token=tok",
-      "app-only",
     ),
   ]],
-  [["get", "20"], [GET(`/2/tweets/20?${TWEETS}`)]],
-  [["get", "20,21"], [GET(`/2/tweets?ids=20%2C21&${TWEETS}`)]],
+  [["get", "20"], [GET(`/2/tweets?ids=20&${POSTS}`)]],
+  [["get", "20,21"], [GET(`/2/tweets?ids=20%2C21&${POSTS}`)]],
   [["post", "hello"], [POST("/2/tweets", { text: "hello" })]],
   [["post", "hello", "--reply-to", "20", "--quote", "21", "--reply-settings", "mentioned", "--paid-partnership"], [
     POST("/2/tweets", {
@@ -76,14 +84,17 @@ const CASES: [string[], SentRequest[]][] = [
   ]],
   [["delete", "20"], [DELETE("/2/tweets/20")]],
   [["thread", "200"], [
-    GET(`/2/tweets/200?${TWEETS}`),
-    GET(`/2/tweets/search/recent?query=conversation_id%3A100&${TWEETS}&max_results=100`),
-    GET(`/2/tweets/100?${TWEETS}`),
+    GET(`/2/tweets?ids=200&${POSTS}`),
+    GET(`/2/tweets?ids=100&${POSTS}`),
+    GET(`/2/tweets/search/recent?query=conversation_id%3A100%20from%3A42&${POSTS}&max_results=100`),
   ]],
-  [["thread", "200", "--all"], [
-    GET(`/2/tweets/200?${TWEETS}`, "app-only"),
-    GET(`/2/tweets/search/all?query=conversation_id%3A100&${TWEETS}&max_results=100`, "app-only"),
-    GET(`/2/tweets/100?${TWEETS}`, "app-only"),
+  [["thread", "100", "--all"], [
+    GET(`/2/tweets?ids=100&${POSTS}`),
+    GET(`/2/tweets/search/all?query=conversation_id%3A100%20from%3A42&${POSTS}&max_results=100`),
+  ]],
+  [["replies", "20"], [GET(`/2/tweets/search/recent?query=in_reply_to_tweet_id%3A20&${POSTS}`)]],
+  [["replies", "20", "--all", "--max-results", "10", "--next-token", "tok"], [
+    GET(`/2/tweets/search/all?query=in_reply_to_tweet_id%3A20&${POSTS}&max_results=10&next_token=tok`),
   ]],
 
   // Engagement
@@ -104,13 +115,13 @@ const CASES: [string[], SentRequest[]][] = [
   // Feed
   [["timeline", "--exclude", "replies,rts", "--max-results", "5"], [
     ME,
-    GET(`/2/users/me1/timelines/reverse_chronological?${TWEETS}&max_results=5&exclude=replies%2Cretweets`),
+    GET(`/2/users/me1/timelines/reverse_chronological?${POSTS}&max_results=5&exclude=replies%2Cretweets`),
   ]],
   [["mentions", "--start-time", "2024-06-01T00:00:00Z", "--next-token", "tok"], [
     ME,
-    GET(`/2/users/me1/mentions?${TWEETS}&pagination_token=tok&start_time=2024-06-01T00%3A00%3A00Z`),
+    GET(`/2/users/me1/mentions?${POSTS}&pagination_token=tok&start_time=2024-06-01T00%3A00%3A00Z`),
   ]],
-  [["bookmarks"], [ME, GET(`/2/users/me1/bookmarks?${TWEETS}`)]],
+  [["bookmarks"], [ME, GET(`/2/users/me1/bookmarks?${POSTS}`)]],
 
   // Moderation
   [["mute", "alice"], [ME, ALICE, POST("/2/users/me1/muting", { target_user_id: "42" })]],
@@ -125,14 +136,14 @@ const CASES: [string[], SentRequest[]][] = [
   // Analytics
   [["likers", "20"], [GET(`/2/tweets/20/liking_users?${USERS}`)]],
   [["reposters", "20"], [GET(`/2/tweets/20/retweeted_by?${USERS}`)]],
-  [["quotes", "20", "--max-results", "10"], [GET(`/2/tweets/20/quote_tweets?${TWEETS}&max_results=10`)]],
+  [["quotes", "20", "--max-results", "10"], [GET(`/2/tweets/20/quote_tweets?${POSTS}&max_results=10`)]],
   [["count", "from:alice", "--granularity", "daily"], [
     GET("/2/tweets/counts/recent?query=from%3Aalice&granularity=day", "app-only"),
   ]],
   [["count", "cats", "--all", "--next-token", "tok"], [
     GET("/2/tweets/counts/all?query=cats&next_token=tok", "app-only"),
   ]],
-  [["reposts-of-me", "--max-results", "10"], [GET(`/2/users/reposts_of_me?${TWEETS}&max_results=10`)]],
+  [["reposts-of-me", "--max-results", "10"], [GET(`/2/users/reposts_of_me?${POSTS}&max_results=10`)]],
 
   // Discovery
   [["search-users", "ada", "--next-token", "tok"], [GET(`/2/users/search?query=ada&${USERS}&next_token=tok`)]],

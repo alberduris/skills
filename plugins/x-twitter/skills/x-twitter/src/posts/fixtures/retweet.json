@@ -1,0 +1,141 @@
+{
+  "data": [
+    {
+      "author_id": "11348282",
+      "conversation_id": "2114037724076552597",
+      "created_at": "2026-10-24T16:54:04.000Z",
+      "edit_history_tweet_ids": [
+        "2114037724076552597"
+      ],
+      "entities": {
+        "mentions": [
+          {
+            "end": 12,
+            "id": "1907894348319973378",
+            "start": 3,
+            "username": "NASASpox"
+          },
+          {
+            "end": 113,
+            "id": "2000593641480605696",
+            "start": 103,
+            "username": "NASAAdmin"
+          }
+        ]
+      },
+      "id": "2114037724076552597",
+      "paid_partnership": false,
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 59745,
+        "like_count": 0,
+        "quote_count": 0,
+        "reply_count": 0,
+        "retweet_count": 83
+      },
+      "referenced_tweets": [
+        {
+          "id": "2114034650117284068",
+          "type": "retweeted"
+        }
+      ],
+      "text": "RT @NASASpox: NASA’s Inspiration Tour has landed in in the SEC 🚀🏈\n\nAhead of Alabama vs. Texas A&amp;M, @NASAAdmin met with students and fans ou…"
+    }
+  ],
+  "includes": {
+    "media": [
+      {
+        "media_key": "3_2114034643901067264",
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HVaPTtiXsAAF4yu.jpg"
+      },
+      {
+        "media_key": "3_2114034644068806656",
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HVaPTuKXMAA6z1e.jpg"
+      }
+    ],
+    "tweets": [
+      {
+        "attachments": {
+          "media_keys": [
+            "3_2114034643901067264",
+            "3_2114034644068806656"
+          ]
+        },
+        "author_id": "1907894348319973378",
+        "conversation_id": "2114034650117284068",
+        "created_at": "2026-10-24T16:41:52.000Z",
+        "edit_history_tweet_ids": [
+          "2114034650117284068"
+        ],
+        "entities": {
+          "mentions": [
+            {
+              "end": 99,
+              "id": "2000593641480605696",
+              "start": 89,
+              "username": "NASAAdmin"
+            },
+            {
+              "end": 175,
+              "id": "1886776365673803776",
+              "start": 164,
+              "username": "SecRollins"
+            },
+            {
+              "end": 216,
+              "id": "61853389",
+              "start": 211,
+              "username": "USDA"
+            }
+          ],
+          "urls": [
+            {
+              "display_url": "pic.x.com/DEtfH28uI0",
+              "end": 295,
+              "expanded_url": "https://x.com/NASASpox/status/2114034650117284068/photo/1",
+              "media_key": "3_2114034643901067264",
+              "start": 272,
+              "url": "https://t.co/DEtfH28uI0"
+            },
+            {
+              "display_url": "pic.x.com/DEtfH28uI0",
+              "end": 295,
+              "expanded_url": "https://x.com/NASASpox/status/2114034650117284068/photo/1",
+              "media_key": "3_2114034644068806656",
+              "start": 272,
+              "url": "https://t.co/DEtfH28uI0"
+            }
+          ]
+        },
+        "id": "2114034650117284068",
+        "paid_partnership": false,
+        "public_metrics": {
+          "bookmark_count": 20,
+          "impression_count": 199418,
+          "like_count": 646,
+          "quote_count": 7,
+          "reply_count": 16,
+          "retweet_count": 83
+        },
+        "text": "NASA’s Inspiration Tour has landed in in the SEC 🚀🏈\n\nAhead of Alabama vs. Texas A&amp;M, @NASAAdmin met with students and fans outside Bryant-Denny Stadium, joined @SecRollins to sign a new MOU between NASA and @USDA , and will soon take to the skies for today’s flyover! https://t.co/DEtfH28uI0"
+      }
+    ],
+    "users": [
+      {
+        "id": "11348282",
+        "name": "NASA",
+        "username": "NASA"
+      },
+      {
+        "id": "1907894348319973378",
+        "name": "NASA Spox",
+        "username": "NASASpox"
+      }
+    ]
+  },
+  "meta": {
+    "result_count": 1
+  }
+}

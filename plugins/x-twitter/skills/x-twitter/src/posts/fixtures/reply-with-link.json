@@ -1,0 +1,120 @@
+{
+  "data": [
+    {
+      "author_id": "11348282",
+      "conversation_id": "2112959650551173522",
+      "created_at": "2026-10-21T18:46:00.000Z",
+      "edit_history_tweet_ids": [
+        "2112978726237380983"
+      ],
+      "entities": {
+        "mentions": [
+          {
+            "end": 13,
+            "id": "1632237073565642754",
+            "start": 0,
+            "username": "ThisMightWrk"
+          }
+        ],
+        "urls": [
+          {
+            "description": "NASA’s Artemis II mission sent four astronauts around the Moon and brought them safely back to Earth, laying a foundation for crewed flights to the Moon’s surface. Additional engineering data analysis of the Orion spacecraft’s heat shield confirmed initial data showing the heat shield performed as expected.  ",
+            "display_url": "nasa.gov/missions/artem…",
+            "end": 88,
+            "expanded_url": "https://www.nasa.gov/missions/artemis/artemis-2/rigorous-analysis-confirms-nasas-artemis-ii-heat-shield-performance/",
+            "images": [
+              {
+                "height": 1333,
+                "url": "https://pbs.twimg.com/news_img/2113332083074514945/YPe1P4Qc?format=jpg&name=orig",
+                "width": 4000
+              },
+              {
+                "height": 150,
+                "url": "https://pbs.twimg.com/news_img/2113332083074514945/YPe1P4Qc?format=jpg&name=150x150",
+                "width": 150
+              }
+            ],
+            "start": 65,
+            "status": 200,
+            "title": "Rigorous Analysis Confirms NASA’s Artemis II Heat Shield Performance ",
+            "unwound_url": "https://www.nasa.gov/missions/artemis/artemis-2/rigorous-analysis-confirms-nasas-artemis-ii-heat-shield-performance/",
+            "url": "https://t.co/751XBI4bg2"
+          }
+        ]
+      },
+      "id": "2112978726237380983",
+      "in_reply_to_user_id": "1632237073565642754",
+      "paid_partnership": false,
+      "public_metrics": {
+        "bookmark_count": 0,
+        "impression_count": 4245,
+        "like_count": 15,
+        "quote_count": 0,
+        "reply_count": 1,
+        "retweet_count": 3
+      },
+      "referenced_tweets": [
+        {
+          "id": "2112963120083931597",
+          "type": "replied_to"
+        }
+      ],
+      "text": "@ThisMightWrk It did well! We just released an update last week: https://t.co/751XBI4bg2"
+    }
+  ],
+  "includes": {
+    "tweets": [
+      {
+        "author_id": "1632237073565642754",
+        "conversation_id": "2112959650551173522",
+        "created_at": "2026-10-21T17:43:59.000Z",
+        "edit_history_tweet_ids": [
+          "2112963120083931597"
+        ],
+        "entities": {
+          "mentions": [
+            {
+              "end": 5,
+              "id": "11348282",
+              "start": 0,
+              "username": "NASA"
+            }
+          ]
+        },
+        "id": "2112963120083931597",
+        "in_reply_to_user_id": "11348282",
+        "paid_partnership": false,
+        "public_metrics": {
+          "bookmark_count": 1,
+          "impression_count": 2818,
+          "like_count": 8,
+          "quote_count": 0,
+          "reply_count": 1,
+          "retweet_count": 1
+        },
+        "referenced_tweets": [
+          {
+            "id": "2112959650551173522",
+            "type": "replied_to"
+          }
+        ],
+        "text": "@NASA Would love to hear how the heat shield held up on reentry compared to Artemis I. Thats what everyone was nervous about going in"
+      }
+    ],
+    "users": [
+      {
+        "id": "11348282",
+        "name": "NASA",
+        "username": "NASA"
+      },
+      {
+        "id": "1632237073565642754",
+        "name": "ThisMightWork",
+        "username": "ThisMightWrk"
+      }
+    ]
+  },
+  "meta": {
+    "result_count": 1
+  }
+}

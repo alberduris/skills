@@ -1,18 +1,3 @@
-export const TWEET_FIELDS = [
-  "article",
-  "author_id",
-  "created_at",
-  "conversation_id",
-  "paid_partnership",
-  "public_metrics",
-  "referenced_tweets",
-  "in_reply_to_user_id",
-  "text",
-];
-
-export const TWEET_EXPANSIONS = ["author_id"];
-export const TWEET_USER_FIELDS = ["name", "username"];
-
 export const USER_FIELDS = [
   "created_at",
   "description",

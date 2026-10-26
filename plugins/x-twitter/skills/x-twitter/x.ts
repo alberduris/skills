@@ -15,10 +15,7 @@ async function main(): Promise<void> {
   }
 
   const client = createClient(loadConfig(import.meta.dirname));
-  const result = await commands[command](client, args);
-  if (result !== undefined) {
-    console.log(JSON.stringify(result, null, 2));
-  }
+  console.log(JSON.stringify(await commands[command](client, args), null, 2));
 }
 
 main().catch((error: unknown) => {

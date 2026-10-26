@@ -1,21 +1,20 @@
 import { path, type Client } from "../http/client.ts";
-import { parseArgs, RAW } from "../lib/args.ts";
+import { parseArgs } from "../lib/args.ts";
 import { USER_FIELDS_EXTENDED } from "../lib/fields.ts";
+import { output, type Output } from "./output.ts";
 
 interface UserFlags {
   input: string;
   fields: string[];
-  raw: boolean;
 }
 
-export async function user(client: Client, args: string[]): Promise<unknown> {
+export async function user(client: Client, args: string[]): Promise<Output> {
   const flags = parseArgs<UserFlags>(args, {
     positional: {
       key: "input",
       label: "A username, user ID, or comma-separated list of IDs",
     },
     flags: {
-      ...RAW,
       "--fields": { key: "fields", type: "string[]" },
     },
     defaults: { fields: USER_FIELDS_EXTENDED },
@@ -31,16 +30,16 @@ export async function user(client: Client, args: string[]): Promise<unknown> {
   if (input.includes(",")) {
     const ids = input.split(",").map((id) => id.trim());
     const response = await client.get("/2/users", { ids, ...query });
-    return flags.raw ? response : (response.data ?? []);
+    return output(response, response.data ?? []);
   }
 
   // All digits → single ID lookup
   if (/^\d+$/.test(input)) {
     const response = await client.get(path`/2/users/${input}`, query);
-    return flags.raw ? response : response.data;
+    return output(response);
   }
 
   // Otherwise → username lookup
   const response = await client.get(path`/2/users/by/username/${input}`, query);
-  return flags.raw ? response : response.data;
+  return output(response);
 }

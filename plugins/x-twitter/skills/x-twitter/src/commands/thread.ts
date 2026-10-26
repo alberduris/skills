@@ -1,109 +1,61 @@
-import { path, type Client } from "../http/client.ts";
-import { parseArgs, RAW } from "../lib/args.ts";
-import { TWEET_FIELDS, TWEET_EXPANSIONS, TWEET_USER_FIELDS } from "../lib/fields.ts";
+import type { Client } from "../http/client.ts";
+import { parseArgs } from "../lib/args.ts";
+import { POST_FIELDS } from "../posts/fields.ts";
+import { hydrate, type Post } from "../posts/hydrate.ts";
+import { output, type Output } from "./output.ts";
 
-interface ThreadFlags {
-  tweetId: string;
-  all: boolean;
-  raw: boolean;
-}
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-export async function thread(
-  client: Client,
-  args: string[],
-): Promise<unknown> {
-  const flags = parseArgs<ThreadFlags>(args, {
-    positional: { key: "tweetId", label: "A tweet ID from the thread" },
-    flags: {
-      ...RAW,
-      "--all": { key: "all", type: "boolean" },
-    },
+/**
+ * The author's self-thread containing a post, as a human reads one on x.com:
+ * the conversation's root plus the author's replies to themselves, oldest
+ * first. Other people's replies are left out; `replies` reads those.
+ */
+export async function thread(client: Client, args: string[]): Promise<Output> {
+  const flags = parseArgs<{ id: string; all: boolean }>(args, {
+    positional: { key: "id", label: "A post ID from the thread" },
+    flags: { "--all": { key: "all", type: "boolean" } },
   });
 
-  const fields = {
-    "tweet.fields": TWEET_FIELDS,
-    expansions: TWEET_EXPANSIONS,
-    "user.fields": TWEET_USER_FIELDS,
-  };
+  const lookup = (id: string) => client.get("/2/tweets", { ids: id, ...POST_FIELDS });
 
-  // The full archive accepts only app-only auth. The lookups use it too, so a
-  // missing bearer fails before the first billed read rather than after it.
-  const auth = flags.all ? "app-only" : "user";
-  const searchPath = flags.all ? "/2/tweets/search/all" : "/2/tweets/search/recent";
+  const seedResponse = await lookup(flags.id);
+  const [seed] = hydrate(seedResponse);
+  if (!seed) return output(seedResponse, []);
 
-  // 1. Fetch the given tweet to obtain its conversation_id
-  const seedResponse = await client.get(path`/2/tweets/${flags.tweetId}`, fields, auth);
-  const seedTweet = seedResponse.data as Record<string, unknown> | undefined;
-  if (!seedTweet) {
-    return { error: `Tweet ${flags.tweetId} not found.` };
-  }
+  const rootResponse =
+    seed.conversation_id === seed.id ? seedResponse : await lookup(seed.conversation_id);
+  const [root] = hydrate(rootResponse);
+  if (!root) return output(rootResponse, []);
 
-  const conversationId = (seedTweet.conversation_id as string) ?? flags.tweetId;
-
-  // 2. Search all tweets in the conversation (auto-paginate)
-  const seen = new Set<string>();
-  const tweets: Record<string, unknown>[] = [];
+  const posts: Post[] = [root];
+  const errors = [...(rootResponse.errors ?? [])];
   let nextToken: string | undefined;
-
   do {
-    const response = await client.get(
-      searchPath,
+    const page = await client.get(
+      flags.all ? "/2/tweets/search/all" : "/2/tweets/search/recent",
       {
-        query: `conversation_id:${conversationId}`,
-        ...fields,
+        query: `conversation_id:${root.id} from:${root.author.id}`,
+        ...POST_FIELDS,
         max_results: 100,
         next_token: nextToken,
       },
-      auth,
     );
-
-    const data = response.data as Record<string, unknown>[] | undefined;
-    if (data) {
-      for (const tweet of data) {
-        const id = tweet.id as string;
-        if (!seen.has(id)) {
-          seen.add(id);
-          tweets.push(tweet);
-        }
-      }
-    }
-
-    nextToken = response.meta?.next_token;
+    posts.push(...hydrate(page).filter((post) => post.in_reply_to_user?.id === root.author.id));
+    errors.push(...(page.errors ?? []));
+    nextToken = page.meta?.next_token;
   } while (nextToken);
 
-  // 3. Ensure root tweet is included (search may miss it if older than 7 days)
-  if (!seen.has(conversationId)) {
-    if (conversationId === flags.tweetId) {
-      tweets.unshift(seedTweet);
-    } else {
-      const rootResponse = await client.get(path`/2/tweets/${conversationId}`, fields, auth);
-      const rootTweet = rootResponse.data as Record<string, unknown> | undefined;
-      if (rootTweet) tweets.unshift(rootTweet);
-    }
-  }
+  // Oldest first by ID: IDs grow with creation time to the millisecond, while
+  // created_at has whole seconds, which posts of a fast thread share.
+  posts.sort((a, b) => (BigInt(a.id) < BigInt(b.id) ? -1 : 1));
 
-  // 4. Ensure the seed tweet itself is included (may be outside 7-day window)
-  if (!seen.has(flags.tweetId) && flags.tweetId !== conversationId) {
-    tweets.push(seedTweet);
-  }
-
-  // 5. Sort chronologically
-  tweets.sort((a, b) => {
-    const ta = new Date((a.created_at as string) ?? "0").getTime();
-    const tb = new Date((b.created_at as string) ?? "0").getTime();
-    return ta - tb;
-  });
-
-  // 6. Hint if recent search likely missed tweets
   const hints: string[] = [];
-  if (!flags.all && tweets.length <= 1) {
+  if (!flags.all && Date.now() - Date.parse(root.created_at) > WEEK_MS) {
     hints.push(
-      "Hint: recent search only covers the last 7 days. If this thread is older, use --all (requires X_API_BEARER_TOKEN).",
+      `Recent search covers only the last 7 days and this thread began on ${root.created_at}, ` +
+        "so any of its posts older than that are missing. Use --all to search the full archive.",
     );
   }
-
-  if (hints.length || flags.raw) {
-    return { ...(hints.length && { hint: hints.join(" ") }), data: tweets };
-  }
-  return tweets;
+  return output(errors.length > 0 ? { errors } : {}, posts, hints);
 }

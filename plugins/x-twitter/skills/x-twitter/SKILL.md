@@ -1,6 +1,6 @@
 ---
 name: x-twitter
-description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 36-command skill for Twitter/X automation.
+description: Interact with X (Twitter) API v2. Post tweets, search, engage, moderate, and analyze — all from your AI agent. Full 37-command skill for Twitter/X automation.
 license: MIT
 metadata:
   author: alberduris
@@ -25,54 +25,55 @@ d) `post` — create a tweet, reply, or quote tweet. @docs/post.md.
 e) `delete` — delete a post owned by the authenticated user. @docs/delete.md.
 f) `thread` — the author's thread containing a post: the first post plus the author's replies to themselves, oldest first. Other people's replies are left out. Use `--all` for threads older than 7 days. @docs/thread.md.
 g) `replies` — the direct replies to a post, one page at a time. @docs/replies.md.
+h) `transcript` — the transcript of a post's video(s), from the subtitle track X generates; a video X published no subtitles for has none. @docs/transcript.md.
 
 Engagement:
-h) `like` — like a post by tweet ID. @docs/like.md.
-i) `unlike` — remove a like from a post. @docs/like.md.
-j) `repost` — repost (retweet) a post. @docs/repost.md.
-k) `unrepost` — remove a repost. @docs/repost.md.
+i) `like` — like a post by tweet ID. @docs/like.md.
+j) `unlike` — remove a like from a post. @docs/like.md.
+k) `repost` — repost (retweet) a post. @docs/repost.md.
+l) `unrepost` — remove a repost. @docs/repost.md.
 
 Social:
-l) `user` — look up user(s) by username or ID. @docs/user.md.
-m) `follow` — follow a user by username or ID. @docs/follow.md.
-n) `unfollow` — unfollow a user. @docs/follow.md.
-o) `followers` — list a user's followers. @docs/followers.md.
-p) `following` — list accounts a user follows. @docs/followers.md.
+m) `user` — look up user(s) by username or ID. @docs/user.md.
+n) `follow` — follow a user by username or ID. @docs/follow.md.
+o) `unfollow` — unfollow a user. @docs/follow.md.
+p) `followers` — list a user's followers. @docs/followers.md.
+q) `following` — list accounts a user follows. @docs/followers.md.
 
 Feed:
-q) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Results skew heavily toward the authenticated account's own posts and do not reproduce the "Following" tab of the web client. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
-r) `mentions` — posts that mention you. @docs/mentions.md.
+r) `timeline` — your home timeline (reverse chronological, not the algorithmic "For you" feed). Results skew heavily toward the authenticated account's own posts and do not reproduce the "Following" tab of the web client. Use `--exclude replies,retweets` to improve signal. @docs/timeline.md.
+s) `mentions` — posts that mention you. @docs/mentions.md.
 
 Bookmarks:
-s) `bookmarks` — list your bookmarks. Adding or removing bookmarks is NOT possible: X accepts only OAuth 2.0 user context for those writes, which no supported credential provides. @docs/bookmark.md.
+t) `bookmarks` — list your bookmarks. Adding or removing bookmarks is NOT possible: X accepts only OAuth 2.0 user context for those writes, which no supported credential provides. @docs/bookmark.md.
 
 Moderation:
-t) `mute` — mute a user. @docs/mute.md.
-u) `unmute` — unmute a user. @docs/mute.md.
-v) `muted` — list muted accounts. @docs/mute.md.
-w) `blocked` — list blocked accounts. @docs/blocked.md.
-x) `hide-reply` — hide a reply to your post. @docs/hide-reply.md.
+u) `mute` — mute a user. @docs/mute.md.
+v) `unmute` — unmute a user. @docs/mute.md.
+w) `muted` — list muted accounts. @docs/mute.md.
+x) `blocked` — list blocked accounts. @docs/blocked.md.
+y) `hide-reply` — hide a reply to your post. @docs/hide-reply.md.
 
 Analytics:
-y) `likers` — users who liked a post. @docs/likers.md.
-z) `reposters` — users who reposted a post. @docs/reposters.md.
-aa) `quotes` — quote tweets of a post. @docs/quotes.md.
-ab) `count` — count posts matching a query over time. @docs/count.md.
-ac) `reposts-of-me` — reposts of your posts by others. @docs/reposts-of-me.md.
+z) `likers` — users who liked a post. @docs/likers.md.
+aa) `reposters` — users who reposted a post. @docs/reposters.md.
+ab) `quotes` — quote tweets of a post. @docs/quotes.md.
+ac) `count` — count posts matching a query over time. @docs/count.md.
+ad) `reposts-of-me` — reposts of your posts by others. @docs/reposts-of-me.md.
 
 Discovery:
-ad) `search-users` — search users by query. @docs/search-users.md.
-ae) `trending` — trending topics (worldwide or personalized). @docs/trending.md.
+ae) `search-users` — search users by query. @docs/search-users.md.
+af) `trending` — trending topics (worldwide or personalized). @docs/trending.md.
 
 Communities:
-af) `search-communities` — search communities by keyword (name, description). Returns metadata: name, description, member count, join policy. @docs/search-communities.md.
-ag) `community` — look up a community by ID. @docs/community.md.
+ag) `search-communities` — search communities by keyword (name, description). Returns metadata: name, description, member count, join policy. @docs/search-communities.md.
+ah) `community` — look up a community by ID. @docs/community.md.
 
 News:
-ah) `search-news` — search trending news stories by query. Returns headlines, summaries, categories, keywords, and related posts. @docs/search-news.md.
-ai) `news` — look up a news story by ID. @docs/news.md.
+ai) `search-news` — search trending news stories by query. Returns headlines, summaries, categories, keywords, and related posts. @docs/search-news.md.
+aj) `news` — look up a news story by ID. @docs/news.md.
 
 Account:
-aj) `usage` — posts read this cycle against the project cap. This is a READ QUOTA, not a credit balance: it cannot tell you whether you have money left, and it keeps working normally when credits are depleted. @docs/usage.md.
+ak) `usage` — posts read this cycle against the project cap. This is a READ QUOTA, not a credit balance: it cannot tell you whether you have money left, and it keeps working normally when credits are depleted. @docs/usage.md.
 
 [!CREDENTIALS] Four OAuth 1.0a variables are REQUIRED: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`. They resolve from the first source that provides them: a) `.env.local` in cwd, b) `.env` in cwd, c) `.env.local` in the skill directory (`<base_directory>`), d) `.env` in the skill directory, e) environment variables. `<base_directory>/.env.example` lists every variable. Obtain them from the X Developer Console (Apps > Keys and tokens). One CONDITIONALLY REQUIRED variable: `X_API_BEARER_TOKEN` (OAuth 2.0 App-Only Bearer Token), generated from the X Developer Console (Apps > Keys and tokens > Bearer Token). Three commands authenticate with it instead of OAuth 1.0a and fail without it, before sending any request: `count` (ALWAYS, not only with `--all`), `trending` (default worldwide branch; `--personalized` accepts only user context and does not need it), and `usage`. Their endpoints (post counts, usage, trends by place) are App-Only. Every other command, full-archive search included (`search --all`, `thread --all`, `replies --all`), runs under OAuth 1.0a user context, which is what returns user-context fields such as `connection_status` and `receives_your_dm`.

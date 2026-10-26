@@ -96,6 +96,7 @@ const CASES: [string[], SentRequest[]][] = [
   [["replies", "20", "--all", "--max-results", "10", "--next-token", "tok"], [
     GET(`/2/tweets/search/all?query=in_reply_to_tweet_id%3A20&${POSTS}&max_results=10&next_token=tok`),
   ]],
+  [["transcript", "20"], [GET(`/2/tweets?ids=20&${POSTS}`)]],
 
   // Engagement
   [["like", "20"], [ME, POST("/2/users/me1/likes", { tweet_id: "20" })]],

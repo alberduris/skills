@@ -54,7 +54,7 @@
     },
     {
       "name": "x-twitter",
-      "description": "36-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
+      "description": "37-command Claude Code skill for X/Twitter — post, search, engage, moderate, discover communities, all from your terminal",
       "version": "2.0.0",
       "author": {
         "name": "alberduris",

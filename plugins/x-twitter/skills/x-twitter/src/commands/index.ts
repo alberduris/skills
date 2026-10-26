@@ -29,6 +29,7 @@ import { searchNews } from "./search-news.ts";
 import { news } from "./news.ts";
 import { thread } from "./thread.ts";
 import { replies } from "./replies.ts";
+import { transcript } from "./transcript.ts";
 import { usage } from "./usage.ts";
 
 export type Command = (client: Client, args: string[]) => Promise<Output>;
@@ -69,5 +70,6 @@ export const commands: Record<string, Command> = {
   news,
   thread,
   replies,
+  transcript,
   usage,
 };
